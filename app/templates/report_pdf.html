@@ -26,7 +26,7 @@
 <table>
   <thead><tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr></thead>
   {% for q in r.requirements if q.kind in ("eis", "wens") %}
-  <tr><td>{{ q.text }} <span class="muted">({{ q.kind }})</span></td><td>{{ q.evidence_in_documents }}</td><td>{{ q.evidence_in_interview }}</td></tr>
+  <tr><td>{{ q.text }} <span class="muted">({{ q.kind }})</span></td><td>{{ t('cov_' ~ q.evidence_in_documents) }}</td><td>{{ t('cov_' ~ q.evidence_in_interview) }}</td></tr>
   {% endfor %}
 </table>
 

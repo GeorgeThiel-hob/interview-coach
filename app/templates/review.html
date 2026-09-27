@@ -27,8 +27,8 @@
   <tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr>
   {% for q in r.requirements if q.kind in ('eis','wens') %}
   <tr><td>{{ q.text }} <span class="muted small">({{ q.kind }})</span></td>
-      <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else '') }}">{{ q.evidence_in_documents }}</span></td>
-      <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else '') }}">{{ q.evidence_in_interview }}</span>
+      <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else '') }}">{{ t('cov_' ~ q.evidence_in_documents) }}</span></td>
+      <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else '') }}">{{ t('cov_' ~ q.evidence_in_interview) }}</span>
       {% if q.evidence_in_documents != 'none' and q.evidence_in_interview == 'none' %}<span class="small muted">{{ t('not_brought_up') }}</span>{% endif %}</td></tr>
   {% endfor %}
 </table>
