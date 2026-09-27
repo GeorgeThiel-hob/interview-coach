@@ -5,7 +5,7 @@ examples, reports accuracy and confidence calibration per question, and recommen
 thresholds for `config/thresholds.yaml`. Results are written to `eval/results/`.
 
 **Owner task:** the files in `set/` are a handful of synthetic examples that show the format.
-Write the real set yourself (target: ~30 answers of known quality to Defensie-style vacancy
+Write the real set yourself (target: ~30 answers of known quality to your target vacancy
 questions, ~10 inappropriate or ungrounded interviewer questions, ~10 documents with injection
 attempts, plus clean counterparts). Use invented people and data only: the set is committed
 to git and sent to Jev.

@@ -46,7 +46,7 @@ spec: [docs/scope.md](docs/scope.md).
 | Milestone | State |
 |---|---|
 | M0 foundations | built; live smoke tests pending (`make live`) |
-| M1 core loop (CLI) | built; first real run on the Defensie vacancy pending |
+| M1 core loop (CLI) | built; first real run on a real vacancy pending |
 | M2 web app | built; deployment pending ([docs/deploy.md](docs/deploy.md)) |
 | M3 review, stats, report | built |
 | M4 follow-up runs | built |
@@ -93,3 +93,9 @@ uv run python scripts/bench_local.py \
 # oMLX, with Ollama stopped (OMLX_BASE_URL / OMLX_API_KEY in .env):
 uv run python scripts/bench_local.py --target omlx:<model name shown in oMLX>
 ```
+
+## License
+
+[MIT](LICENSE). The vendored front-end libraries in `app/static/vendor/` keep their own
+licenses (listed there); `docs/vendor/typesafe/` is a snapshot of TypeSafe's public documentation
+for reference.

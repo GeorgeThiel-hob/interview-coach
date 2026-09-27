@@ -10,7 +10,7 @@ accounts, data or judgment. Roughly in order.
       `TYPESAFE_API_KEY`, `OLLAMA_BASE_URL` (docs/deploy.md step 3). No local `.env`.
 - [ ] `ollama pull qwen3.6:35b-a3b && ollama pull bge-m3`, then `make live` (real smoke tests).
 - [ ] `make bench` and paste the table into the README ("model choice"); optionally add oMLX.
-- [ ] `uv run coach run --vacancy <Defensie vacancy> --cv <your CV> --length 15`: the M1
+- [ ] `uv run coach run --vacancy <target vacancy> --cv <your CV> --length 15`: the M1
       acceptance run. Check `coach usage <run id>` and fill the README metrics table.
 - [ ] Read the prompts in `prompts/` and the Jev criteria in `app/judgments/catalog.py` after
       that run; they are first drafts.
@@ -29,7 +29,7 @@ accounts, data or judgment. Roughly in order.
 - [ ] Uptime monitor on `/healthz`.
 
 ## 4. Decisions still open
-- [ ] D5 data policy check (TypeSafe, Anthropic, House of Bèta AI policy): docs/privacy.md.
+- [ ] D5 data policy check (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
 - [ ] Speaking targets: words-per-minute band (120–160) and answer duration (60–120 s) in
       `app/review/metrics.py`.
 - [ ] faster-whisper size (`WHISPER_MODEL` small/medium) and where it runs: on the server
