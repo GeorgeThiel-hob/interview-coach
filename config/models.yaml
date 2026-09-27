@@ -1,0 +1,86 @@
+# Which provider and model handles each role. Every role can be pointed at another
+# provider here; nothing in app/ hard-codes a model ID.
+#
+# local_only: true  -> the role handles raw (not yet pseudonymised) text, so it must run on
+#                      Ollama. Loading this file fails if such a role points elsewhere.
+#                      If Ollama is offline these roles fail, and the app blocks new runs.
+
+providers:
+  ollama:
+    # Your M1 Max, reached over Tailscale. Use the laptop's Tailscale IP (100.x.y.z) in
+    # OLLAMA_BASE_URL on the server; locally http://localhost:11434 works.
+    base_url_env: OLLAMA_BASE_URL
+  anthropic:
+    api_key_env: ANTHROPIC_API_KEY
+  typesafe:
+    api_key_env: TYPESAFE_API_KEY
+
+roles:
+  pseudonymise:
+    provider: ollama
+    model: qwen3:30b-a3b        # [D1] confirm the exact tag with `ollama list` on the laptop
+    local_only: true
+    timeout_s: 120
+    options: {think: false, temperature: 0}
+  extract:
+    provider: ollama
+    model: qwen3:30b-a3b
+    timeout_s: 180
+    options: {think: false, temperature: 0}
+  interviewer:
+    provider: ollama
+    model: qwen3:30b-a3b
+    timeout_s: 60
+    options: {think: false, temperature: 0.7}
+  embed:
+    provider: ollama
+    model: bge-m3               # [D7] default; compare with a second model in the eval
+    timeout_s: 60
+  judge:
+    provider: typesafe
+    model: jev-1.13.0           # pinned; do not use jev-latest (thresholds are tuned per version)
+    timeout_s: 30
+  plan:
+    provider: anthropic
+    model: claude-sonnet-5
+    timeout_s: 180
+    max_tokens: 16000
+    options: {effort: medium}
+  feedback:
+    provider: anthropic
+    model: claude-sonnet-5
+    timeout_s: 180
+    max_tokens: 16000
+    options: {effort: medium}
+  escalation:
+    provider: anthropic
+    model: claude-sonnet-5
+    timeout_s: 120
+    max_tokens: 4000
+    options: {effort: low}
+  fallback_fast:
+    provider: anthropic
+    model: claude-haiku-4-5
+    timeout_s: 60
+    max_tokens: 2000
+
+# Price per million tokens, in USD, as published by each provider (checked 2026-09-27).
+# Anthropic: model table in the Claude API docs. Jev: docs/vendor/typesafe (Models page).
+pricing_usd_per_mtok:
+  claude-sonnet-5: {input: 2.00, output: 10.00}
+  claude-haiku-4-5: {input: 1.00, output: 5.00}
+  jev-1.13.0: {input: 0.042, output: 0.0}
+
+# Costs are logged and capped in EUR. Update this rate occasionally; it is an input, not a
+# fetched value.
+usd_to_eur: 0.86
+
+retries:
+  max_attempts: 3
+  backoff_base_s: 0.5
+  backoff_max_s: 8.0
+
+budgets:
+  per_run_eur: 1.00
+  per_run_tokens: 2000000
+  daily_eur: 3.00

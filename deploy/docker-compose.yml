@@ -1,0 +1,23 @@
+# Runs on the bot's Hetzner server next to the trading bot, so it is deliberately capped.
+# There is no Ollama or Caddy service here:
+# - Ollama runs on the laptop and is reached over Tailscale (OLLAMA_BASE_URL in .env).
+# - The server's existing nginx owns ports 80/443; the app only listens on localhost and
+#   nginx proxies a second DuckDNS subdomain to it (set up in M2).
+services:
+  app:
+    build: ..
+    env_file: ../.env
+    ports:
+      - "127.0.0.1:8090:8000"
+    volumes:
+      - app-data:/srv/data
+    restart: unless-stopped
+    cpus: 0.5           # never take more than a quarter of the 2 vCPUs from the bot
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 60s
+      timeout: 10s
+
+volumes:
+  app-data:
