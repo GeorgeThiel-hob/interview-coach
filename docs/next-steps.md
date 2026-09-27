@@ -30,9 +30,9 @@ accounts, data or judgment. Roughly in order.
       content; feedback switches between "u" and "je".
 - [ ] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
       where the web page shows readable labels; a coverage-table row is split across pages.
-- [ ] Focus item text is cut off mid-word ("...met het gekozen pro").
-- [ ] Coverage "in documents: none" for "2 years of relevant experience" although the CV shows
-      it; check the evidence map against the real CV.
+- [ ] Focus items quoting a requirement cut its label off mid-word.
+- [ ] Coverage "in documents: none" for an experience requirement that the CV does show;
+      check the evidence map against the real CV.
 
 ## 2. Evaluation (M6, and the basis for trusting the badges)
 - [ ] Write the eval set in `eval/set/` (format in eval/README.md): ~30 answers of known quality,

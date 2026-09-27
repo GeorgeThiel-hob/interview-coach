@@ -7,8 +7,16 @@ starting point for the next agent. Read it fully, then `CLAUDE.md`.
 
 - All milestones M0–M6 of `docs/scope.md` are **implemented and tested with fake providers**
   (`make check`: lint, format, mypy strict on `app/llm` + `app/judgments`, 35 tests).
-- **Nothing has run against the real providers yet**: Ollama/Qwen, Claude, Jev, faster-whisper.
-- **The Docker image has never been built**: the cloud session could not pull base images.
+- **Update 2026-09-27 (phase 1 done, PR #3):** the app runs on the server behind nginx + HTTPS,
+  reaches Ollama on the laptop over Tailscale, and completed one real 15-minute typed run (all
+  providers ok, PDF export works). faster-whisper is still untested. Findings from that run are in
+  `docs/next-steps.md` section 1b. Server lessons (generic, for any shared host):
+  - Root may only be reachable through the hosting provider's web console, which garbles pasted
+    text. Put root steps in a reviewed script in the app directory; the owner types one line.
+  - After `usermod -aG docker <user>`, the user needs a new SSH login before `docker` works.
+  - Tailscale on a shared host: `tailscale up --accept-dns=false --operator=<user>`.
+  - `deploy.sh` builds without test tools; for `pytest -m live` use
+    `BUILD_ARGS="--build-arg WITH_DEV=1" deploy/deploy.sh ...`.
   Building it on the server is the first real check (`Dockerfile` installs Pango/fonts for PDFs).
 - The web app was clicked through in a headless browser with fake models: pages render on
   desktop and mobile, no console or server errors.
@@ -131,11 +139,11 @@ The owner writes `eval/set/*.jsonl` (format in `eval/README.md`); `make eval` �
 ## 6. Known risks and unverified assumptions
 | Item | Status |
 |---|---|
-| Docker image build (Pango/HarfBuzz package names on Debian slim) | unverified |
-| Container reaches the laptop via the host's Tailscale (bridge network → tailscale0) | assumed; test in phase 1 step 6 |
+| Docker image build (Pango/HarfBuzz package names on Debian slim) | verified 2026-09-27: builds; PDF export works |
+| Container reaches the laptop via the host's Tailscale (bridge network → tailscale0) | verified 2026-09-27: `/healthz` `local_model: true` |
 | `launchctl setenv OLLAMA_HOST` survives reboots | no: re-run after reboot, or use a LaunchAgent |
 | Ollama JSON-schema output and `think: false` with qwen3.6 | assumed from Ollama docs; the live test checks it |
 | Jev answers in production match the SDK types used | built from the docs snapshot in `docs/vendor/typesafe/` (SDK 0.7.2) |
 | faster-whisper speed at 0.5 CPU | unknown; likely too slow for the 20 s target |
-| SSE progress through nginx (`proxy_buffering off` block) | configured, untested |
+| SSE progress through nginx (`proxy_buffering off` block) | final event arrives; streaming of intermediate lines not yet confirmed |
 | Prompts, personas, tips, catalog wording | first drafts; review after the first real run |
