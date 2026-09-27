@@ -15,6 +15,17 @@ accounts, data or judgment. Roughly in order.
 - [ ] Read the prompts in `prompts/` and the Jev criteria in `app/judgments/catalog.py` after
       that run; they are first drafts.
 
+## 1b. Findings from the first real run (2026-09-27, 15-minute typed run)
+- [ ] Time budget: typed answers took 1.3–6.5 min, not the assumed `minutes_per_exchange: 2`.
+      Topic 1 used two follow-ups and the whole 15 minutes, so the engine jumped to the closing
+      topic and **skipped topics 2 and 3**. Reserve time for every remaining planned topic before
+      allowing a follow-up, based on elapsed time (`app/interview/engine.py` `_decide_move`).
+- [ ] Interview header shows "Topic 1 / 4" while on question 3 (follow-ups stay in a topic).
+      Show "Question N · topic x of y · follow-up".
+- [ ] Preparation page (~3 min): indeterminate bar gives no sense of what is left. Show the
+      step list up front with check marks and a filling bar.
+- [ ] Confirm SSE is not buffered by nginx: progress lines must appear one by one.
+
 ## 2. Evaluation (M6, and the basis for trusting the badges)
 - [ ] Write the eval set in `eval/set/` (format in eval/README.md): ~30 answers of known quality,
       ~10 bad/ungrounded interviewer questions, ~10 injection documents, plus clean ones.
