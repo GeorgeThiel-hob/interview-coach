@@ -20,6 +20,7 @@ uv run uvicorn app.main:app --reload # GET /healthz
 On the laptop, Ollama needs the models from `config/models.yaml`:
 
 ```bash
-ollama pull qwen3:30b-a3b
+ollama pull qwen3.6:35b-a3b   # default (23 GB)
+ollama pull qwen3.8:27b       # alternative, benchmarked in M1 (18 GB)
 ollama pull bge-m3
 ```

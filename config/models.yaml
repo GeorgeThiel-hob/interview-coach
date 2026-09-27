@@ -18,18 +18,18 @@ providers:
 roles:
   pseudonymise:
     provider: ollama
-    model: qwen3:30b-a3b        # [D1] confirm the exact tag with `ollama list` on the laptop
+    model: qwen3.6:35b-a3b      # [D1] 23 GB, q4_K_M MoE (3B active). Alternative: qwen3.8:27b
     local_only: true
     timeout_s: 120
     options: {think: false, temperature: 0}
   extract:
     provider: ollama
-    model: qwen3:30b-a3b
+    model: qwen3.6:35b-a3b
     timeout_s: 180
     options: {think: false, temperature: 0}
   interviewer:
     provider: ollama
-    model: qwen3:30b-a3b
+    model: qwen3.6:35b-a3b
     timeout_s: 60
     options: {think: false, temperature: 0.7}
   embed:
