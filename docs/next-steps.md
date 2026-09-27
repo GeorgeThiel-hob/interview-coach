@@ -25,6 +25,14 @@ accounts, data or judgment. Roughly in order.
 - [ ] Preparation page (~3 min): indeterminate bar gives no sense of what is left. Show the
       step list up front with check marks and a filling bar.
 - [ ] Confirm SSE is not buffered by nginx: progress lines must appear one by one.
+- [ ] Review/report language is mixed: headings and labels in English ("Coverage of
+      requirements", "Strong/Add/Explore", "you have this, but did not bring it up") around Dutch
+      content; feedback switches between "u" and "je".
+- [ ] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
+      where the web page shows readable labels; a coverage-table row is split across pages.
+- [ ] Focus item text is cut off mid-word ("...met het gekozen pro").
+- [ ] Coverage "in documents: none" for "2 years of relevant experience" although the CV shows
+      it; check the evidence map against the real CV.
 
 ## 2. Evaluation (M6, and the basis for trusting the badges)
 - [ ] Write the eval set in `eval/set/` (format in eval/README.md): ~30 answers of known quality,
