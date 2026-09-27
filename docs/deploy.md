@@ -23,7 +23,7 @@ explanation of every variable.
 |---|---|
 | Server (e.g. 2 vCPU / 4–8 GB, Ubuntu 22.04+) | Docker + compose plugin, nginx, certbot, Tailscale, openssl, rsync |
 | Model machine (e.g. Apple Silicon with 32 GB, or a GPU PC) | Ollama, Tailscale, ~25 GB free disk |
-| Your workstation | git, [uv](https://docs.astral.sh/uv/) (runs `make check` before deploying), rsync, ssh |
+| Your workstation | git, [uv](https://docs.astral.sh/uv/) (runs `make check` before deploying), rsync, ssh, Pango for the PDF tests (macOS: `brew install pango`) |
 | Accounts | Anthropic API key, TypeSafe API key, a (sub)domain (e.g. free DuckDNS) |
 
 If the server already runs other services, the app stays out of their way: the container is
