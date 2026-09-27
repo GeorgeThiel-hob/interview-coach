@@ -6,15 +6,26 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "anthropic>=1.8,<2",
+    "argon2-cffi>=25.1.0",
+    "cryptography>=50.0.1",
     "fastapi>=0.141",
     "httpx>=0.28",
+    "itsdangerous>=2.2.0",
+    "jinja2>=3.1.6",
     "pydantic>=2.13",
     "pydantic-settings>=2.6",
+    "pypdf>=6.19.0",
+    "python-docx>=1.2.0",
+    "python-multipart>=0.0.32",
     "pyyaml>=6.0",
     "sqlmodel>=0.0.47",
     "typesafe-sdk==0.7.2",
     "uvicorn>=0.32",
+    "weasyprint>=70.0",
 ]
+
+[project.scripts]
+coach = "app.cli:main"
 
 [dependency-groups]
 dev = [
@@ -39,6 +50,8 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+# E501: the formatter owns line length; RUF001: regexes intentionally match Unicode dashes/spaces
+ignore = ["E501", "RUF001"]
 
 [tool.mypy]
 python_version = "3.12"

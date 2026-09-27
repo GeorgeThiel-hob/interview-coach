@@ -1,7 +1,37 @@
 # Starting points from the spec (section 6.2), NOT validated values. Tune them on the
 # evaluation set (eval/, `make eval`) before trusting them. Pinned to jev-1.13.0.
+#
+# A Choice/Score answer is "uncertain" below its min confidence. A Noul answer (no confidence
+# field) is "uncertain" inside the band. Uncertain answers escalate to Claude when escalate is
+# true; otherwise they are kept and shown as "uncertain".
 default:
   choice_min_confidence: 0.7
   score_min_confidence: 0.7
-  noul_uncertain_band: [0.35, 0.65]   # noul has no confidence; values in this band = uncertain
-per_question: {}                       # e.g. q_appropriate: {noul_uncertain_band: [0.2, 0.8]}
+  noul_uncertain_band: [0.35, 0.65]
+  escalate: true
+
+per_question:
+  # Latency-sensitive: decided between two interview turns. Low confidence falls back to a
+  # code rule (see app/interview/engine.py) instead of waiting for Claude.
+  next_move: {escalate: false}
+  # Guardrails fail closed: an uncertain answer counts as a failure (regenerate).
+  q_appropriate: {escalate: false}
+  q_grounded: {escalate: false}
+  q_on_topic: {escalate: false}
+  # Cheap and frequent; uncertainty is shown, not escalated.
+  a_hedging: {escalate: false}
+  evidence_for_req: {escalate: false}
+  doc_type: {escalate: false}
+
+# Evidence strength per requirement, from the best CV fragment's evidence_for_req value.
+evidence:
+  top_k: 4
+  strong: 0.75
+  partial: 0.4
+
+# A noul value at or above this counts as "yes" (for pass/fail decisions and stats).
+noul_yes: 0.5
+# Guardrails: a generated question passes only if every check is at least this sure.
+guardrail_pass: {q_grounded: 0.5, q_on_topic: 0.5, q_appropriate: 0.8}
+# Follow-up runs: focus-list size and the recency weight per run of age.
+followup: {max_focus_items: 5, recency_decay: 0.8, min_relevance: 0.5}

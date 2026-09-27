@@ -45,6 +45,12 @@ roles:
     provider: typesafe
     model: jev-1.13.0           # pinned; do not use jev-latest (thresholds are tuned per version)
     timeout_s: 30
+  extract_escalation:
+    provider: anthropic
+    model: claude-sonnet-5
+    timeout_s: 120
+    max_tokens: 8000
+    options: {effort: low}
   plan:
     provider: anthropic
     model: claude-sonnet-5
@@ -57,6 +63,18 @@ roles:
     timeout_s: 180
     max_tokens: 16000
     options: {effort: medium}
+  briefing:
+    provider: anthropic
+    model: claude-sonnet-5
+    timeout_s: 180
+    max_tokens: 8000
+    options: {effort: medium}
+  interviewer_escalation:
+    # used when a generated question fails the guardrails twice (spec 5.3)
+    provider: anthropic
+    model: claude-haiku-4-5
+    timeout_s: 60
+    max_tokens: 1000
   escalation:
     provider: anthropic
     model: claude-sonnet-5
