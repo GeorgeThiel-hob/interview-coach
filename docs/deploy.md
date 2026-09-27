@@ -85,10 +85,12 @@ host's Tailscale:
 ## 4. Domain and HTTPS (nginx + certbot)
 
 1. Point a (sub)domain at the server's IP (DuckDNS: add a subdomain in its dashboard).
-2. `sudo cp deploy/nginx-interview.conf /etc/nginx/sites-available/interview`, replace
-   `INTERVIEW_DOMAIN`, then
-   `sudo ln -s /etc/nginx/sites-available/interview /etc/nginx/sites-enabled/`.
-3. Certificate: `sudo certbot --nginx -d <your-domain>`, then `sudo nginx -t && sudo systemctl reload nginx`.
+2. On the server, as root: `deploy/nginx-site.sh <your-domain>`. It installs the site from
+   `deploy/nginx-interview.conf` in three safe steps: an HTTP-only site, then
+   `certbot certonly --webroot` (certbot does not edit any nginx file), then the HTTPS site.
+   Each step runs `nginx -t` before a `reload`; nginx is never restarted, so other sites on the
+   same nginx stay up. Renewal runs through certbot's timer and reloads nginx.
+3. Check: `curl -s https://<your-domain>/healthz`.
 4. Firewall: only your SSH port, 80 and 443 open.
 
 ## 5. Accounts
