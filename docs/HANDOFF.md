@@ -92,7 +92,7 @@ make check
 1. `docker compose exec app uv run --no-sync pytest -m live -q` (Ollama, Claude, Jev).
 2. On the laptop: `make bench` (Qwen 3.6 vs 3.8, optionally the MLX tags and oMLX); paste the
    table into the README.
-3. A full 15-minute run in the browser with the Defensie vacancy and the owner's CV (M1/M2
+3. A full 15-minute run in the browser with a real target vacancy and the owner's CV (M1/M2
    acceptance). Check every page: upload, briefing, interview, review, PDF download, practice.
 4. `coach usage <run>` → fill the README metrics table (local share, escalations, cost,
    latency).
@@ -113,10 +113,18 @@ The owner writes `eval/set/*.jsonl` (format in `eval/README.md`); `make eval` �
 3. `gh repo edit --visibility public --accept-visibility-change-consequences`.
 
 ## 5. Owner decisions still open
-- **License** for the public repo (MIT or Apache-2.0 are common; not chosen yet).
-- **`docs/scope.md` is personal:** it names the owner, House of Bèta and the Defensie
-  application. Keep it as is, anonymise it, or move it out of the public repo? Same question
-  for the mentions in `README.md`, `docs/next-steps.md` and `docs/privacy.md`.
+- ~~License~~: **MIT** (`LICENSE`, 2026-09-27; holder "the Interview Simulator contributors").
+- ~~Personal content~~: `docs/scope.md` and the other docs were anonymised on 2026-09-27
+  (no owner name, employer or target organisation). **The git history still contains the
+  original text** (commits before the anonymisation). Before making the repo public, the owner
+  chooses: (a) accept that, (b) rewrite history (`git filter-repo`, then force-push `main`), or
+  (c) publish a fresh repository with a single squashed initial commit. Recommended: (c).
+  Also: two existing commits (the initial commit and the merge of PR #1) carry the owner's
+  **work e-mail address** as author/committer, which (b) or (c) removes as well. For new
+  commits, set a private address first:
+  `git config user.email "<id>+<username>@users.noreply.github.com"` (GitHub → Settings →
+  Emails → "Keep my email addresses private"), and use "Squash and merge" or merge locally
+  so GitHub does not record the work address on merge commits.
 - D5 data policy check (`docs/privacy.md`), speaking targets, whisper size and location,
   budget caps (`config/models.yaml`), USD→EUR rate. See `docs/next-steps.md`.
 

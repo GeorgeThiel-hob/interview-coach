@@ -1,7 +1,7 @@
 # Interview Coach — Scope & Technical Design
 
 **Version:** 0.1 (draft, 27-09-2026)
-**Owner:** George Thiel
+**Owner:** the project owner
 **Working name:** Interview Coach (rename freely)
 
 ---
@@ -9,7 +9,7 @@
 ## 0. How to use this document (instructions for Claude Code)
 
 - Build **milestone by milestone** (section 13). Do not start a milestone before the previous one meets its acceptance criteria.
-- Anything marked **[DECISION]** is open. Ask George before implementing it; do not pick silently.
+- Anything marked **[DECISION]** is open. Ask the owner before implementing it; do not pick silently.
 - **Do not invent external API details.** For Jev, follow the official docs (docs.typesafe.ai: Quick start, Primitives, Confidence, Python SDK). For Claude, follow docs.claude.com. For Ollama, follow the Ollama API docs. If something in this document conflicts with the official docs, the docs win; flag the conflict.
 - All model IDs, thresholds, and prompts live in config or prompt files, never hard-coded in logic.
 - Every model call goes through one gateway module that logs it (section 10). No direct SDK calls elsewhere.
@@ -33,8 +33,8 @@ It combines three kinds of model, each doing what it is best at:
 
 **Two purposes:**
 
-- **Showcase.** It demonstrates multi-agent design, RAG/grounding, hallucination guardrails, open-source models, model choice, and DevOps. This is for the Ministerie van Defensie AI Developer application.
-- **Internal tool.** Once proven, it can be offered to the House of Bèta people manager and account manager to help consultants prepare for client intakes.
+- **Showcase.** It demonstrates multi-agent design, RAG/grounding, hallucination guardrails, open-source models, model choice, and DevOps. It supports the owner's application for an AI developer role.
+- **Internal tool.** Once proven, it can be offered to the people manager and account manager of a consultancy to help consultants prepare for client intakes.
 
 ---
 
@@ -52,7 +52,7 @@ It combines three kinds of model, each doing what it is best at:
 ### Non-goals (for now)
 - No video, face, or emotion analysis.
 - No real-time voice conversation (turn-based voice only).
-- No integrations with ATS, Matching, or any House of Bèta system.
+- No integrations with ATS, Matching, or any employer system.
 - No mobile app (the web app must work on mobile browsers).
 - No fine-tuning of models.
 
@@ -63,7 +63,7 @@ It combines three kinds of model, each doing what it is best at:
 | Role | What they do | Milestone |
 |---|---|---|
 | **Candidate** | Uploads documents, runs interviews, reviews, downloads reports | M2 |
-| **Admin** (George) | Invites users, sees usage/cost/escalation metrics, never sees content by default | M2 |
+| **Admin** (the owner) | Invites users, sees usage/cost/escalation metrics, never sees content by default | M2 |
 | **Coach** (people manager / account manager) | Optional: sees reports a candidate explicitly shares | M7 (later) |
 
 ---
@@ -440,7 +440,7 @@ All questions live in `app/judgments/catalog.py` as data, with an ID and a versi
 ### 9.1 Data that leaves the server
 - Only pseudonymised text goes to Jev and Claude. TypeSafe's documentation states that it receives submitted state and advises removing sensitive data first.
 - Enforce this in the gateway (section 6.3) and cover it with tests that fail if raw text reaches an external provider.
-- **[DECISION D5]** Check the data retention terms of TypeSafe/OpenRouter and Anthropic, and House of Bèta's AI policy, **before** colleagues use the app. Record the outcome in `docs/privacy.md`.
+- **[DECISION D5]** Check the data retention terms of TypeSafe/OpenRouter and Anthropic, and the employer's AI policy, **before** colleagues use the app. Record the outcome in `docs/privacy.md`.
 
 ### 9.2 Storage and retention
 - Raw uploads are deleted after parsing by default.
@@ -480,7 +480,7 @@ All questions live in `app/judgments/catalog.py` as data, with an ID and a versi
 
 ### 10.2 Evaluation set
 - Location: `eval/`. Contents:
-  - About 30 hand-labelled answers (George writes answers of known quality to the Defensie vacancy questions).
+  - About 30 hand-labelled answers (the owner writes answers of known quality to the questions of a real target vacancy).
   - About 10 intentionally inappropriate or ungrounded interviewer questions.
   - About 10 documents with injection attempts.
 - `make eval` runs every Jev question against the set. It reports accuracy and confidence calibration, and recommends thresholds.
@@ -553,7 +553,7 @@ interview-coach/
 ### M1: Core loop (command line)
 - Command: `coach run --vacancy x.pdf --cv y.pdf`.
 - It performs ingestion, extraction, evidence map, plan, a text interview in the terminal, per-answer judgments, and a JSON report.
-- **Done when:** a full 15-minute run on the Defensie vacancy completes, and every judgment is logged with its provider, confidence, and escalation status.
+- **Done when:** a full 15-minute run on a real target vacancy completes, and every judgment is logged with its provider, confidence, and escalation status.
 
 ### M2: Web app, text mode
 - Auth with invites, upload, settings, briefing, streaming interview, and pause/resume.
@@ -590,7 +590,7 @@ interview-coach/
 | D2 | Jev access route | TypeSafe API directly, or via OpenRouter. Pick based on data policy and billing. |
 | D3 | Auth | Invite codes with password (default), or magic link (needs email sending). |
 | D4 | Default language | NL-first UI with EN option (default), or EN-first. |
-| D5 | Data policy check | TypeSafe/OpenRouter and Anthropic retention terms, plus the House of Bèta AI policy. Must be done before M7. |
+| D5 | Data policy check | TypeSafe/OpenRouter and Anthropic retention terms, plus the employer's AI policy. Must be done before M7. |
 | D6 | Frontend | HTMX (default) or a SPA framework. |
 | D7 | Embedding model | Must handle Dutch well. Compare 2 options in the eval. |
 | D8 | Retention period | Default 30 days. |
@@ -607,4 +607,4 @@ interview-coach/
 | Personal data leaks to external APIs | Type-enforced pseudonymisation, tests, and a data policy check before colleague use. |
 | API costs run away | Per-run and daily budget caps, rate limits, and cost logged per call. |
 | Dutch quality of the local model | Include Dutch answers in the eval set. Allow a per-language provider choice in config. |
-| Scope creep before 7 October | Only M1 to M3 count for the showcase. Everything else waits. |
+| Scope creep before the showcase deadline | Only M1 to M3 count for the showcase. Everything else waits. |
