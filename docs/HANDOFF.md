@@ -17,7 +17,6 @@ starting point for the next agent. Read it fully, then `CLAUDE.md`.
   - Tailscale on a shared host: `tailscale up --accept-dns=false --operator=<user>`.
   - `deploy.sh` builds without test tools; for `pytest -m live` use
     `BUILD_ARGS="--build-arg WITH_DEV=1" deploy/deploy.sh ...`.
-  Building it on the server is the first real check (`Dockerfile` installs Pango/fonts for PDFs).
 - The web app was clicked through in a headless browser with fake models: pages render on
   desktop and mobile, no console or server errors.
 - Code map: see "Where things are" in `CLAUDE.md`. Owner task list: `docs/next-steps.md`.
