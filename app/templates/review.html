@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, sources %}
+{% block head %}<script src="/static/vendor/chart-4.4.7.umd.js" defer></script>{% endblock %}
+{% block content %}
+<h1>{{ t('review') }}{% if r.vacancy.title %} · {{ r.vacancy.title }}{% endif %}</h1>
+<p><a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a> <a class="btn secondary" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a></p>
+
+<div class="card">
+<h2>{{ t('stats') }}</h2>
+{% set star = r.stats.get('star_rates', {}) %}
+<p id="star-summary">STAR: {% for k, v in star.items() %}{{ k }} {{ (v*100)|round|int }}%{% if not loop.last %}, {% endif %}{% endfor %}.
+ Concrete examples in {{ (r.stats.get('specific_rate',0)*100)|round|int }}% of answers; results quantified in {{ (r.stats.get('quantified_rate',0)*100)|round|int }}%.
+ {% if star %}{% set low = star|dictsort(by='value')|first %}Weakest element: {{ low[0] }}.{% endif %}</p>
+<canvas id="starChart" height="140" role="img" aria-describedby="star-summary"></canvas>
+<p id="quality-summary" class="small muted">Answer quality (0 = does not answer, 3 = concrete, structured, with result): {% for k, v in r.stats.get('quality_distribution', {}).items() %}level {{ k }}: {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+<canvas id="qualityChart" height="120" role="img" aria-describedby="quality-summary"></canvas>
+{% if r.stats.get('speaking') %}
+<h2>{{ t('speaking') }}</h2>
+<p id="speaking-summary">Average {{ r.stats.speaking.avg_wpm }} words per minute (target 120–160), {{ r.stats.speaking.avg_fillers_per_min }} filler words per minute, {{ r.stats.speaking.avg_duration_s }} s per answer (target 60–120 s for behavioural questions).</p>
+<canvas id="speakingChart" height="120" role="img" aria-describedby="speaking-summary"></canvas>
+{% endif %}
+</div>
+
+<div class="card">
+<h2>{{ t('coverage') }}</h2>
+<table>
+  <tr><th>Requirement</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr>
+  {% for q in r.requirements if q.kind in ('eis','wens') %}
+  <tr><td>{{ q.text }} <span class="muted small">({{ q.kind }})</span></td>
+      <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else '') }}">{{ q.evidence_in_documents }}</span></td>
+      <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else '') }}">{{ q.evidence_in_interview }}</span>
+      {% if q.evidence_in_documents != 'none' and q.evidence_in_interview == 'none' %}<span class="small muted">— you have this, but did not bring it up</span>{% endif %}</td></tr>
+  {% endfor %}
+</table>
+</div>
+
+{% if r.practice_plan %}
+<div class="card">
+<h2>{{ t('practice_plan') }}</h2>
+<ol>{% for p in r.practice_plan %}<li><b>{{ p.action }}</b> — {{ p.why }}
+  {% for l in p.links %}{% if l.startswith('tip:') and l[4:] in tips %} <a class="small" href="/tips#{{ l[4:] }}">{{ tips[l[4:]].title }}</a>{% elif l.startswith('turn:') %} <a class="small" href="#{{ l[5:] }}">answer</a>{% endif %}{% endfor %}</li>{% endfor %}</ol>
+</div>
+{% endif %}
+
+{% if r.focus_items %}
+<div class="card">
+<h2>Focus for next time</h2>
+<ul>{% for f in r.focus_items %}<li>{{ f.label }} <span class="muted small">{{ f.history|join(' → ') }}</span></li>{% endfor %}</ul>
+<p class="small muted">Upload the report PDF with your next run to practise these again.</p>
+</div>
+{% endif %}
+
+{% for a in r.answers %}
+<div class="card" id="{{ a.turn_id }}">
+  <p class="small muted"><span class="persona">{{ (a.persona or '')|replace('_',' ') }}</span> · {{ a.topic }}</p>
+  <p class="question">{{ a.question }}</p>
+  <p style="white-space:pre-wrap">{{ a.answer }}</p>
+  <p>{% for k, j in a.judgments.items() if k != 'next_move' %}{{ badge(k, j, t) }}{% endfor %}</p>
+  {% if a.speaking %}<p class="small muted">{{ a.speaking.duration_s }} s · {{ a.speaking.wpm }} wpm · {{ a.speaking.fillers_per_min }} fillers/min</p>{% endif %}
+  {% if a.feedback %}
+    {% for key, items in [('strong', a.feedback.strengths), ('add', a.feedback.add), ('explore', a.feedback.explore), ('outline', a.feedback.outline)] if items %}
+      <p style="margin-bottom:.2rem"><b>{{ t(key) }}</b></p>
+      <ul>{% for it in items %}<li>{{ it.text }} {{ sources(it.sources) }}</li>{% endfor %}</ul>
+    {% endfor %}
+  {% endif %}
+  <p><a class="btn secondary" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a></p>
+</div>
+{% endfor %}
+
+<form method="post" action="/runs/{{ run.id }}/delete" onsubmit="return confirm('Delete this run and all its data?')">
+  <input type="hidden" name="csrf" value="{{ csrf }}"><button class="danger">{{ t('delete_run') }}</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const d = {{ chart|safe }};
+  if (!window.Chart) return;
+  new Chart(document.getElementById('starChart'), {type:'bar', data:{labels:Object.keys(d.star), datasets:[{label:'% of answers', data:Object.values(d.star).map(v=>Math.round(v*100))}]}, options:{scales:{y:{min:0,max:100}}}});
+  new Chart(document.getElementById('qualityChart'), {type:'bar', data:{labels:Object.keys(d.quality).map(k=>'level '+k), datasets:[{label:'answers', data:Object.values(d.quality)}]}});
+  const s = document.getElementById('speakingChart');
+  if (s) new Chart(s, {type:'line', data:{labels:d.speaking.map(x=>'#'+x.n), datasets:[{label:'wpm', data:d.speaking.map(x=>x.wpm)},{label:'fillers/min', data:d.speaking.map(x=>x.fillers)}]}});
+});
+</script>
+{% endblock %}

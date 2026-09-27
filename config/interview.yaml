@@ -1,0 +1,13 @@
+# Interview shape. Code enforces these limits; models only fill in content.
+topics_per_length: {15: 4, 30: 7, 45: 10}
+max_follow_ups_per_topic: 2
+# Rough time per question+answer, used to stop at the time budget in text mode.
+minutes_per_exchange: 2.0
+# Which interviewer personas may appear, per interview type (prompts/personas/*.md).
+personas:
+  intake: [intake_account_manager]
+  client: [technical_lead, hiring_manager]
+  mixed: [intake_account_manager, technical_lead, hiring_manager]
+question_types: [motivation, behavioural, technical, gap, situational, closing]
+# Conversation memory for the interviewer: last N turns verbatim, older ones summarised.
+history_turns: 6

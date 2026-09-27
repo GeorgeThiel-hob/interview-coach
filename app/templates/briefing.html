@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+<h1>{{ t('briefing') }}</h1>
+<h2>{{ t('likely_questions') }}</h2>
+<ul>{% for q in b.get('likely_questions', []) %}<li>{{ q }}</li>{% endfor %}</ul>
+<h2>{{ t('strongest_evidence') }}</h2>
+<ul>{% for e in b.get('strongest_evidence', []) %}<li><b>{{ reqs[e.requirement_id].text if e.requirement_id in reqs else e.requirement_id }}</b>: {{ e.summary }} <span class="muted small">{{ e.chunk_refs|join(', ') }}</span></li>{% endfor %}</ul>
+<h2>{{ t('gaps') }}</h2>
+<ul>{% for g in b.get('gaps', []) %}<li><b>{{ reqs[g.requirement_id].text if g.requirement_id in reqs else g.requirement_id }}</b>: {{ g.advice }}</li>{% endfor %}</ul>
+<h2>{{ t('prepare') }}</h2>
+<ol>{% for p in b.get('prepare', []) %}<li>{{ p }}</li>{% endfor %}</ol>
+<p><a class="btn" href="/runs/{{ run.id }}/interview">{{ t('start_interview') }}</a></p>
+</div>
+{% endblock %}
