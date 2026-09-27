@@ -6,9 +6,9 @@ Everything below is built and tested with fake providers; these steps need your 
 accounts, data or judgment. Roughly in order.
 
 ## 1. First real run (closes M0 and M1)
-- [ ] Secrets only on the server: `deploy/init-env.sh`, then paste `ANTHROPIC_API_KEY`,
+- [x] Secrets only on the server: `deploy/init-env.sh`, then paste `ANTHROPIC_API_KEY`,
       `TYPESAFE_API_KEY`, `OLLAMA_BASE_URL` (docs/deploy.md step 3). No local `.env`.
-- [ ] `ollama pull qwen3.6:35b-a3b && ollama pull bge-m3`, then `make live` (real smoke tests).
+- [ ] ~~`ollama pull`~~ (done) `make live` (real smoke tests).
 - [ ] `make bench` and paste the table into the README ("model choice"); optionally add oMLX.
 - [ ] `uv run coach run --vacancy <target vacancy> --cv <your CV> --length 15`: the M1
       acceptance run. Check `coach usage <run id>` and fill the README metrics table.
@@ -22,9 +22,9 @@ accounts, data or judgment. Roughly in order.
 - [ ] Add `TYPESAFE_API_KEY` as a GitHub Actions secret so CI runs the eval subset.
 
 ## 3. Deployment (M2)
-- [ ] Tailscale on laptop and server; Ollama bound to the laptop's Tailscale IP (docs/deploy.md).
-- [ ] Second DuckDNS subdomain, nginx site, certbot.
-- [ ] `deploy/deploy.sh botuser@<server> 2222`, create the admin, invite yourself.
+- [x] Tailscale on laptop and server; Ollama bound to the laptop's Tailscale IP (docs/deploy.md).
+- [x] Second DuckDNS subdomain, nginx site, certbot (`deploy/nginx-site.sh`).
+- [x] `deploy/deploy.sh <user>@<server> <ssh-port>`, create the admin.
 - [ ] Nightly backup cron + one tested restore (M6 criterion).
 - [ ] Uptime monitor on `/healthz`.
 
@@ -38,6 +38,13 @@ accounts, data or judgment. Roughly in order.
 - [ ] Make the repo public for the application (and add screenshots/metrics to the README).
 - [ ] D7: compare `bge-m3` with a second embedding model (e.g. `qwen3-embedding`) in the eval.
 
-## 5. Later (M7)
+## 5. Showcase for applications
+- [ ] Public read-only `/demo` page: one complete run (briefing, interview, review with scores
+      and charts) built from synthetic data, viewable without login. No model calls, no personal
+      data, works while the laptop is offline. Build after the first real runs (phase 2), so
+      the example reflects real output quality. Link it in the CV next to the GitHub repo.
+- [ ] Screenshots or a short GIF of that demo in the README (phase 4).
+
+## 6. Later (M7)
 - [ ] Coach role with explicit report sharing; intake personas tuned with the account manager;
       fuller NL translation of the UI.
