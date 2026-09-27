@@ -65,9 +65,10 @@ spec: [docs/scope.md](docs/scope.md).
 ## Run it
 
 ```bash
-uv sync
-cp .env.example .env            # keys, PII_ENCRYPTION_KEY, SESSION_SECRET (see docs/deploy.md)
+uv sync                         # local tooling; no secrets needed for make check
 ollama pull qwen3.6:35b-a3b && ollama pull bge-m3
+# secrets: every variable is documented (empty) in .env.example; on a server, create the
+# real .env with deploy/init-env.sh. Full self-hosting guide: docs/deploy.md
 
 # command line (M1)
 uv run coach run --vacancy vacature.pdf --cv cv.pdf --lang nl --length 15

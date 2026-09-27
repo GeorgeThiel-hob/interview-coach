@@ -1,11 +1,13 @@
 # Next steps that need the owner
 
+The phase-by-phase plan for continuing in Cursor is in `docs/HANDOFF.md`.
+
 Everything below is built and tested with fake providers; these steps need your machines,
 accounts, data or judgment. Roughly in order.
 
 ## 1. First real run (closes M0 and M1)
-- [ ] `git pull`, `uv sync`, `cp .env.example .env`; fill `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`,
-      `PII_ENCRYPTION_KEY`, `SESSION_SECRET` (commands in docs/deploy.md step 3).
+- [ ] Secrets only on the server: `deploy/init-env.sh`, then paste `ANTHROPIC_API_KEY`,
+      `TYPESAFE_API_KEY`, `OLLAMA_BASE_URL` (docs/deploy.md step 3). No local `.env`.
 - [ ] `ollama pull qwen3.6:35b-a3b && ollama pull bge-m3`, then `make live` (real smoke tests).
 - [ ] `make bench` and paste the table into the README ("model choice"); optionally add oMLX.
 - [ ] `uv run coach run --vacancy <Defensie vacancy> --cv <your CV> --length 15`: the M1

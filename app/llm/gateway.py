@@ -235,6 +235,18 @@ def _require_safe(value: object, provider: str, role: str) -> None:
         )
 
 
+def _env(name: str) -> str:
+    """An environment value, with empty strings treated as unset."""
+    return os.environ.get(name, "").strip()
+
+
+def _required(name: str) -> str:
+    value = _env(name)
+    if not value:
+        raise GatewayError(f"{name} is not set; fill it in the server's .env (see .env.example)")
+    return value
+
+
 def build_gateway(engine: Engine, config: ModelsConfig | None = None) -> Gateway:
     """Create the gateway with real providers, reading keys and URLs from the environment."""
     from app.llm.anthropic import AnthropicProvider
@@ -247,14 +259,14 @@ def build_gateway(engine: Engine, config: ModelsConfig | None = None) -> Gateway
     env = config.providers
     providers: dict[str, Provider] = {}
     if "ollama" in used:
-        url = os.environ.get(env["ollama"]["base_url_env"], "http://localhost:11434")
+        url = _env(env["ollama"]["base_url_env"]) or "http://localhost:11434"
         providers["ollama"] = OllamaProvider(url)
     if "omlx" in used:
-        url = os.environ.get(env["omlx"]["base_url_env"], "http://localhost:8000")
-        key = os.environ.get(env["omlx"]["api_key_env"]) or None
+        url = _env(env["omlx"]["base_url_env"]) or "http://localhost:8000"
+        key = _env(env["omlx"]["api_key_env"]) or None
         providers["omlx"] = OpenAICompatProvider("omlx", url.rstrip("/"), key)
     if "anthropic" in used:
-        providers["anthropic"] = AnthropicProvider(os.environ[env["anthropic"]["api_key_env"]])
+        providers["anthropic"] = AnthropicProvider(_required(env["anthropic"]["api_key_env"]))
     if "typesafe" in used:
-        providers["typesafe"] = TypeSafeProvider(os.environ[env["typesafe"]["api_key_env"]])
+        providers["typesafe"] = TypeSafeProvider(_required(env["typesafe"]["api_key_env"]))
     return Gateway(config, providers, engine)

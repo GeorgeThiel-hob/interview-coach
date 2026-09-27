@@ -35,4 +35,9 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
+    # Also export .env into os.environ so provider keys are found outside Docker (Docker's
+    # env_file already does this). Existing environment variables win.
+    from dotenv import load_dotenv
+
+    load_dotenv(ROOT / ".env", override=False)
     return Settings()
