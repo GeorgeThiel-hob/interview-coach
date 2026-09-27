@@ -48,7 +48,8 @@ accounts, data or judgment. Roughly in order.
 - [ ] Uptime monitor on `/healthz`.
 
 ## 4. Decisions still open
-- [ ] D5 data policy check (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
+- [x] D5 for the owner's own use: accepted 2026-09-27 (docs/decisions.md).
+- [ ] D5 before colleagues use it (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
 - [ ] Speaking targets: words-per-minute band (120–160) and answer duration (60–120 s) in
       `app/review/metrics.py`.
 - [ ] faster-whisper size (`WHISPER_MODEL` small/medium) and where it runs: on the server

@@ -34,6 +34,12 @@ Candidates see only their own runs. Admins see usage metadata and invites, never
 
 ## D5: to complete before colleague use (owner)
 
+**Owner's own use: decided 2026-09-27.** The owner accepts that pseudonymised text from their own
+documents and answers goes to Anthropic and TypeSafe. Reason: what remains after
+pseudonymisation (employers, roles, projects, technologies, the target vacancy) is already
+public in the owner's applications and public profiles, and their own name is theirs to share.
+The checklist below still applies before anyone else uses the app.
+
 - [ ] TypeSafe data retention and training terms for API traffic (direct API): ...
 - [ ] Anthropic API data retention for this account/organisation: ...
 - [ ] Employer AI policy (if colleagues will use it): allowed tools, what may be processed, approval needed: ...
