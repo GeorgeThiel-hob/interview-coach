@@ -54,6 +54,9 @@ class RecordingProvider:
     async def ping(self) -> bool:
         return True
 
+    async def reachable(self) -> bool:
+        return await self.ping()
+
     async def aclose(self) -> None:
         return None
 

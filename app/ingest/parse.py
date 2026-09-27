@@ -94,7 +94,10 @@ def _extract_isolated(kind: FileKind, data: bytes, timeout: float) -> tuple[str,
     try:
         if not parent.poll(timeout):
             raise UploadError("The file took too long to read. Try saving it again as PDF.")
-        status, payload = parent.recv()
+        try:
+            status, payload = parent.recv()
+        except (EOFError, OSError) as e:  # the worker died without answering
+            raise UploadError("The file could not be read. Is it damaged?") from e
     finally:
         proc.kill()
         proc.join(1)

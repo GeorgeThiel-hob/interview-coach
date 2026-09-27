@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% from "_macros.html" import badge %}
-{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>{% endblock %}
+{% from "_macros.html" import badge, sources %}
+{% block head %}<script src="/static/vendor/chart-4.4.7.umd.js" defer></script>{% endblock %}
 {% block content %}
 <h1>{{ t('review') }}{% if r.vacancy.title %} · {{ r.vacancy.title }}{% endif %}</h1>
 <p><a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a> <a class="btn secondary" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a></p>
@@ -52,7 +52,7 @@
 
 {% for a in r.answers %}
 <div class="card" id="{{ a.turn_id }}">
-  <p class="persona">{{ (a.persona or '')|replace('_',' ') }} · {{ a.topic }}</p>
+  <p class="small muted"><span class="persona">{{ (a.persona or '')|replace('_',' ') }}</span> · {{ a.topic }}</p>
   <p class="question">{{ a.question }}</p>
   <p style="white-space:pre-wrap">{{ a.answer }}</p>
   <p>{% for k, j in a.judgments.items() if k != 'next_move' %}{{ badge(k, j, t) }}{% endfor %}</p>
@@ -60,7 +60,7 @@
   {% if a.feedback %}
     {% for key, items in [('strong', a.feedback.strengths), ('add', a.feedback.add), ('explore', a.feedback.explore), ('outline', a.feedback.outline)] if items %}
       <p style="margin-bottom:.2rem"><b>{{ t(key) }}</b></p>
-      <ul>{% for it in items %}<li>{{ it.text }} <span class="muted small">{{ it.sources|join(', ') }}</span></li>{% endfor %}</ul>
+      <ul>{% for it in items %}<li>{{ it.text }} {{ sources(it.sources) }}</li>{% endfor %}</ul>
     {% endfor %}
   {% endif %}
   <p><a class="btn secondary" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a></p>

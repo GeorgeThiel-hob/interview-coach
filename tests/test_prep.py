@@ -128,3 +128,35 @@ async def test_uncertain_judgments_escalate_to_claude(stack: Stack) -> None:
         rows = {j.question_id: j for j in s.exec(select(Judgment)).all()}
     assert rows["a_star_r"].provider == "claude" and rows["a_star_r"].escalated
     assert rows["a_hedging"].provider == "jev" and rows["a_hedging"].uncertain
+
+
+def test_parse_worker_crash_is_a_clear_upload_error(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import pytest
+
+    from app.ingest import parse
+
+    class DeadPipe:
+        def poll(self, timeout: float) -> bool:
+            return True
+
+        def recv(self) -> object:
+            raise EOFError
+
+        def close(self) -> None:
+            return None
+
+    class Ctx:
+        def Pipe(self, duplex: bool) -> tuple[DeadPipe, DeadPipe]:
+            return DeadPipe(), DeadPipe()
+
+        def Process(self, **kw: object) -> object:
+            class P:
+                def start(self) -> None: ...
+                def kill(self) -> None: ...
+                def join(self, t: float) -> None: ...
+
+            return P()
+
+    monkeypatch.setattr(parse.mp, "get_context", lambda _: Ctx())
+    with pytest.raises(parse.UploadError, match="could not be read"):
+        parse.parse_upload(b"%PDF-1.4 broken", "x.pdf")

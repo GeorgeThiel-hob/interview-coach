@@ -7,10 +7,12 @@ import contextlib
 import logging
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import Engine, text
 from sqlmodel import Session
 from starlette.middleware.sessions import SessionMiddleware
@@ -22,6 +24,7 @@ from app.settings import Settings, get_settings
 from app.web.routes import router
 
 log = logging.getLogger(__name__)
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 def create_app(
@@ -68,6 +71,13 @@ def create_app(
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
         response.headers.setdefault("X-Frame-Options", "DENY")
         response.headers.setdefault("Referrer-Policy", "same-origin")
+        # everything is self-hosted; Alpine's standard build needs 'unsafe-eval'
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+            "style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; "
+            "media-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+        )
         return response
 
     @app.exception_handler(HTTPException)
@@ -79,13 +89,26 @@ def create_app(
         )
 
     @app.get("/healthz")
-    async def healthz() -> dict[str, Any]:
+    async def healthz(request: Request) -> dict[str, Any]:
         with Session(app.state.engine) as s:
             db_ok = s.exec(text("SELECT 1")).one()[0] == 1  # type: ignore[call-overload]
         local_ok = await app.state.gateway.local_available()
         # "local_model": false means the laptop is off: finished runs work, new runs are blocked
-        return {"db": db_ok, "local_model": local_ok, "new_runs_allowed": db_ok and local_ok}
+        out: dict[str, Any] = {
+            "db": db_ok,
+            "local_model": local_ok,
+            "new_runs_allowed": db_ok and local_ok,
+        }
+        token = settings.health_token
+        if (
+            request.query_params.get("deep")
+            and token
+            and request.headers.get("x-health-token") == token
+        ):
+            out["providers"] = await app.state.gateway.health()
+        return out
 
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(router)
     return app
 

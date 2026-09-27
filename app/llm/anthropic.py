@@ -96,5 +96,13 @@ class AnthropicProvider:
     async def ping(self) -> bool:
         return True  # reachability is checked by /healthz with a real call, not here
 
+    async def reachable(self) -> bool:
+        """Lists models: authenticated, no tokens used."""
+        try:
+            await self._client.models.list(limit=1)
+        except anthropic.APIError:
+            return False
+        return True
+
     async def aclose(self) -> None:
         await self._client.close()

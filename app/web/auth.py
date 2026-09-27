@@ -15,6 +15,25 @@ from sqlmodel import Session, select
 from app.db.models import Invite, User
 
 _hasher = PasswordHasher()
+_attempts: dict[str, list[float]] = {}
+LOGIN_LIMIT = 5
+LOGIN_WINDOW_S = 600
+
+
+def login_allowed(key: str) -> bool:
+    """At most LOGIN_LIMIT failed attempts per key (ip+email) per window, in memory."""
+    import time
+
+    now = time.time()
+    recent = [t for t in _attempts.get(key, []) if now - t < LOGIN_WINDOW_S]
+    _attempts[key] = recent
+    return len(recent) < LOGIN_LIMIT
+
+
+def record_failed_login(key: str) -> None:
+    import time
+
+    _attempts.setdefault(key, []).append(time.time())
 
 
 def hash_password(password: str) -> str:

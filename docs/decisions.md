@@ -2,6 +2,26 @@
 
 Open decisions come from spec section 14. Newest first.
 
+## 2026-09-27 (build)
+
+- **D3 auth → invite codes + password (argon2).** Default from the spec; no e-mail sending needed.
+- **D4 UI language → NL-first with an EN switch.** Spec default. Only the main labels are
+  translated so far; interview content follows the run's language setting.
+- **D6 frontend → Jinja2 + HTMX + Alpine + Chart.js.** Spec default; no build step.
+- **D8 retention → 30 days**, configurable (`RETENTION_DAYS`).
+- **Deploy → `deploy/deploy.sh` from the laptop (rsync + docker compose).** Rejected: a GitHub
+  Action with SSH access, because the server also runs the trading bot.
+- **Interviewer questions are shown after the guardrail check, not streamed token by token.**
+  Streaming would show questions before Jev has checked them. SSE is used for progress instead.
+- **Follow-ups yield to coverage:** a follow-up is only asked while every remaining planned topic
+  still fits in the time budget (found in testing: early follow-ups crowded out re-tested weak
+  points in 15-minute runs).
+- **Next-move and guardrails do not escalate to Claude** (latency between turns). An uncertain
+  next move falls back to a code rule; an uncertain guardrail counts as a failure.
+- **Speech-to-text on the server CPU with faster-whisper (optional dependency group).** Whether
+  this meets "1 minute in under 20 s" within the container's 0.5 CPU cap is untested; if not,
+  either raise the cap during transcription or transcribe on the laptop.
+
 ## 2026-09-27
 
 - **D1: where the local model runs → the owner's laptop (M1 Max, 32 GB) over Tailscale.**

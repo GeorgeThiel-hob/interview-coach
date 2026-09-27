@@ -27,6 +27,14 @@ Build rules for Claude Code, derived from section 0 of `docs/scope.md` (the spec
 - The app is deployed on the same server as the owner's trading bot: keep the resource limits
   in `deploy/docker-compose.yml`, and never touch the bot's files or services.
 
+## Where things are
+`app/llm` gateway + providers + text types · `app/ingest` parse/pseudonymise/chunk ·
+`app/judgments` catalog + cascade · `app/prep` extract/evidence/plan/briefing ·
+`app/interview` engine + evaluation · `app/review` feedback/metrics/practice/tips/usage ·
+`app/report` schema/build/export · `app/followup` focus list · `app/web` routes/auth/i18n ·
+`app/pipeline.py` run orchestration · `app/cli.py` the `coach` command · tests use the fakes in
+`tests/fakes.py` (no network).
+
 ## Definition of done (every change)
 ```bash
 uv run ruff check app tests && uv run ruff format --check app tests

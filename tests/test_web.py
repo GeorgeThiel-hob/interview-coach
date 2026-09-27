@@ -115,7 +115,7 @@ def test_full_web_flow(web: tuple[TestClient, Stack]) -> None:
     for n in range(40):
         r = client.post(
             f"/runs/{run_id}/answer",
-            headers={"X-CSRF-Token": token},
+            headers={"X-CSRF-Token": token, "HX-Request": "true"},
             data={"text": f"Met Petra Jansen bouwde ik pipeline {n}."},
         )
         assert r.status_code == 200, r.text
@@ -183,3 +183,15 @@ def test_bad_upload_shows_clear_error(web: tuple[TestClient, Stack]) -> None:
         files={"cv_file": ("cv.exe", b"MZ\x90\x00binary", "application/octet-stream")},
     )
     assert r.status_code == 400 and "Unsupported file type" in r.text
+
+
+def test_login_rate_limit(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    token = csrf(client)
+    codes = [
+        client.post(
+            "/login", data={"csrf": token, "email": "x@y.z", "password": "nope"}
+        ).status_code
+        for _ in range(6)
+    ]
+    assert codes[:5] == [400] * 5 and codes[5] == 429

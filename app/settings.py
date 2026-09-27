@@ -29,6 +29,8 @@ class Settings(BaseSettings):
     keep_organisation_names: bool = True
     runs_per_user_per_day: int = 5
     whisper_model: str = "small"  # faster-whisper size; [DECISION] small or medium
+    # /healthz?deep=1 (external API reachability) requires this token in X-Health-Token
+    health_token: str = ""
 
 
 @lru_cache

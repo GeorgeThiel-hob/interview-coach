@@ -117,6 +117,14 @@ class Gateway:
         checks = [self._providers[p].ping() for p in local if not self._providers[p].external]
         return all(await asyncio.gather(*checks))
 
+    async def health(self) -> dict[str, bool]:
+        """Reachability of every configured provider (no tokens spent)."""
+        names = sorted(self._providers)
+        results = await asyncio.gather(
+            *(self._providers[n].reachable() for n in names), return_exceptions=True
+        )
+        return {n: r is True for n, r in zip(names, results, strict=True)}
+
     async def aclose(self) -> None:
         for provider in self._providers.values():
             await provider.aclose()

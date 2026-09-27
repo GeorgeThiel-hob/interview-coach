@@ -136,5 +136,8 @@ class OpenAICompatProvider:
             return False
         return response.status_code == 200
 
+    async def reachable(self) -> bool:
+        return await self.ping()
+
     async def aclose(self) -> None:
         await self._client.aclose()

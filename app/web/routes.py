@@ -44,6 +44,8 @@ from app.web.auth import (
     create_invite,
     csrf_token,
     current_user,
+    login_allowed,
+    record_failed_login,
     register,
 )
 from app.web.i18n import translate
@@ -146,8 +148,12 @@ async def login_page(request: Request) -> HTMLResponse:
 
 @router.post("/login")
 async def login(request: Request, email: str = Form(...), password: str = Form(...)) -> Response:
+    key = f"{request.client.host if request.client else '?'}|{email.strip().lower()}"
+    if not login_allowed(key):
+        return render(request, "login.html", 429, error="Too many attempts. Wait 10 minutes.")
     user = authenticate(request.app.state.engine, email, password)
     if user is None:
+        record_failed_login(key)
         return render(request, "login.html", 400, error="Wrong email or password.")
     request.session.clear()
     request.session["uid"] = user.id
@@ -392,9 +398,14 @@ async def answer(
         return render(request, "partials/offline.html", 503)
     except (ProviderError, BudgetExceeded) as e:
         return render(request, "partials/error.html", 503, message=str(e))
+    htmx = request.headers.get("hx-request") == "true"
     if result.finished:
         await _start_review(request, run_id, ie)
+        if not htmx:  # plain form post (no JavaScript): full page
+            return RedirectResponse(f"/runs/{run_id}", status_code=303)
         return render(request, "partials/finished.html", run=run)
+    if not htmx:
+        return RedirectResponse(f"/runs/{run_id}/interview", status_code=303)
     return render(
         request,
         "partials/question.html",

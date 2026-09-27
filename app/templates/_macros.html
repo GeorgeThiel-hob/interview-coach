@@ -10,3 +10,9 @@
     <span class="badge {{ 'yes' if good else 'no' }}{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }} · p={{ j.value|round(2) }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{{ '✓' if yes else '✗' }} {{ label }}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
   {%- endif -%}
 {%- endmacro %}
+
+{% macro sources(refs) -%}
+  {%- for ref in refs -%}
+    <span class="badge small" title="{{ ref }}">{{ 'your answer' if ref.startswith('turn:') else ('CV ' ~ ref[3:].replace(':', ' ')) }}</span>
+  {%- endfor -%}
+{%- endmacro %}

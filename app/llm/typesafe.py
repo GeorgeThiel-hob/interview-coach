@@ -124,5 +124,13 @@ class TypeSafeProvider:
     async def ping(self) -> bool:
         return True
 
+    async def reachable(self) -> bool:
+        """Lists models: authenticated, no tokens used."""
+        try:
+            await self._client.models.list()
+        except ts.TypeSafeError:
+            return False
+        return True
+
     async def aclose(self) -> None:
         await self._client.aclose()

@@ -77,7 +77,8 @@ def build_report(
     lang = str(run.settings.get("language", "nl"))
     by_turn: dict[str, dict[str, Judgment]] = defaultdict(dict)
     for j in d["judgments"]:
-        if j.turn_id:
+        # fb_grounded checks the feedback, not the answer: it is not an answer badge
+        if j.turn_id and j.question_id != "fb_grounded":
             by_turn[j.turn_id][judgment_key(j)] = j
 
     ev = thresholds()["evidence"]
