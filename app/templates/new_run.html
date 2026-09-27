@@ -28,6 +28,6 @@
       <select id="difficulty" name="difficulty">{% for v in ['friendly','realistic','critical'] %}<option value="{{ v }}" {% if v == 'realistic' %}selected{% endif %}>{{ t(v) }}</option>{% endfor %}</select></div>
   </div>
   <p style="margin-top:1rem"><button {% if not local_ok %}disabled{% endif %}>{{ t('start') }}</button></p>
-  <p class="muted small">Personal data is replaced with placeholders on the server before anything is sent to an external AI service. Uploaded files are deleted after reading.</p>
+  <p class="muted small">{{ t('privacy_note') }}</p>
 </form>
 {% endblock %}

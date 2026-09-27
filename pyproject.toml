@@ -69,8 +69,11 @@ strict = true
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-markers = ["live: calls a real provider; needs API keys / a running Ollama (run with -m live)"]
-addopts = "-m 'not live'"
+markers = [
+  "live: calls a real provider; needs API keys / a running Ollama (run with -m live)",
+  "snapshot: writes design/snapshots/ (run with make snapshots)",
+]
+addopts = "-m 'not live and not snapshot'"
 
 [tool.ruff.lint.flake8-bugbear]
 extend-immutable-calls = ["fastapi.File", "fastapi.Form", "fastapi.Depends", "fastapi.Query"]

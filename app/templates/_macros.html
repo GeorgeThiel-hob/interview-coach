@@ -1,5 +1,9 @@
+{% macro crit_label(key, t) -%}
+  {{- {'a_quality': t('crit_quality'), 'a_star_s': 'S', 'a_star_t': 'T', 'a_star_a': 'A', 'a_star_r': 'R', 'a_specific': t('crit_specific'), 'a_quantified': t('crit_quantified'), 'a_cv_consistency': 'CV', 'a_overclaim': t('crit_overclaim'), 'a_hedging': t('crit_hedging'), 'f_mastery': t('crit_mastery')}.get(key, key.replace('a_req_', '')) -}}
+{%- endmacro %}
+
 {% macro badge(key, j, t) -%}
-  {%- set label = {'a_quality':'quality','a_star_s':'S','a_star_t':'T','a_star_a':'A','a_star_r':'R','a_specific':'specific','a_quantified':'quantified','a_cv_consistency':'CV','a_overclaim':'overclaim','a_hedging':'hedging','f_mastery':'mastery'}.get(key, key.replace('a_req_', '')) -%}
+  {%- set label = crit_label(key, t) -%}
   {%- if j.value is string -%}
     <span class="badge{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{{ label }}: {{ j.value }}{% if j.confidence is not none %} · {{ (j.confidence*100)|round|int }}%{% endif %}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
   {%- elif key in ('a_quality', 'a_hedging') -%}
@@ -11,8 +15,8 @@
   {%- endif -%}
 {%- endmacro %}
 
-{% macro sources(refs) -%}
+{% macro sources(refs, t) -%}
   {%- for ref in refs -%}
-    <span class="badge small" title="{{ ref }}">{{ 'your answer' if ref.startswith('turn:') else ('CV ' ~ ref[3:].replace(':', ' ')) }}</span>
+    <span class="badge small" title="{{ ref }}">{{ t('your_answer_src') if ref.startswith('turn:') else ('CV ' ~ ref[3:].replace(':', ' ')) }}</span>
   {%- endfor -%}
 {%- endmacro %}

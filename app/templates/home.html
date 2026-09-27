@@ -6,10 +6,10 @@
 <h1>{{ t('my_runs') }}</h1>
 {% if runs %}
 <table>
-  <tr><th>Date</th><th>Status</th><th></th></tr>
+  <tr><th>{{ t('date') }}</th><th>{{ t('status') }}</th><th></th></tr>
   {% for r in runs %}
-  <tr><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ r.status }}{% if r.error %} <span class="muted small">({{ r.error }})</span>{% endif %}</td>
-      <td><a href="/runs/{{ r.id }}">open</a></td></tr>
+  <tr><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td><span class="status status-{{ r.status }}">{{ t('st_' ~ r.status) }}</span>{% if r.error %} <span class="muted small">({{ r.error }})</span>{% endif %}</td>
+      <td><a href="/runs/{{ r.id }}">{{ t('open') }}</a></td></tr>
   {% endfor %}
 </table>
 {% else %}<p class="muted">—</p>{% endif %}

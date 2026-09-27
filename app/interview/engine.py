@@ -75,6 +75,23 @@ def two_sentences(text: str) -> str:
     return " ".join(parts[:2]).strip()
 
 
+def follow_up_fits(
+    *,
+    elapsed_s: float,
+    exchanges_done: int,
+    topics_left: int,
+    budget_s: float,
+    min_exchange_s: float,
+) -> bool:
+    """True if one more follow-up still leaves an exchange for every remaining topic.
+
+    The time per exchange is the candidate's own pace so far, never less than the configured
+    minimum: slow, thorough answers must not use up the time of the topics still to come.
+    """
+    per = max(min_exchange_s, elapsed_s / exchanges_done if exchanges_done else 0.0)
+    return budget_s - elapsed_s - topics_left * per >= per
+
+
 class InterviewEngine:
     def __init__(self, gateway: Gateway, engine: Engine, run_id: str, pii_key: str) -> None:
         self.gateway = gateway
@@ -205,14 +222,13 @@ class InterviewEngine:
                 self._linked_requirements(topic),
             )
         )
-        move = await self._decide_move(context, answer_turn, topic, state)
-
         exchanges = int(state.get("exchanges", 0)) + 1
         elapsed = (
             float(state.get("elapsed_s", 0.0))
             + time.time()
             - float(state.get("resumed_at") or time.time())
         )
+        move = await self._decide_move(context, answer_turn, topic, state, elapsed, exchanges)
         self._save_state(exchanges=exchanges, elapsed_s=elapsed, resumed_at=time.time())
 
         index = int(state.get("topic_index", 0))
@@ -257,7 +273,13 @@ class InterviewEngine:
         return min(index + 1, closing)
 
     async def _decide_move(
-        self, context: SafeText, answer_turn: Turn, topic: PlanTopic, state: dict[str, Any]
+        self,
+        context: SafeText,
+        answer_turn: Turn,
+        topic: PlanTopic,
+        state: dict[str, Any],
+        elapsed: float,
+        done: int,
     ) -> str:
         entry = get("next_move")
         try:
@@ -286,13 +308,20 @@ class InterviewEngine:
         if move != "next_topic" and follow_ups >= int(self.cfg["max_follow_ups_per_topic"]):
             return "next_topic"
         seconds, max_exchanges = self._budget()
-        elapsed = float(state.get("elapsed_s", 0.0))
-        done = int(state.get("exchanges", 0)) + 1
         if move != "next_topic" and (elapsed >= seconds or done >= max_exchanges):
             return "next_topic"
-        # follow-ups only while every remaining planned topic still fits in the time budget
+        # follow-ups only while every remaining planned topic still fits in the time budget,
+        # counted in exchanges and in time at the candidate's own pace
         topics_left = len(self.topics()) - 1 - int(state.get("topic_index", 0))
         if move != "next_topic" and max_exchanges - done <= topics_left:
+            return "next_topic"
+        if move != "next_topic" and not follow_up_fits(
+            elapsed_s=elapsed,
+            exchanges_done=done,
+            topics_left=topics_left,
+            budget_s=seconds,
+            min_exchange_s=float(self.cfg["minutes_per_exchange"]) * 60,
+        ):
             return "next_topic"
         return move
 

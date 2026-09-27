@@ -16,21 +16,21 @@ accounts, data or judgment. Roughly in order.
       that run; they are first drafts.
 
 ## 1b. Findings from the first real run (2026-09-27, 15-minute typed run)
-- [ ] Time budget: typed answers took 1.3–6.5 min, not the assumed `minutes_per_exchange: 2`.
+- [x] Time budget: typed answers took 1.3–6.5 min, not the assumed `minutes_per_exchange: 2`.
       Topic 1 used two follow-ups and the whole 15 minutes, so the engine jumped to the closing
       topic and **skipped topics 2 and 3**. Reserve time for every remaining planned topic before
       allowing a follow-up, based on elapsed time (`app/interview/engine.py` `_decide_move`).
-- [ ] Interview header shows "Topic 1 / 4" while on question 3 (follow-ups stay in a topic).
+- [x] Interview header shows "Topic 1 / 4" while on question 3 (follow-ups stay in a topic).
       Show "Question N · topic x of y · follow-up".
-- [ ] Preparation page (~3 min): indeterminate bar gives no sense of what is left. Show the
+- [x] Preparation page (~3 min): indeterminate bar gives no sense of what is left. Show the
       step list up front with check marks and a filling bar.
 - [ ] Confirm SSE is not buffered by nginx: progress lines must appear one by one.
-- [ ] Review/report language is mixed: headings and labels in English ("Coverage of
+- [x] Review/report language is mixed: headings and labels in English ("Coverage of
       requirements", "Strong/Add/Explore", "you have this, but did not bring it up") around Dutch
       content; feedback switches between "u" and "je".
-- [ ] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
+- [x] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
       where the web page shows readable labels; a coverage-table row is split across pages.
-- [ ] Focus items quoting a requirement cut its label off mid-word.
+- [x] Focus items quoting a requirement cut its label off mid-word.
 - [ ] Coverage "in documents: none" for an experience requirement that the CV does show;
       check the evidence map against the real CV.
 
@@ -48,7 +48,8 @@ accounts, data or judgment. Roughly in order.
 - [ ] Uptime monitor on `/healthz`.
 
 ## 4. Decisions still open
-- [ ] D5 data policy check (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
+- [x] D5 for the owner's own use: accepted 2026-09-27 (docs/decisions.md).
+- [ ] D5 before colleagues use it (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
 - [ ] Speaking targets: words-per-minute band (120–160) and answer duration (60–120 s) in
       `app/review/metrics.py`.
 - [ ] faster-whisper size (`WHISPER_MODEL` small/medium) and where it runs: on the server

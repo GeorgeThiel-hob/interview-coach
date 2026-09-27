@@ -49,5 +49,9 @@ Open decisions come from spec section 14. Newest first.
   (macOS-only, younger single-maintainer project).
 - **Pinned versions:** Jev `jev-1.13.0`; `typesafe-sdk==0.7.2` (the docs snapshot describes
   0.7.1; 0.7.2 was the current release on PyPI on this date).
+- **D5 (owner's own use) → accepted, 2026-09-27.** Pseudonymised text from the owner's own
+  documents and answers may go to Anthropic and TypeSafe; the remaining content is already public
+  in the owner's applications and profiles. Colleague use still needs the D5 checklist in
+  `docs/privacy.md`. Rejected: fully local processing (noticeably weaker feedback).
 - **Retries live in the gateway.** The SDKs' own retries are switched off so every provider
   retries, times out and logs the same way (spec 6.3).

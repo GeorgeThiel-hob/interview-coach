@@ -375,7 +375,10 @@ async def interview_page(request: Request, run_id: str) -> Response:
 def _interview_progress(ie: InterviewEngine) -> dict[str, Any]:
     topics = ie.topics()
     state = ie._run().interview_state
+    asked = [t for t in ie.turns() if t.role == "interviewer" and not t.practice_of]
     return {
+        "question": len(asked),
+        "follow_up": bool(asked) and asked[-1].next_move not in (None, "open"),
         "topic": int(state.get("topic_index", 0)) + 1,
         "topics": len(topics),
         "minutes": round(float(state.get("elapsed_s", 0)) / 60),

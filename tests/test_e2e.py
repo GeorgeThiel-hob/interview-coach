@@ -13,7 +13,7 @@ from app.ingest.parse import parse_pasted
 from app.interview.engine import InterviewEngine
 from app.llm.types import JudgeAnswer
 from app.pipeline import add_document, create_run, finish, prepare
-from app.report.export import load_report, to_pdf
+from app.report.export import load_report, render_html, to_pdf
 from app.report.schema import Report
 from tests.conftest import CV, VACANCY, Stack
 
@@ -94,6 +94,10 @@ async def test_full_run_and_follow_up(stack: Stack) -> None:
     # M3: the PDF opens and carries the JSON; import accepts it
     pdf = to_pdf(report)
     assert pdf.startswith(b"%PDF-")
+    # the PDF speaks the interview language and shows readable score labels, not criterion ids
+    html = render_html(report)
+    assert report.language == "nl" and "Interviewrapport" in html and "Dekking van de eisen" in html
+    assert "a_quality" not in html and "a_star_s" not in html
     imported = load_report(pdf, "report.pdf")
     assert imported.run_id == run_id and len(imported.answers) == len(report.answers)
 
