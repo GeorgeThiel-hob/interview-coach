@@ -43,6 +43,15 @@ STAR_THRESHOLD = 0.5
 RATE_THRESHOLD = 0.4
 
 
+def short(text: str, limit: int = 60) -> str:
+    """Shorten at a word boundary with an ellipsis, never mid-word."""
+    text = " ".join(text.split())
+    if len(text) <= limit:
+        return text
+    cut = text[: limit + 1].rsplit(" ", 1)[0].rstrip(" ,;:.")
+    return (cut or text[:limit]) + "…"
+
+
 def _label(key: str, lang: str, **fmt: str) -> str:
     return _LABELS[key].get(lang, _LABELS[key]["en"]).format(**fmt)
 
@@ -84,7 +93,7 @@ def derive_weak_points(
             items.append(
                 FocusItem(
                     id=f"unused_{r.id}",
-                    label=_label("unused", language, req=r.text[:60]),
+                    label=_label("unused", language, req=short(r.text)),
                     linked_requirements=[r.id],
                     severity=0.7,
                     history=["weak"],
@@ -97,7 +106,7 @@ def derive_weak_points(
             items.append(
                 FocusItem(
                     id=f"weak_{r.id}",
-                    label=_label("weak_req", language, req=r.text[:60]),
+                    label=_label("weak_req", language, req=short(r.text)),
                     linked_requirements=[r.id],
                     severity=round(1 - (sum(qualities) / len(qualities)) / 3, 2),
                     history=["weak"],

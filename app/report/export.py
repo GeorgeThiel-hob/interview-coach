@@ -15,6 +15,7 @@ from pydantic import ValidationError
 
 from app.report.schema import SCHEMA_VERSION, Report
 from app.review.tips import all_tips
+from app.web.i18n import translate
 
 TEMPLATES = Path(__file__).resolve().parents[1] / "templates"
 ATTACHMENT_NAME = "report.json"
@@ -29,7 +30,12 @@ def _env() -> Environment:
 
 
 def render_html(report: Report) -> str:
-    return _env().get_template("report_pdf.html").render(r=report, tips=all_tips())
+    lang = report.language
+    return (
+        _env()
+        .get_template("report_pdf.html")
+        .render(r=report, tips=all_tips(), t=lambda key: translate(key, lang))
+    )
 
 
 def to_pdf(report: Report) -> bytes:

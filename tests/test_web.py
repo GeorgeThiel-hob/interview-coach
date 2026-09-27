@@ -111,6 +111,7 @@ def test_full_web_flow(web: tuple[TestClient, Stack]) -> None:
 
     page = client.get(f"/runs/{run_id}/interview")
     assert page.status_code == 200 and 'class="question"' in page.text
+    assert "Vraag 1 · onderwerp 1 van" in page.text
     token = csrf(client, f"/runs/{run_id}/interview")
     for n in range(40):
         r = client.post(
@@ -127,6 +128,7 @@ def test_full_web_flow(web: tuple[TestClient, Stack]) -> None:
     assert review.status_code == 200
     assert "Petra Jansen" in review.text  # real names restored for the owner only
     assert "badge" in review.text and "starChart" in review.text
+    assert "Focus voor de volgende keer" in review.text and "you have this" not in review.text
     assert client.get(f"/runs/{run_id}/report.pdf").content.startswith(b"%PDF-")
     assert '"schema": "report/v1"' in client.get(f"/runs/{run_id}/report.json").text
 
@@ -195,3 +197,16 @@ def test_login_rate_limit(web: tuple[TestClient, Stack]) -> None:
         for _ in range(6)
     ]
     assert codes[:5] == [400] * 5 and codes[5] == 429
+
+
+def test_focus_label_is_shortened_at_a_word_boundary() -> None:
+    from app.followup.focus import short
+
+    text = (
+        "Minimaal 2 jaar aantoonbare werkervaring met het gekozen profiel of soortgelijke functie."
+    )
+    out = short(text)
+    assert out.endswith("…") and len(out) <= 61
+    assert out[:-1] == text[: len(out) - 1]  # a prefix of the original
+    assert text[len(out) - 1] == " "  # cut between words
+    assert short("kort") == "kort"

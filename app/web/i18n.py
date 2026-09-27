@@ -87,6 +87,85 @@ T: dict[str, dict[str, str]] = {
         "nl": "Vertel je verhaal drie keer hardop zonder voor te lezen. Neem de laatste keer op.",
         "en": "Tell your story out loud three times without reading. Record the last one.",
     },
+    # progress steps (preparation and review)
+    "step": {"nl": "Stap", "en": "Step"},
+    "step_read": {
+        "nl": "Documenten lezen en pseudonimiseren",
+        "en": "Reading and pseudonymising your documents",
+    },
+    "step_extract": {"nl": "Eisen uit de vacature halen", "en": "Extracting the requirements"},
+    "step_evidence": {"nl": "Bewijs in je CV zoeken", "en": "Matching evidence in your CV"},
+    "step_focus": {
+        "nl": "Zwakke punten uit je vorige rapport kiezen",
+        "en": "Selecting weak points from your previous report",
+    },
+    "step_plan": {"nl": "Gespreksplan schrijven", "en": "Writing the interview plan"},
+    "step_briefing": {"nl": "Briefing schrijven", "en": "Writing your briefing"},
+    "step_feedback": {"nl": "Feedback per antwoord schrijven", "en": "Writing feedback per answer"},
+    "step_practice": {"nl": "Oefenplan schrijven", "en": "Writing your practice plan"},
+    # interview header
+    "question": {"nl": "Vraag", "en": "Question"},
+    "topic": {"nl": "onderwerp", "en": "topic"},
+    "of": {"nl": "van", "en": "of"},
+    "follow_up": {"nl": "vervolgvraag", "en": "follow-up"},
+    # review and report
+    "report_title": {"nl": "Interviewrapport", "en": "Interview report"},
+    "requirement": {"nl": "Eis", "en": "Requirement"},
+    "not_brought_up": {
+        "nl": "— dit heb je wel, maar je noemde het niet",
+        "en": "— you have this, but did not bring it up",
+    },
+    "star_summary": {
+        "nl": "Concrete voorbeelden in {specific}% van de antwoorden; resultaten gekwantificeerd in {quantified}%.",
+        "en": "Concrete examples in {specific}% of answers; results quantified in {quantified}%.",
+    },
+    "weakest": {"nl": "Zwakste onderdeel", "en": "Weakest element"},
+    "quality_summary": {
+        "nl": "Kwaliteit van de antwoorden (0 = geen antwoord op de vraag, 3 = concreet, gestructureerd, met resultaat)",
+        "en": "Answer quality (0 = does not answer, 3 = concrete, structured, with result)",
+    },
+    "level": {"nl": "niveau", "en": "level"},
+    "pct_answers": {"nl": "% van de antwoorden", "en": "% of answers"},
+    "answers_count": {"nl": "antwoorden", "en": "answers"},
+    "answers": {"nl": "Antwoorden", "en": "Answers"},
+    "answer_link": {"nl": "antwoord", "en": "answer"},
+    "your_answer_src": {"nl": "jouw antwoord", "en": "your answer"},
+    "speaking_summary": {
+        "nl": "Gemiddeld {wpm} woorden per minuut (doel 120–160), {fillers} stopwoorden per minuut, {dur} s per antwoord (doel 60–120 s bij gedragsvragen).",
+        "en": "Average {wpm} words per minute (target 120–160), {fillers} filler words per minute, {dur} s per answer (target 60–120 s for behavioural questions).",
+    },
+    "speaking_short": {
+        "nl": "{wpm} woorden/min · {fillers} stopwoorden/min",
+        "en": "{wpm} words/min · {fillers} fillers/min",
+    },
+    "concrete_examples": {"nl": "Concrete voorbeelden", "en": "Concrete examples"},
+    "quantified_results": {"nl": "Gekwantificeerde resultaten", "en": "Quantified results"},
+    "focus_next": {"nl": "Focus voor de volgende keer", "en": "Focus for next time"},
+    "focus_hint": {
+        "nl": "Upload het rapport (PDF) bij je volgende ronde om hier opnieuw op te oefenen.",
+        "en": "Upload the report PDF with your next run to practise these again.",
+    },
+    "severity": {"nl": "ernst", "en": "severity"},
+    "tip": {"nl": "Tip", "en": "Tip"},
+    "hist_weak": {"nl": "zwak", "en": "weak"},
+    "hist_improving": {"nl": "beter", "en": "improving"},
+    "hist_improved": {"nl": "verbeterd", "en": "improved"},
+    "hist_regressed": {"nl": "teruggevallen", "en": "regressed"},
+    "delete_confirm": {
+        "nl": "Deze ronde en al haar gegevens verwijderen?",
+        "en": "Delete this run and all its data?",
+    },
+    "models_note": {
+        "nl": "Modellen: Jev {jev} · Claude {claude} · lokaal {local}. Deze PDF bevat report.json als bijlage; upload hem bij je volgende ronde.",
+        "en": "Models: Jev {jev} · Claude {claude} · local {local}. This PDF contains report.json as an attachment; upload it for your next run.",
+    },
+    # score labels (criterion ids stay internal)
+    "crit_quality": {"nl": "kwaliteit", "en": "quality"},
+    "crit_specific": {"nl": "concreet", "en": "specific"},
+    "crit_quantified": {"nl": "gekwantificeerd", "en": "quantified"},
+    "crit_overclaim": {"nl": "overdrijving", "en": "overclaim"},
+    "crit_hedging": {"nl": "twijfel", "en": "hedging"},
+    "crit_mastery": {"nl": "beheersing", "en": "mastery"},
 }
 
 

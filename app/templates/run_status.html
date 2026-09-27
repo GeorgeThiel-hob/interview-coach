@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card" x-data="{ msgs: {{ messages|tojson }}, status: '{{ run.status }}' }"
+{# Pipeline messages (app/pipeline.py) map to numbered steps; warnings are listed below them. #}
+{% set prep = [('reading', t('step_read')), ('extracting requirements', t('step_extract')), ('matching CV evidence', t('step_evidence')), ('writing the interview plan', t('step_plan')), ('writing your briefing', t('step_briefing'))] %}
+{% set review = [('writing feedback per answer', t('step_feedback')), ('writing your practice plan', t('step_practice'))] %}
+<div class="card" x-data="{ msgs: {{ messages|tojson|forceescape }}, status: '{{ run.status }}',
+       prep: {{ prep|tojson|forceescape }}, review: {{ review|tojson|forceescape }},
+       get steps() { return this.status === 'reviewing' ? this.review : this.prep },
+       get current() { let c = -1; for (const m of this.msgs) { const i = this.steps.findIndex(s => m.startsWith(s[0])); if (i > c) c = i; } return c },
+       get warnings() { return this.msgs.filter(m => m.startsWith('warning')) } }"
      x-init="const es = new EventSource('/runs/{{ run.id }}/events');
              es.addEventListener('progress', e => msgs.push(JSON.parse(e.data)));
              es.addEventListener('status', e => { status = JSON.parse(e.data); es.close(); window.location = '/runs/{{ run.id }}'; });">
   <h1 x-text="status === 'reviewing' ? '{{ t('writing_review') }}' : '{{ t('preparing') }}'">{{ t('preparing') }}</h1>
-  {% if run.status == 'failed' %}<div class="alert error">{{ run.error }}</div>{% else %}<progress aria-label="progress"></progress>{% endif %}
-  <ul class="muted" aria-live="polite"><template x-for="m in msgs"><li x-text="m"></li></template></ul>
+  {% if run.status == 'failed' %}<div class="alert error">{{ run.error }}</div>{% else %}
+  <p class="small muted" x-show="current >= 0">{{ t('step') }} <span x-text="current + 1"></span> {{ t('of') }} <span x-text="steps.length"></span></p>
+  <progress :value="Math.max(current, 0)" :max="steps.length" aria-label="progress"></progress>
+  <ol class="steps" aria-live="polite">
+    <template x-for="(s, i) in steps">
+      <li :class="i < current ? 'done' : (i === current ? 'active' : 'muted')"><span x-text="i < current ? '✓' : (i === current ? '…' : '·')"></span> <span x-text="s[1]"></span></li>
+    </template>
+  </ol>
+  <ul class="muted small"><template x-for="w in warnings"><li x-text="w"></li></template></ul>
+  {% endif %}
 </div>
 {% endblock %}

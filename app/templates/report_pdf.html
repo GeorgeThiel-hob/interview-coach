@@ -2,7 +2,8 @@
 <html lang="{{ r.language }}">
 <head>
 <meta charset="utf-8">
-<title>Interview report</title>
+{% from "_macros.html" import crit_label %}
+<title>{{ t('report_title') }}</title>
 <style>
   @page { size: A4; margin: 18mm 16mm; @bottom-right { content: counter(page) " / " counter(pages); font-size: 9pt; color: #666; } }
   body { font-family: "DejaVu Sans", Helvetica, Arial, sans-serif; font-size: 10pt; color: #1b1b1b; line-height: 1.45; }
@@ -13,54 +14,55 @@
   .badge { display: inline-block; border: 1px solid #999; border-radius: 3px; padding: 0 1.5mm; margin: 0 1mm 1mm 0; font-size: 8.5pt; }
   .uncertain { border-style: dashed; color: #8a5a00; }
   .answer { page-break-inside: avoid; }
+  tr { page-break-inside: avoid; }
 </style>
 </head>
 <body>
-<h1>Interview report</h1>
+<h1>{{ t('report_title') }}</h1>
 <p class="muted">{{ r.vacancy.title }}{% if r.vacancy.organisation %} · {{ r.vacancy.organisation }}{% endif %} · {{ r.created_at[:10] }} · {{ r.language|upper }}</p>
 <p>{{ r.vacancy.summary }}</p>
 
-<h2>Coverage of requirements</h2>
+<h2>{{ t('coverage') }}</h2>
 <table>
-  <tr><th>Requirement</th><th>In documents</th><th>In interview</th></tr>
+  <thead><tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr></thead>
   {% for q in r.requirements if q.kind in ("eis", "wens") %}
-  <tr><td>{{ q.id }} — {{ q.text }}</td><td>{{ q.evidence_in_documents }}</td><td>{{ q.evidence_in_interview }}</td></tr>
+  <tr><td>{{ q.text }} <span class="muted">({{ q.kind }})</span></td><td>{{ q.evidence_in_documents }}</td><td>{{ q.evidence_in_interview }}</td></tr>
   {% endfor %}
 </table>
 
-<h2>Statistics</h2>
+<h2>{{ t('stats') }}</h2>
 <p>
   STAR: {% for k, v in r.stats.get("star_rates", {}).items() %}{{ k }} {{ (v * 100)|round|int }}%{% if not loop.last %} · {% endif %}{% endfor %}<br>
-  Concrete examples: {{ ((r.stats.get("specific_rate", 0)) * 100)|round|int }}% · Quantified results: {{ ((r.stats.get("quantified_rate", 0)) * 100)|round|int }}%
-  {% if r.stats.get("speaking") %}<br>Speaking: {{ r.stats.speaking.avg_wpm }} words/min · {{ r.stats.speaking.avg_fillers_per_min }} fillers/min{% endif %}
+  {{ t('concrete_examples') }}: {{ ((r.stats.get("specific_rate", 0)) * 100)|round|int }}% · {{ t('quantified_results') }}: {{ ((r.stats.get("quantified_rate", 0)) * 100)|round|int }}%
+  {% if r.stats.get("speaking") %}<br>{{ t('speaking') }}: {{ t('speaking_short').format(wpm=r.stats.speaking.avg_wpm, fillers=r.stats.speaking.avg_fillers_per_min) }}{% endif %}
 </p>
 
 {% if r.practice_plan %}
-<h2>Practice plan</h2>
+<h2>{{ t('practice_plan') }}</h2>
 <ol>{% for p in r.practice_plan %}<li><b>{{ p.action }}</b> — {{ p.why }}
-  {% for l in p.links if l.startswith("tip:") and l[4:] in tips %}<br><span class="muted">Tip: {{ tips[l[4:]].title }}</span>{% endfor %}</li>{% endfor %}</ol>
+  {% for l in p.links if l.startswith("tip:") and l[4:] in tips %}<br><span class="muted">{{ t('tip') }}: {{ tips[l[4:]].title }}</span>{% endfor %}</li>{% endfor %}</ol>
 {% endif %}
 
 {% if r.focus_items %}
-<h2>Focus for next time</h2>
-<ul>{% for f in r.focus_items %}<li>{{ f.label }} <span class="muted">(severity {{ f.severity }}{% if f.history %}; {{ f.history|join(" → ") }}{% endif %})</span></li>{% endfor %}</ul>
+<h2>{{ t('focus_next') }}</h2>
+<ul>{% for f in r.focus_items %}<li>{{ f.label }} <span class="muted">({{ t('severity') }} {{ f.severity }}{% for h in f.history %}; {{ t('hist_' ~ h) if t('hist_' ~ h) != 'hist_' ~ h else h }}{% endfor %})</span></li>{% endfor %}</ul>
 {% endif %}
 
-<h2>Answers</h2>
+<h2>{{ t('answers') }}</h2>
 {% for a in r.answers %}
 <div class="answer">
   <h3>{{ loop.index }}. {{ a.topic }}</h3>
   <p class="q">{{ a.question }}</p>
   <p class="a">{{ a.answer }}</p>
-  <p>{% for k, j in a.judgments.items() if k != "next_move" %}<span class="badge{% if j.uncertain %} uncertain{% endif %}">{{ k }}: {{ j.value if j.value is string else (j.value|round(2)) }}{% if j.confidence is not none %} ({{ (j.confidence * 100)|round|int }}%){% endif %}{% if j.uncertain %} · uncertain{% endif %}{% if j.escalated %} · Claude{% endif %}</span>{% endfor %}</p>
+  <p>{% for k, j in a.judgments.items() if k != "next_move" %}<span class="badge{% if j.uncertain %} uncertain{% endif %}">{{ crit_label(k, t) }}: {{ j.value if j.value is string else (j.value|round(2)) }}{% if j.confidence is not none %} ({{ (j.confidence * 100)|round|int }}%){% endif %}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>{% endfor %}</p>
   {% if a.feedback %}
-    {% for label, items in [("Strong", a.feedback.strengths), ("Add", a.feedback.add), ("Explore", a.feedback.explore), ("Better outline", a.feedback.outline)] if items %}
-      <p><b>{{ label }}</b></p><ul>{% for it in items %}<li>{{ it.text }} <span class="muted">[{{ it.sources|join(", ") }}]</span></li>{% endfor %}</ul>
+    {% for key, items in [("strong", a.feedback.strengths), ("add", a.feedback.add), ("explore", a.feedback.explore), ("outline", a.feedback.outline)] if items %}
+      <p><b>{{ t(key) }}</b></p><ul>{% for it in items %}<li>{{ it.text }} <span class="muted">[{{ it.sources|join(", ") }}]</span></li>{% endfor %}</ul>
     {% endfor %}
   {% endif %}
-  {% if a.speaking %}<p class="muted">Spoken: {{ a.speaking.duration_s }} s · {{ a.speaking.wpm }} wpm · {{ a.speaking.fillers_per_min }} fillers/min</p>{% endif %}
+  {% if a.speaking %}<p class="muted">{{ t('speaking') }}: {{ a.speaking.duration_s }} s · {{ t('speaking_short').format(wpm=a.speaking.wpm, fillers=a.speaking.fillers_per_min) }}</p>{% endif %}
 </div>
 {% endfor %}
-<p class="muted">Models: Jev {{ r.models.jev_version }} · Claude {{ r.models.claude }} · local {{ r.models.local }}. This PDF contains report.json as an attachment; upload it for your next run.</p>
+<p class="muted">{{ t('models_note').format(jev=r.models.jev_version, claude=r.models.claude, local=r.models.local) }}</p>
 </body>
 </html>

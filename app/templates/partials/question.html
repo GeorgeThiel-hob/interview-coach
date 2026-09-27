@@ -1,5 +1,5 @@
 <div class="card">
-  <p class="small muted">Topic {{ progress.topic }} / {{ progress.topics }} · {{ progress.minutes }} / {{ progress.length }} min</p>
+  <p class="small muted">{{ t('question') }} {{ progress.question }} · {{ t('topic') }} {{ progress.topic }} {{ t('of') }} {{ progress.topics }}{% if progress.follow_up %} · {{ t('follow_up') }}{% endif %} · {{ progress.minutes }} / {{ progress.length }} min</p>
   <progress value="{{ progress.topic }}" max="{{ progress.topics }}" aria-label="topics covered"></progress>
   <p class="persona">{{ (question.persona or 'interviewer')|replace('_', ' ') }}</p>
   <p class="question">{{ question.text_pseudonymised }}</p>
