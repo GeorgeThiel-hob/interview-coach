@@ -10,12 +10,13 @@ COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /bin/uv
 # WITH_SPEECH=1: install faster-whisper for spoken answers.
 ARG WITH_DEV=0
 ARG WITH_SPEECH=0
+# The build runs as root: drop its uv cache so the app user can create its own at runtime.
 ENV UV_LINK_MODE=copy UV_CACHE_DIR=/tmp/uv-cache
 WORKDIR /srv
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock README.md ./
 RUN groups=""; [ "$WITH_DEV" = 1 ] && groups="$groups --group dev"; [ "$WITH_SPEECH" = 1 ] && groups="$groups --group speech"; \
     [ "$WITH_DEV" = 1 ] || groups="$groups --no-dev"; \
-    uv sync --locked --no-install-project $groups
+    uv sync --locked --no-install-project $groups && rm -rf "$UV_CACHE_DIR"
 COPY app ./app
 COPY config ./config
 COPY prompts ./prompts
@@ -25,7 +26,8 @@ COPY eval ./eval
 COPY scripts ./scripts
 RUN groups=""; [ "$WITH_DEV" = 1 ] && groups="$groups --group dev"; [ "$WITH_SPEECH" = 1 ] && groups="$groups --group speech"; \
     [ "$WITH_DEV" = 1 ] || groups="$groups --no-dev"; \
-    uv sync --locked $groups && mkdir -p data && useradd --uid 10001 app && chown app data
+    uv sync --locked $groups && rm -rf "$UV_CACHE_DIR" \
+    && mkdir -p data && useradd --uid 10001 app && chown app data
 USER app
 EXPOSE 8000
 CMD ["uv", "run", "--no-sync", "uvicorn", "app.main:app_factory", "--factory", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*"]

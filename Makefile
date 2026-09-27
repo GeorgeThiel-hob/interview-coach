@@ -1,13 +1,16 @@
 .PHONY: check test live eval eval-ci bench run web
+# macOS + Homebrew: WeasyPrint (PDF reports) loads Pango from /opt/homebrew/lib, which dyld does
+# not search by default. Set per command: SIP strips DYLD_* vars exported through /bin/sh.
+DYLD := $(if $(wildcard /opt/homebrew/lib),DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib,)
 check:            ## lint, format check, types, tests
 	uv run ruff check app tests scripts eval
 	uv run ruff format --check app tests scripts eval
 	uv run mypy app
-	uv run pytest -q
+	$(DYLD) uv run pytest -q
 test:
-	uv run pytest -q
+	$(DYLD) uv run pytest -q
 live:             ## real calls to Ollama, Claude and Jev (costs a fraction of a cent)
-	uv run pytest -m live -q
+	$(DYLD) uv run pytest -m live -q
 eval:             ## full eval set against real Jev; writes eval/results/
 	uv run python scripts/run_eval.py
 eval-ci:

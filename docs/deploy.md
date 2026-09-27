@@ -21,9 +21,9 @@ explanation of every variable.
 
 | Machine | Needs |
 |---|---|
-| Server (e.g. 2 vCPU / 4–8 GB, Ubuntu 22.04+) | Docker + compose plugin, nginx, certbot, Tailscale, openssl, rsync |
+| Server (e.g. 2 vCPU / 4–8 GB, Ubuntu 22.04+) | Docker + compose plugin (your user in the `docker` group; log in again after adding it), nginx, certbot, Tailscale, openssl, rsync |
 | Model machine (e.g. Apple Silicon with 32 GB, or a GPU PC) | Ollama, Tailscale, ~25 GB free disk |
-| Your workstation | git, [uv](https://docs.astral.sh/uv/) (runs `make check` before deploying), rsync, ssh |
+| Your workstation | git, [uv](https://docs.astral.sh/uv/) (runs `make check` before deploying), rsync, ssh, Pango for the PDF tests (macOS: `brew install pango`) |
 | Accounts | Anthropic API key, TypeSafe API key, a (sub)domain (e.g. free DuckDNS) |
 
 If the server already runs other services, the app stays out of their way: the container is
@@ -32,8 +32,10 @@ capped (`cpus: 0.5`, `mem_limit: 768m` in `deploy/docker-compose.yml`), listens 
 
 ## 1. Private network (Tailscale)
 
-1. Install Tailscale on the model machine and on the server; log both into the same tailnet
-   (`sudo tailscale up` on the server).
+1. Install Tailscale on the model machine and on the server; log both into the same tailnet.
+   On a server shared with other services use
+   `sudo tailscale up --accept-dns=false --operator=<user>`: `--accept-dns=false` leaves the
+   server's DNS alone, `--operator` lets `<user>` run `tailscale status` without root.
 2. Note the model machine's address: `tailscale ip -4` (a `100.x.y.z` address).
 3. In the Tailscale admin console, restrict access so only the server can reach the model
    machine on port 11434 (ACLs / tags).
@@ -85,10 +87,12 @@ host's Tailscale:
 ## 4. Domain and HTTPS (nginx + certbot)
 
 1. Point a (sub)domain at the server's IP (DuckDNS: add a subdomain in its dashboard).
-2. `sudo cp deploy/nginx-interview.conf /etc/nginx/sites-available/interview`, replace
-   `INTERVIEW_DOMAIN`, then
-   `sudo ln -s /etc/nginx/sites-available/interview /etc/nginx/sites-enabled/`.
-3. Certificate: `sudo certbot --nginx -d <your-domain>`, then `sudo nginx -t && sudo systemctl reload nginx`.
+2. On the server, as root: `deploy/nginx-site.sh <your-domain>`. It installs the site from
+   `deploy/nginx-interview.conf` in three safe steps: an HTTP-only site, then
+   `certbot certonly --webroot` (certbot does not edit any nginx file), then the HTTPS site.
+   Each step runs `nginx -t` before a `reload`; nginx is never restarted, so other sites on the
+   same nginx stay up. Renewal runs through certbot's timer and reloads nginx.
+3. Check: `curl -s https://<your-domain>/healthz`.
 4. Firewall: only your SSH port, 80 and 443 open.
 
 ## 5. Accounts
@@ -104,11 +108,12 @@ Log in at `https://<your-domain>/login`; admins create more invites at `/admin`.
 ## 6. Checks against the real providers
 
 The default image contains runtime dependencies only. For the live smoke tests on the server,
-build once with the test tools:
+build once with the test tools (a plain `deploy/deploy.sh` rebuilds without them again):
 
 ```bash
+BUILD_ARGS="--build-arg WITH_DEV=1" deploy/deploy.sh <user>@<server> [ssh-port]   # from the workstation
+# on the server:
 cd deploy
-docker compose build --build-arg WITH_DEV=1 && docker compose up -d
 docker compose exec app uv run --no-sync pytest -m live -q
 docker compose exec app uv run --no-sync coach usage      # calls, cost, local share
 ```
