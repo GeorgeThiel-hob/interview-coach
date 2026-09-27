@@ -12,7 +12,7 @@ ARG WITH_DEV=0
 ARG WITH_SPEECH=0
 ENV UV_LINK_MODE=copy UV_CACHE_DIR=/tmp/uv-cache
 WORKDIR /srv
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock README.md ./
 RUN groups=""; [ "$WITH_DEV" = 1 ] && groups="$groups --group dev"; [ "$WITH_SPEECH" = 1 ] && groups="$groups --group speech"; \
     [ "$WITH_DEV" = 1 ] || groups="$groups --no-dev"; \
     uv sync --locked --no-install-project $groups
