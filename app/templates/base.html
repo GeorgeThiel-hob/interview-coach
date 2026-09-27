@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ t('app') }}{% endblock %}</title>
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js" defer></script>
+<style>
+  :root { --fg:#1b1d21; --muted:#626873; --bg:#f6f7f9; --card:#fff; --line:#dfe3e8; --accent:#1f5fbf; --ok:#1d7a46; --warn:#9a6300; --bad:#b3261e; }
+  * { box-sizing: border-box; }
+  body { margin:0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); }
+  header { background:var(--card); border-bottom:1px solid var(--line); padding:.6rem 1rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+  header a { color:var(--fg); text-decoration:none; } header .brand { font-weight:700; margin-right:auto; }
+  main { max-width: 860px; margin: 0 auto; padding: 1rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.1rem; margin: 0 0 1rem; }
+  h1 { font-size:1.5rem; margin:.2rem 0 1rem; } h2 { font-size:1.15rem; margin:.2rem 0 .6rem; }
+  label { display:block; font-weight:600; margin:.7rem 0 .25rem; }
+  input[type=text], input[type=email], input[type=password], select, textarea { width:100%; padding:.55rem .6rem; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; }
+  textarea { min-height: 9rem; }
+  button, .btn { display:inline-block; background:var(--accent); color:#fff; border:0; border-radius:8px; padding:.6rem 1rem; font:inherit; cursor:pointer; text-decoration:none; }
+  button.secondary, .btn.secondary { background:#e8edf5; color:var(--fg); }
+  button.danger { background:var(--bad); }
+  .row { display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:.5rem 1rem; }
+  .muted { color:var(--muted); } .small { font-size:.88rem; }
+  .badge { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:.05rem .55rem; margin:.1rem .15rem .1rem 0; font-size:.82rem; background:#fff; }
+  .badge.yes { border-color:#9fd3b5; background:#eef8f2; } .badge.no { border-color:#f0b8b3; background:#fdf1f0; }
+  .badge.uncertain { border-style:dashed; border-color:var(--warn); color:var(--warn); }
+  .alert { border-radius:8px; padding:.6rem .8rem; margin:.5rem 0; background:#fff6e5; border:1px solid #f1d49b; }
+  .alert.error { background:#fdf1f0; border-color:#f0b8b3; }
+  .question { font-size:1.15rem; font-weight:600; }
+  .persona { text-transform: capitalize; color: var(--muted); font-size:.9rem; }
+  table { border-collapse: collapse; width:100%; } th, td { text-align:left; padding:.4rem .5rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  .htmx-indicator { display:none; } .htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display:inline; }
+  progress { width:100%; }
+  @media (max-width: 560px) { main { padding:.6rem; } .card { padding:.8rem; } }
+</style>
+{% block head %}{% endblock %}
+</head>
+<body hx-headers='{"X-CSRF-Token": "{{ csrf }}"}'>
+<header>
+  <a class="brand" href="/">{{ t('app') }}</a>
+  {% if user %}
+    <a href="/tips">{{ t('tips') }}</a>
+    {% if user.role == 'admin' %}<a href="/admin">{{ t('admin') }}</a>{% endif %}
+    <a href="?lang={{ 'en' if lang == 'nl' else 'nl' }}">{{ 'EN' if lang == 'nl' else 'NL' }}</a>
+    <form method="post" action="/logout" style="display:inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="secondary">{{ t('logout') }}</button></form>
+  {% else %}
+    <a href="?lang={{ 'en' if lang == 'nl' else 'nl' }}">{{ 'EN' if lang == 'nl' else 'NL' }}</a>
+  {% endif %}
+</header>
+<main>
+{% if error %}<div class="alert error" role="alert">{{ error }}</div>{% endif %}
+{% block content %}{% endblock %}
+</main>
+{% block scripts %}{% endblock %}
+</body>
+</html>

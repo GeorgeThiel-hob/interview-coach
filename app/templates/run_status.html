@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" x-data="{ msgs: {{ messages|tojson }}, status: '{{ run.status }}' }"
+     x-init="const es = new EventSource('/runs/{{ run.id }}/events');
+             es.addEventListener('progress', e => msgs.push(JSON.parse(e.data)));
+             es.addEventListener('status', e => { status = JSON.parse(e.data); es.close(); window.location = '/runs/{{ run.id }}'; });">
+  <h1 x-text="status === 'reviewing' ? '{{ t('writing_review') }}' : '{{ t('preparing') }}'">{{ t('preparing') }}</h1>
+  {% if run.status == 'failed' %}<div class="alert error">{{ run.error }}</div>{% else %}<progress aria-label="progress"></progress>{% endif %}
+  <ul class="muted" aria-live="polite"><template x-for="m in msgs"><li x-text="m"></li></template></ul>
+</div>
+{% endblock %}

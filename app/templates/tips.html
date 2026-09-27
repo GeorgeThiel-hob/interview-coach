@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('tips') }}</h1>
+{% for tip in tips.values() %}<div class="card" id="{{ tip.id }}"><h2>{{ tip.title }}</h2><p style="white-space:pre-wrap">{{ tip.body }}</p></div>{% endfor %}
+{% endblock %}

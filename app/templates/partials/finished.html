@@ -1,0 +1,3 @@
+<div class="card" hx-get="/runs/{{ run.id }}" hx-trigger="load delay:1s" hx-target="body" hx-push-url="true">
+  <h2>{{ t('finished') }}</h2><p class="muted">{{ t('writing_review') }}</p><progress></progress>
+</div>

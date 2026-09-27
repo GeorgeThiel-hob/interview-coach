@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('admin') }}</h1>
+{% if new_code %}<div class="alert">New invite: <code>{{ new_code }}</code> — link: <code>/register?code={{ new_code }}</code></div>{% endif %}
+<div class="card">
+<h2>{{ t('usage') }}</h2>
+<p>{{ u.calls }} model calls · {{ (u.local_share*100)|round|int }}% handled locally · EUR {{ '%.4f'|format(u.cost_eur) }} total{% if runs %} · EUR {{ '%.4f'|format(u.cost_eur / (runs|length)) }} per run (last {{ runs|length }}){% endif %}</p>
+<table><tr><th>Provider</th><th>Calls</th><th>Tokens in/out</th><th>EUR</th></tr>
+{% for p, v in u.per_provider.items() %}<tr><td>{{ p }}</td><td>{{ v.calls }}</td><td>{{ v.tokens_in }} / {{ v.tokens_out }}</td><td>{{ '%.4f'|format(v.cost_eur) }}</td></tr>{% endfor %}</table>
+<h2 style="margin-top:1rem">Latency per role (ms)</h2>
+<table><tr><th>Role</th><th>p50</th><th>p95</th><th>n</th></tr>
+{% for r, v in u.latency_ms.items() %}<tr><td>{{ r }}</td><td>{{ v.p50 }}</td><td>{{ v.p95 }}</td><td>{{ v.n }}</td></tr>{% endfor %}</table>
+<h2 style="margin-top:1rem">Escalation per Jev question</h2>
+<table><tr><th>Question</th><th>Judgments</th><th>Uncertain</th><th>Escalated</th><th>Rate</th></tr>
+{% for q, v in u.escalation.items() %}<tr><td>{{ q }}</td><td>{{ v.total }}</td><td>{{ v.uncertain }}</td><td>{{ v.escalated }}</td><td>{{ (v.rate*100)|round(1) }}%</td></tr>{% endfor %}</table>
+<h2 style="margin-top:1rem">Guardrail and safety events</h2>
+<ul>{% for k, v in u.events.items() %}<li>{{ k }}: {{ v }}</li>{% else %}<li class="muted">none</li>{% endfor %}</ul>
+{% if u.errors %}<p>Errors: {% for k, v in u.errors.items() %}{{ k }} {{ v }} {% endfor %}</p>{% endif %}
+</div>
+<div class="card">
+<h2>Runs (metadata only)</h2>
+<table><tr><th>Run</th><th>Status</th><th>Calls</th><th>Local</th><th>EUR</th></tr>
+{% for r in runs %}<tr><td>{{ r.id }}</td><td>{{ r.status }}</td><td>{{ r.calls }}</td><td>{{ (r.local_share*100)|round|int }}%</td><td>{{ '%.4f'|format(r.cost_eur) }}</td></tr>{% endfor %}</table>
+</div>
+<div class="card">
+<h2>{{ t('invites') }}</h2>
+<form method="post" action="/admin/invites"><input type="hidden" name="csrf" value="{{ csrf }}">
+  <select name="role" style="width:auto"><option>candidate</option><option>coach</option><option>admin</option></select> <button>{{ t('create_invite') }}</button></form>
+<table><tr><th>Code</th><th>Role</th><th>Expires</th><th>Used</th></tr>
+{% for i in invites %}<tr><td><code>{{ i.code }}</code></td><td>{{ i.role }}</td><td>{{ i.expires_at.strftime('%Y-%m-%d') }}</td><td>{{ 'yes' if i.used_by else '' }}</td></tr>{% endfor %}</table>
+<p class="small muted">{{ users|length }} users. Admins see metadata only, never interview content.</p>
+</div>
+{% endblock %}

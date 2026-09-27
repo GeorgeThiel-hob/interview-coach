@@ -1,0 +1,13 @@
+<div class="card">
+  <p class="small muted">Topic {{ progress.topic }} / {{ progress.topics }} · {{ progress.minutes }} / {{ progress.length }} min</p>
+  <progress value="{{ progress.topic }}" max="{{ progress.topics }}" aria-label="topics covered"></progress>
+  <p class="persona">{{ (question.persona or 'interviewer')|replace('_', ' ') }}</p>
+  <p class="question">{{ question.text_pseudonymised }}</p>
+  <form hx-post="/runs/{{ run.id }}/answer" hx-target="#turn" hx-swap="innerHTML" hx-disabled-elt="button">
+    {% if run.settings.answer_mode == 'spoken' %}{% include "partials/recorder.html" %}{% endif %}
+    <label for="answer">{{ t('your_answer') }}</label>
+    <textarea id="answer" name="text" required></textarea>
+    <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
+    <p><button>{{ t('send') }}</button> <span class="htmx-indicator muted">{{ t('thinking') }}</span></p>
+  </form>
+</div>

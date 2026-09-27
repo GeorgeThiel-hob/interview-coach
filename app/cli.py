@@ -202,6 +202,37 @@ def print_usage(engine: Engine, run_id: str | None) -> None:
     print(f"Judgments: {tot} · escalated to Claude: {esc}")
 
 
+def admin_command(args: argparse.Namespace) -> int:
+    import getpass
+
+    from sqlmodel import Session, select
+
+    from app.db.models import User
+    from app.retention import purge_old_runs
+    from app.web.auth import create_invite, create_user
+
+    _, engine = setup()
+    if args.cmd == "create-admin":
+        password = getpass.getpass("Password (min. 10 characters): ")
+        if len(password) < 10:
+            print("Password too short.")
+            return 2
+        user = create_user(engine, args.email, password, role="admin")
+        print(f"Admin {user.email} created.")
+    elif args.cmd == "invite":
+        with Session(engine) as s:
+            admin = s.exec(select(User).where(User.role == "admin")).first()
+        if admin is None:
+            print("Create an admin first: coach create-admin --email ...")
+            return 2
+        code = create_invite(engine, admin.id, args.role)
+        print(f"Invite code: {code}  (register at /register?code={code})")
+    else:
+        removed = purge_old_runs(engine, get_settings().retention_days)
+        print(f"Removed {removed} runs older than {get_settings().retention_days} days.")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="coach", description="Interview Coach")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -221,7 +252,14 @@ def main(argv: list[str] | None = None) -> int:
     resume.add_argument("--out", default="reports")
     use = sub.add_parser("usage", help="model call metrics")
     use.add_argument("run_id", nargs="?")
+    admin = sub.add_parser("create-admin", help="create the first admin account")
+    admin.add_argument("--email", required=True)
+    inv = sub.add_parser("invite", help="create an invite code")
+    inv.add_argument("--role", default="candidate", choices=["candidate", "coach", "admin"])
+    sub.add_parser("purge", help="delete runs older than the retention period")
     args = parser.parse_args(argv)
+    if args.cmd in ("create-admin", "invite", "purge"):
+        return admin_command(args)
     if args.cmd == "usage":
         _, engine = setup()
         print(json.dumps(usage(engine, args.run_id), indent=2))

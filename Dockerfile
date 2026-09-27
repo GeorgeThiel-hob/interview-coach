@@ -10,4 +10,4 @@ COPY knowledge ./knowledge
 RUN uv sync --locked --no-dev && mkdir -p data && useradd --uid 10001 app && chown app data
 USER app
 EXPOSE 8000
-CMD ["uv", "run", "--no-sync", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "--no-sync", "uvicorn", "app.main:app_factory", "--factory", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*"]

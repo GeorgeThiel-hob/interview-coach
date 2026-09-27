@@ -1,0 +1,30 @@
+<div x-data="recorder('{{ run.id }}')" class="alert">
+  <button type="button" class="secondary" x-show="!recording" @click="start()">🎙 {{ t('record') }}</button>
+  <button type="button" class="danger" x-show="recording" @click="stop()">■ {{ t('stop') }} (<span x-text="seconds"></span> s)</button>
+  <span class="muted small" x-show="busy">…</span>
+  <p class="small muted" x-show="done">{{ t('confirm_transcript') }}</p>
+</div>
+<script>
+function recorder(runId) {
+  return { recording:false, busy:false, done:false, seconds:0, rec:null, chunks:[], t0:0, timer:null,
+    async start() {
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      this.rec = new MediaRecorder(stream); this.chunks = [];
+      this.rec.ondataavailable = e => this.chunks.push(e.data);
+      this.rec.onstop = () => this.upload(stream);
+      this.rec.start(); this.recording = true; this.t0 = Date.now();
+      this.timer = setInterval(() => this.seconds = Math.round((Date.now() - this.t0)/1000), 500);
+    },
+    stop() { this.rec.stop(); this.recording = false; clearInterval(this.timer); },
+    async upload(stream) {
+      stream.getTracks().forEach(t => t.stop()); this.busy = true;
+      const body = new FormData(); body.append('audio', new Blob(this.chunks, {type: this.rec.mimeType}), 'answer.webm');
+      body.append('duration_s', (Date.now() - this.t0)/1000);
+      const r = await fetch('/runs/' + runId + '/transcribe', {method:'POST', body, headers:{'X-CSRF-Token': '{{ csrf }}'}});
+      const data = await r.json(); this.busy = false;
+      if (data.text !== undefined) { document.getElementById('answer').value = data.text;
+        document.getElementById('audio_duration_s').value = data.duration_s; this.done = true; }
+      else { alert(data.error || 'Transcription failed'); }
+    } };
+}
+</script>

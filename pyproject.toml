@@ -28,6 +28,8 @@ dependencies = [
 coach = "app.cli:main"
 
 [dependency-groups]
+# Optional: spoken answers (M5). Heavy (CTranslate2); only needed where speech is used.
+speech = ["faster-whisper>=1.1"]
 dev = [
     "mypy>=1.13",
     "pre-commit>=4.0",
@@ -67,3 +69,6 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 markers = ["live: calls a real provider; needs API keys / a running Ollama (run with -m live)"]
 addopts = "-m 'not live'"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.File", "fastapi.Form", "fastapi.Depends", "fastapi.Query"]
