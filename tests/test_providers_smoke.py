@@ -146,3 +146,59 @@ async def test_typesafe_judge_maps_all_three_answer_types(config: Any) -> None:
     assert result.answers["a_quality"].probabilities["1"] == 0.95
     assert (result.usage.tokens_in, result.usage.tokens_out) == (318, 34)
     await provider.aclose()
+
+
+async def test_openai_compat_generate_embed_and_auth(config: Any) -> None:
+    from app.llm.openai_compat import OpenAICompatProvider
+
+    seen: list[tuple[str, str | None, dict[str, Any]]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        body = json.loads(request.content)
+        seen.append((request.url.path, request.headers.get("authorization"), body))
+        if request.url.path == "/v1/chat/completions":
+            return httpx.Response(
+                200,
+                json={
+                    "model": body["model"],
+                    "choices": [
+                        {
+                            "index": 0,
+                            "message": {
+                                "role": "assistant",
+                                "content": '{"title": "Pitch", "weight": 1}',
+                            },
+                            "finish_reason": "stop",
+                        }
+                    ],
+                    "usage": {"prompt_tokens": 30, "completion_tokens": 8, "total_tokens": 38},
+                },
+            )
+        return httpx.Response(
+            200,
+            json={
+                "object": "list",
+                "model": body["model"],
+                "data": [
+                    {"object": "embedding", "index": 1, "embedding": [0.3]},
+                    {"object": "embedding", "index": 0, "embedding": [0.1]},
+                ],
+                "usage": {"prompt_tokens": 4, "total_tokens": 4},
+            },
+        )
+
+    provider = OpenAICompatProvider(
+        "omlx", "http://laptop:8000", api_key="k-123", transport=httpx.MockTransport(handler)
+    )
+    role = config.role("extract").model_copy(update={"provider": "omlx"})
+    result = await provider.generate(role, [Message("user", "local text")], Topic)
+    assert result.parsed == Topic(title="Pitch", weight=1)
+    assert (result.usage.tokens_in, result.usage.tokens_out) == (30, 8)
+    path, auth, body = seen[0]
+    assert (path, auth) == ("/v1/chat/completions", "Bearer k-123")
+    assert body["enable_thinking"] is False and body["temperature"] == 0
+    assert body["response_format"]["json_schema"]["schema"] == Topic.model_json_schema()
+
+    emb = await provider.embed(config.role("embed"), ["a", "b"])
+    assert emb.vectors == [[0.1], [0.3]]  # re-ordered by index
+    await provider.aclose()

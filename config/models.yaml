@@ -10,6 +10,11 @@ providers:
     # Your M1 Max, reached over Tailscale. Use the laptop's Tailscale IP (100.x.y.z) in
     # OLLAMA_BASE_URL on the server; locally http://localhost:11434 works.
     base_url_env: OLLAMA_BASE_URL
+  omlx:
+    # Alternative local runtime (MLX, macOS only), benchmarked against Ollama. oMLX needs an
+    # API key when it listens on a network address (e.g. the Tailscale IP).
+    base_url_env: OMLX_BASE_URL
+    api_key_env: OMLX_API_KEY
   anthropic:
     api_key_env: ANTHROPIC_API_KEY
   typesafe:

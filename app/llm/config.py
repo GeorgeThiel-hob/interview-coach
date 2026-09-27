@@ -8,8 +8,8 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, Field, model_validator
 
-ProviderName = Literal["ollama", "anthropic", "typesafe"]
-LOCAL_PROVIDERS: frozenset[str] = frozenset({"ollama"})
+ProviderName = Literal["ollama", "omlx", "anthropic", "typesafe"]
+LOCAL_PROVIDERS: frozenset[str] = frozenset({"ollama", "omlx"})
 
 DEFAULT_PATH = Path(__file__).resolve().parents[2] / "config" / "models.yaml"
 

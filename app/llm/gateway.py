@@ -231,6 +231,7 @@ def build_gateway(engine: Engine, config: ModelsConfig | None = None) -> Gateway
     """Create the gateway with real providers, reading keys and URLs from the environment."""
     from app.llm.anthropic import AnthropicProvider
     from app.llm.ollama import OllamaProvider
+    from app.llm.openai_compat import OpenAICompatProvider
     from app.llm.typesafe import TypeSafeProvider
 
     config = config or load_models_config()
@@ -240,6 +241,10 @@ def build_gateway(engine: Engine, config: ModelsConfig | None = None) -> Gateway
     if "ollama" in used:
         url = os.environ.get(env["ollama"]["base_url_env"], "http://localhost:11434")
         providers["ollama"] = OllamaProvider(url)
+    if "omlx" in used:
+        url = os.environ.get(env["omlx"]["base_url_env"], "http://localhost:8000")
+        key = os.environ.get(env["omlx"]["api_key_env"]) or None
+        providers["omlx"] = OpenAICompatProvider("omlx", url.rstrip("/"), key)
     if "anthropic" in used:
         providers["anthropic"] = AnthropicProvider(os.environ[env["anthropic"]["api_key_env"]])
     if "typesafe" in used:
