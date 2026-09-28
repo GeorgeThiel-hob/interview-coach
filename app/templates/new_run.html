@@ -63,7 +63,7 @@
       <fieldset class="opts-field"><legend>{{ t('length') }}</legend><div class="opts">
         {% for v in [15, 30, 45] %}<label><input type="radio" name="length" value="{{ v }}" {% if v == 30 %}checked{% endif %}>{{ v }} min</label>{% endfor %}</div></fieldset>
       <fieldset class="opts-field"><legend>{{ t('answer_mode') }}</legend><div class="opts">
-        <label><input type="radio" name="answer_mode" value="typed" checked>{{ t('typed') }}</label><label><input type="radio" name="answer_mode" value="spoken">{{ t('spoken') }}</label></div></fieldset>
+        <label><input type="radio" name="answer_mode" value="typed" checked>{{ t('typed') }}</label>{% if speech_ok %}<label><input type="radio" name="answer_mode" value="spoken">{{ t('spoken') }}</label>{% endif %}</div></fieldset>
       <fieldset class="opts-field"><legend>{{ t('difficulty') }}</legend><div class="opts">
         {% for v in ['friendly','realistic','critical'] %}<label><input type="radio" name="difficulty" value="{{ v }}" {% if v == 'realistic' %}checked{% endif %}>{{ t(v) }}</label>{% endfor %}</div></fieldset>
     </div>

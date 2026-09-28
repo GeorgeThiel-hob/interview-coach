@@ -68,6 +68,15 @@ def lang_of(request: Request) -> str:
     return str(request.session.get("lang", "nl"))
 
 
+def speech_available(request: Request) -> bool:
+    """Spoken answers need faster-whisper in the image (WITH_SPEECH=1) or an injected fake."""
+    import importlib.util
+
+    return request.app.state.transcriber is not None or bool(
+        importlib.util.find_spec("faster_whisper")
+    )
+
+
 def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> HTMLResponse:
     lang = lang_of(request)
     run = ctx.get("run")
@@ -81,6 +90,7 @@ def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> H
             "lang": lang,
             "user": current_user(request),
             "csrf": csrf_token(request),
+            "speech_ok": speech_available(request),
             **ctx,
         },
         status_code=status_code,
@@ -468,7 +478,7 @@ async def review_page(request: Request, run_id: str) -> Response:
         "review.html",
         run=run,
         r=report,
-        tips=all_tips(),
+        tips=all_tips(report.language),
         chart=json.dumps(_chart_data(report)),
     )
 
@@ -516,7 +526,7 @@ async def demo_page(request: Request) -> HTMLResponse:
         b=d["briefing"],
         reqs=d["requirements"],
         repo_url=request.app.state.settings.demo_repo_url,
-        tips=all_tips(),
+        tips=all_tips(report.language),
         chart=json.dumps(_chart_data(report)),
     )
 
@@ -732,7 +742,7 @@ async def practice_submit(
 @router.get("/tips", response_class=HTMLResponse)
 async def tips_page(request: Request) -> HTMLResponse:
     require_user(request)
-    return render(request, "tips.html", tips=all_tips())
+    return render(request, "tips.html", tips=all_tips(lang_of(request)))
 
 
 @router.get("/admin", response_class=HTMLResponse)

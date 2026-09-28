@@ -24,8 +24,8 @@ Build rules for Claude Code, derived from section 0 of `docs/scope.md` (the spec
 - Counting, dates and arithmetic are done in code, never by Jev.
 - Pin versions: Jev model `jev-1.13.0`, `typesafe-sdk==0.7.2`. Upgrade deliberately.
 - Never commit `.env` or real documents (CVs, vacancies). Tests use synthetic text.
-- The app is deployed on the same server as the owner's trading bot: keep the resource limits
-  in `deploy/docker-compose.yml`, and never touch the bot's files or services.
+- The reference deployment shares its server with other services: keep the resource limits
+  in `deploy/docker-compose.yml`, and never touch the other services' files.
 
 ## Where things are
 `app/llm` gateway + providers + text types · `app/ingest` parse/pseudonymise/chunk ·

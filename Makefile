@@ -20,4 +20,4 @@ bench:            ## local model speed benchmark (see README)
 snapshots:        ## every page rendered with fictional data -> design/snapshots/ (see docs/design-handoff.md)
 	$(DYLD) uv run pytest -m snapshot -q
 web:              ## local web app on http://localhost:8000 (needs .env)
-	uv run uvicorn app.main:app_factory --factory --reload
+	$(DYLD) uv run uvicorn app.main:app_factory --factory --reload

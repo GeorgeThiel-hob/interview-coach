@@ -19,13 +19,21 @@ class Tip:
     body: str
 
 
-@lru_cache
-def all_tips() -> dict[str, Tip]:
+def _load(folder: Path) -> dict[str, Tip]:
     tips = {}
-    for path in sorted(TIPS_DIR.glob("*.md")):
+    for path in sorted(folder.glob("*.md")):
         text = path.read_text(encoding="utf-8")
         _, header, body = text.split("---", 2)
         meta = dict(line.split(":", 1) for line in header.strip().splitlines())
         tip = Tip(meta["id"].strip(), meta["title"].strip(), body.strip())
         tips[tip.id] = tip
+    return tips
+
+
+@lru_cache
+def all_tips(lang: str = "en") -> dict[str, Tip]:
+    """English tips, overlaid with translations from knowledge/tips/<lang>/ (same ids)."""
+    tips = _load(TIPS_DIR)
+    if lang != "en" and (TIPS_DIR / lang).is_dir():
+        tips.update({k: v for k, v in _load(TIPS_DIR / lang).items() if k in tips})
     return tips

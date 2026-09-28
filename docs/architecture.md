@@ -7,13 +7,13 @@ flowchart LR
   subgraph Browser
     UI[Web UI<br/>Jinja2 + HTMX]
   end
-  subgraph Server["Hetzner server (Docker, capped)"]
+  subgraph Server["Server (Docker, capped)"]
     APP[FastAPI app]
     GW[LLM gateway<br/>app/llm/gateway.py]
     DB[(SQLite<br/>pseudonymised only)]
     STT[faster-whisper]
   end
-  subgraph Laptop["M1 Max laptop (Tailscale)"]
+  subgraph Laptop["Model machine (Tailscale)"]
     OLL[Ollama: Qwen 3.6 35B-A3B<br/>+ bge-m3 embeddings]
   end
   JEV[Jev / TypeSafe]
@@ -64,9 +64,10 @@ so the review shows why each badge says what it says.
 ## Deviations from the spec
 
 - No Caddy container: the host's nginx already owns 80/443; the app sits behind it.
-- No Ollama container: Ollama runs on the laptop (decision D1), reached over Tailscale.
+- No Ollama container: Ollama runs on a separate model machine with enough memory (decision D1),
+  reached over Tailscale.
 - Interviewer questions are not streamed token by token: every question must pass the
   guardrails before it is shown, so the UI shows a "thinking" state and then the checked question.
   Preparation and review progress use server-sent events.
-- Deploys use `deploy/deploy.sh` from the laptop instead of a GitHub Action with SSH access to
-  the server (the server also runs the trading bot).
+- Deploys use `deploy/deploy.sh` from a workstation instead of a GitHub Action with SSH access to
+  the server (the reference server also runs other services, so no CI job gets shell access).

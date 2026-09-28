@@ -2,7 +2,7 @@
 # Deploy from your laptop: sync the repo to the server and rebuild the container.
 # Usage: deploy/deploy.sh user@host [ssh-port]
 #        BUILD_ARGS="--build-arg WITH_DEV=1" deploy/deploy.sh ...   (test tools for pytest -m live)
-# The server keeps its own .env (never synced). Nothing here touches the trading bot.
+# The server keeps its own .env (never synced). Nothing here touches other services.
 set -euo pipefail
 TARGET="${1:?usage: deploy/deploy.sh user@host [ssh-port]}"
 PORT="${2:-22}"

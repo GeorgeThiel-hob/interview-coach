@@ -1,72 +1,46 @@
-# Next steps that need the owner
+# Next steps
 
-The phase-by-phase plan for continuing in Cursor is in `docs/HANDOFF.md`.
+State after v1.0 (2026-09-28). The project overview is in [HANDOFF.md](HANDOFF.md).
 
-Everything below is built and tested with fake providers; these steps need your machines,
-accounts, data or judgment. Roughly in order.
+## Done for v1.0
+- [x] Real providers: `make live` passes (Ollama, Claude, Jev); full runs in Dutch and English.
+- [x] Deployment: Docker, Tailscale (tagged server, ACL), nginx + certbot (`deploy/nginx-site.sh`),
+      https, admin account; SSE progress verified through nginx.
+- [x] Fixes from the first real runs: time budget per topic, topic count per length, no
+      fact-check questions, CJK characters rejected, one language per page and report, readable
+      PDF labels, step-by-step progress, Dutch tips, empty-briefing fallback.
+- [x] Design v0.2 (Terracotta) for the web UI and the PDF; files named after the vacancy.
+- [x] Public `/demo` page (NL + EN) from real runs with a fictional candidate; README screenshots
+      and measured costs/latencies.
+- [x] D5 for the owner's own use (docs/decisions.md).
+- [x] Self-hosting documentation: getting-started, deploy, models.
 
-## 1. First real run (closes M0 and M1)
-- [x] Secrets only on the server: `deploy/init-env.sh`, then paste `ANTHROPIC_API_KEY`,
-      `TYPESAFE_API_KEY`, `OLLAMA_BASE_URL` (docs/deploy.md step 3). No local `.env`.
-- [ ] ~~`ollama pull`~~ (done) `make live` (real smoke tests).
-- [ ] `make bench` and paste the table into the README ("model choice"); optionally add oMLX.
-- [ ] `uv run coach run --vacancy <target vacancy> --cv <your CV> --length 15`: the M1
-      acceptance run. Check `coach usage <run id>` and fill the README metrics table.
-- [ ] Read the prompts in `prompts/` and the Jev criteria in `app/judgments/catalog.py` after
-      that run; they are first drafts.
+## Needs the owner
+- [ ] **Backups**: choose an off-server SSH/SFTP target (e.g. a storage box), then set up
+      `deploy/backup.sh` + the cron line and test one restore (docs/deploy.md §9).
+- [ ] **Spoken answers**: decide between raising the container memory to 1.5 GB+ during
+      transcription, or transcribing on the model machine. Measured within 0.5 CPU / 768 MB:
+      `small` runs out of memory, `base` takes 25 s for a 55 s answer and misreads technical terms.
+- [ ] **Evaluation set** in `eval/set/` (format in eval/README.md): ~30 answers of known quality,
+      ~10 bad interviewer questions, ~10 injection documents; then `make eval` and copy the
+      suggested thresholds into `config/thresholds.yaml`. Add `TYPESAFE_API_KEY` as a GitHub
+      Actions secret so CI runs the eval subset.
+- [ ] Uptime monitor on `https://<your-domain>/healthz`.
+- [ ] Budget caps (`config/models.yaml`: €1 per run, €3 per day) and the USD→EUR rate.
+- [ ] D5 before other people use the instance (TypeSafe and Anthropic data terms, employer AI
+      policy): docs/privacy.md.
 
-## 1b. Findings from the first real run (2026-09-27, 15-minute typed run)
-- [x] Time budget: typed answers took 1.3–6.5 min, not the assumed `minutes_per_exchange: 2`.
-      Topic 1 used two follow-ups and the whole 15 minutes, so the engine jumped to the closing
-      topic and **skipped topics 2 and 3**. Reserve time for every remaining planned topic before
-      allowing a follow-up, based on elapsed time (`app/interview/engine.py` `_decide_move`).
-- [x] Interview header shows "Topic 1 / 4" while on question 3 (follow-ups stay in a topic).
-      Show "Question N · topic x of y · follow-up".
-- [x] Preparation page (~3 min): indeterminate bar gives no sense of what is left. Show the
-      step list up front with check marks and a filling bar.
-- [ ] Confirm SSE is not buffered by nginx: progress lines must appear one by one.
-- [x] Review/report language is mixed: headings and labels in English ("Coverage of
-      requirements", "Strong/Add/Explore", "you have this, but did not bring it up") around Dutch
-      content; feedback switches between "u" and "je".
-- [x] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
-      where the web page shows readable labels; a coverage-table row is split across pages.
-- [x] Focus items quoting a requirement cut its label off mid-word.
-- [ ] Tips library (`knowledge/tips/`) is English only: tip titles show in English in Dutch
-      reviews and PDFs. Add Dutch versions.
-- [ ] Coverage "in documents: none" for an experience requirement that the CV does show;
-      check the evidence map against the real CV.
+## Engineering
+- [ ] Test the no-Claude configuration end to end (every generating role on Ollama) with the
+      evaluation set; document the quality difference.
+- [ ] `make bench`: Qwen 3.6 35B-A3B vs 3.8 27B (and MLX / oMLX) on the reference machine; add the
+      table to docs/models.md.
+- [ ] Check other local-model outputs (requirement extraction) for language drift, like the
+      interviewer questions.
+- [ ] Coverage "in documents: none" for an experience requirement that the CV does show; check
+      the evidence map (`evidence_for_req`, thresholds `evidence.strong/partial`).
+- [ ] Speaking targets (120–160 words per minute, 60–120 s per answer) in `app/review/metrics.py`.
+- [ ] D7: compare `bge-m3` with a second embedding model in the evaluation.
 
-## 2. Evaluation (M6, and the basis for trusting the badges)
-- [ ] Write the eval set in `eval/set/` (format in eval/README.md): ~30 answers of known quality,
-      ~10 bad/ungrounded interviewer questions, ~10 injection documents, plus clean ones.
-- [ ] `make eval`; copy the suggested values into `config/thresholds.yaml`; commit the result.
-- [ ] Add `TYPESAFE_API_KEY` as a GitHub Actions secret so CI runs the eval subset.
-
-## 3. Deployment (M2)
-- [x] Tailscale on laptop and server; Ollama bound to the laptop's Tailscale IP (docs/deploy.md).
-- [x] Second DuckDNS subdomain, nginx site, certbot (`deploy/nginx-site.sh`).
-- [x] `deploy/deploy.sh <user>@<server> <ssh-port>`, create the admin.
-- [ ] Nightly backup cron + one tested restore (M6 criterion).
-- [ ] Uptime monitor on `/healthz`.
-
-## 4. Decisions still open
-- [x] D5 for the owner's own use: accepted 2026-09-27 (docs/decisions.md).
-- [ ] D5 before colleagues use it (TypeSafe, Anthropic, employer AI policy): docs/privacy.md.
-- [ ] Speaking targets: words-per-minute band (120–160) and answer duration (60–120 s) in
-      `app/review/metrics.py`.
-- [ ] faster-whisper size (`WHISPER_MODEL` small/medium) and where it runs: on the server
-      within the 0.5 CPU cap, or on the laptop. Measure a 1-minute answer (M5: under 20 s).
-- [ ] Budget caps in `config/models.yaml` (EUR 1 per run, EUR 3 per day) and the USD→EUR rate.
-- [ ] Make the repo public for the application (and add screenshots/metrics to the README).
-- [ ] D7: compare `bge-m3` with a second embedding model (e.g. `qwen3-embedding`) in the eval.
-
-## 5. Showcase for applications
-- [ ] Public read-only `/demo` page: one complete run (briefing, interview, review with scores
-      and charts) built from synthetic data, viewable without login. No model calls, no personal
-      data, works while the laptop is offline. Build after the first real runs (phase 2), so
-      the example reflects real output quality. Link it in the CV next to the GitHub repo.
-- [ ] Screenshots or a short GIF of that demo in the README (phase 4).
-
-## 6. Later (M7)
-- [ ] Coach role with explicit report sharing; intake personas tuned with the account manager;
-      fuller NL translation of the UI.
+## Later (M7)
+- [ ] Coach role with explicit report sharing; intake personas tuned with an account manager.

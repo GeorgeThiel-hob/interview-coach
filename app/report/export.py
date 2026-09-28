@@ -35,7 +35,7 @@ def render_html(report: Report) -> str:
     return (
         _env()
         .get_template("report_pdf.html")
-        .render(r=report, tips=all_tips(), t=lambda key: translate(key, lang))
+        .render(r=report, tips=all_tips(lang), t=lambda key: translate(key, lang))
     )
 
 
