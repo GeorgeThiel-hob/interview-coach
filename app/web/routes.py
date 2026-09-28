@@ -9,9 +9,12 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
+import unicodedata
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import (
@@ -526,7 +529,11 @@ async def demo_pdf(request: Request) -> Response:
     return Response(
         _demo_pdf[lang],
         media_type="application/pdf",
-        headers={"Content-Disposition": f'inline; filename="interview-coach-demo-{lang}.pdf"'},
+        headers={
+            "Content-Disposition": download_header(
+                _demo(lang)["report"].vacancy.title, "pdf", inline=True
+            )
+        },
     )
 
 
@@ -542,6 +549,19 @@ def _chart_data(r: Report) -> dict[str, Any]:
     }
 
 
+def download_header(title: str, ext: str, *, inline: bool = False) -> str:
+    """Content-Disposition naming the file after the vacancy, e.g. "AI Engineer.pdf"."""
+    name = re.sub(r'[\\/:*?"<>|\x00-\x1f]+', " ", title or "")
+    name = re.sub(r"\s+", " ", name).strip(" .")[:80] or "Interview Coach"
+    ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    ascii_name = re.sub(r"\s+", " ", ascii_name).strip() or "Interview Coach"
+    kind = "inline" if inline else "attachment"
+    return (
+        f'{kind}; filename="{ascii_name}.{ext}"; '
+        f"filename*=UTF-8''{quote(name + '.' + ext, safe='')}"
+    )
+
+
 @router.get("/runs/{run_id}/report.json")
 async def report_json(request: Request, run_id: str) -> Response:
     own_run(request, run_id)
@@ -552,7 +572,7 @@ async def report_json(request: Request, run_id: str) -> Response:
     return Response(
         report.to_json(),
         media_type="application/json",
-        headers={"Content-Disposition": f'attachment; filename="report-{run_id[:8]}.json"'},
+        headers={"Content-Disposition": download_header(report.vacancy.title, "json")},
     )
 
 
@@ -567,7 +587,7 @@ async def report_pdf(request: Request, run_id: str) -> Response:
     return Response(
         pdf,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'attachment; filename="report-{run_id[:8]}.pdf"'},
+        headers={"Content-Disposition": download_header(report.vacancy.title, "pdf")},
     )
 
 

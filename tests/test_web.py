@@ -225,3 +225,17 @@ def test_public_demo_needs_no_login_and_offers_no_run_actions(
         assert f'lang="{lang}"' in page.text
     pdf = client.get("/demo/report.pdf?lang=en")
     assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF-")
+
+
+def test_download_is_named_after_the_vacancy() -> None:
+    from app.web.routes import download_header
+
+    assert download_header("AI Engineer", "pdf") == (
+        "attachment; filename=\"AI Engineer.pdf\"; filename*=UTF-8''AI%20Engineer.pdf"
+    )
+    # unsafe characters removed, non-ASCII kept in filename* with an ASCII fallback
+    h = download_header('Data/AI "Specialist": Ré', "json")
+    assert 'filename="Data AI Specialist Re.json"' in h
+    assert "filename*=UTF-8''Data%20AI%20Specialist%20R%C3%A9.json" in h
+    assert 'filename="Interview Coach.pdf"' in download_header("", "pdf")
+    assert download_header("x", "pdf", inline=True).startswith("inline;")
