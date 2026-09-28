@@ -25,7 +25,7 @@ budget per run and per day.
 ## 2. Get the code and the packages
 
 ```bash
-git clone https://github.com/<owner>/<repo>.git interview-coach
+git clone https://github.com/GeorgeThiel-hob/interview-coach.git
 cd interview-coach
 uv sync            # creates .venv with Python 3.12 and every dependency from uv.lock
 ```

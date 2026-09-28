@@ -1,4 +1,4 @@
-"""Jev provider, using the official ``typesafe-sdk`` (see docs/vendor/typesafe/).
+"""Jev provider, using the official ``typesafe-sdk`` (docs: https://docs.typesafe.ai).
 
 ``AsyncTypeSafeClient.system_one(state, questions, model=...)`` returns answers grouped by
 type: ``.nouls[name].noul`` (probability 0-1, no confidence), ``.choices[name].choice`` /

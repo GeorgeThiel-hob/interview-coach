@@ -7,8 +7,8 @@ Build rules for Claude Code, derived from section 0 of `docs/scope.md` (the spec
   one meets its acceptance criteria.
 - Anything marked **[DECISION]** in the spec is the owner's call. Ask; never pick silently.
   Decisions made so far are logged in `docs/decisions.md`.
-- **Do not invent external API details.** Jev: `docs/vendor/typesafe/` (snapshot of the official
-  docs; docs.typesafe.ai may be unreachable from cloud sessions). Claude: the official SDK docs.
+- **Do not invent external API details.** Jev: the official docs at docs.typesafe.ai (full text for
+  agents: docs.typesafe.ai/llms-full.txt). Claude: the official SDK docs.
   Ollama: the Ollama API docs. If the spec conflicts with the docs, the docs win; flag it.
 - Model IDs, thresholds and prompts live in `config/` and `prompts/`, never in logic.
 

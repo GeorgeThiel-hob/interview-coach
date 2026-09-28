@@ -8,8 +8,8 @@ an AI interviewer follows up on your answers, and gives you an honest review: sc
 which requirements you covered, feedback that cites your CV and your own words, and a practice
 plan. The PDF report carries its data along, so your next run re-tests your weak points.
 
-**Live demo** (no account needed): _link added on publication_ · Dutch and English ·
-a real run with a fictional candidate.
+**[Live demo](https://interviewme.duckdns.org/demo)** (no account needed) · [English](https://interviewme.duckdns.org/demo?lang=en) · a real run with a
+fictional candidate, Dutch and English.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-overview-dark.png">
@@ -80,7 +80,7 @@ Three 15-minute runs with a fictional candidate (5–7 answers each):
 The short version:
 
 ```bash
-git clone https://github.com/<owner>/<repo>.git interview-coach && cd interview-coach
+git clone https://github.com/GeorgeThiel-hob/interview-coach.git && cd interview-coach
 uv sync
 ollama pull qwen3.6:35b-a3b && ollama pull bge-m3
 cp .env.example .env        # fill in the keys; every variable is explained there
