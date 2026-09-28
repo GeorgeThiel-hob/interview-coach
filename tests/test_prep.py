@@ -174,3 +174,12 @@ def test_empty_prepare_list_falls_back_to_gap_advice() -> None:
     )
     assert prepare_items(b) == ["advice 1", "advice 2", "advice 3"]
     assert prepare_items(b.model_copy(update={"prepare": ["a", "b", "c", "d"]})) == ["a", "b", "c"]
+
+
+def test_tips_have_dutch_versions_with_the_same_ids() -> None:
+    from app.review.tips import all_tips
+
+    en, nl = all_tips("en"), all_tips("nl")
+    assert en.keys() == nl.keys()
+    assert nl["star"].title == "Vertel het als STAR" and en["star"].title == "Tell it as STAR"
+    assert all(nl[k].title != en[k].title for k in en)  # every tip is translated

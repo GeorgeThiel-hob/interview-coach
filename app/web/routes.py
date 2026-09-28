@@ -468,7 +468,7 @@ async def review_page(request: Request, run_id: str) -> Response:
         "review.html",
         run=run,
         r=report,
-        tips=all_tips(),
+        tips=all_tips(report.language),
         chart=json.dumps(_chart_data(report)),
     )
 
@@ -516,7 +516,7 @@ async def demo_page(request: Request) -> HTMLResponse:
         b=d["briefing"],
         reqs=d["requirements"],
         repo_url=request.app.state.settings.demo_repo_url,
-        tips=all_tips(),
+        tips=all_tips(report.language),
         chart=json.dumps(_chart_data(report)),
     )
 
@@ -732,7 +732,7 @@ async def practice_submit(
 @router.get("/tips", response_class=HTMLResponse)
 async def tips_page(request: Request) -> HTMLResponse:
     require_user(request)
-    return render(request, "tips.html", tips=all_tips())
+    return render(request, "tips.html", tips=all_tips(lang_of(request)))
 
 
 @router.get("/admin", response_class=HTMLResponse)
