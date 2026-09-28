@@ -1,6 +1,6 @@
 # Answer sheet for the demo runs (fictional candidate: Sanne Visser)
 
-Use this to answer the interview questions *in character* during the two demo runs (NL and EN).
+Use this to answer the interview questions *in character* during the English demo run (Dutch version: `answer-sheet-nl.md`).
 Everything here is fictional and consistent with `cv-nl.md` / `cv-en.md`. Answer in the run's
 language; paraphrase freely, it should read like a real person typing.
 
