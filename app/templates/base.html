@@ -273,6 +273,18 @@ fieldset.opts-field { border: 0; padding: 0; margin: 0; } fieldset.opts-field le
 .toc-title { font: 700 .75rem/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: var(--s4) .8rem .5rem; }
 .toc-sub { display: grid; margin: .2rem 0 0 .8rem; border-left: 2px solid var(--line); } .toc-sub a { display: flex; gap: .6rem; padding: .35rem .8rem; font-weight: 500; font-size: var(--fs-sm); border-radius: 0 var(--pill) var(--pill) 0; }
 .toc-sub a span:nth-child(2) { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* "On this page": a clear card on desktop, with a strong active state */
+@media (min-width: 960px) {
+  .review .toc { background: var(--card); border-radius: var(--r-lg); padding: var(--s2) var(--s3) var(--s4); box-shadow: var(--shadow-sm); gap: 4px; }
+  .review .toc-title { font-size: .85rem; color: var(--accent-press); padding: var(--s4) .9rem var(--s3); }
+  .review .toc > a { font-size: 1.02rem; padding: .7rem 1rem; border-left: 4px solid transparent; border-radius: 0 var(--pill) var(--pill) 0; }
+  .review .toc > a:hover { background: var(--surface); color: var(--fg); }
+  .review .toc > a[aria-current=true] { background: var(--accent-100); color: var(--accent-800); border-left-color: var(--accent); }
+  .review .toc-sub { margin-left: 1rem; }
+  .review .toc-sub a { font-size: .95rem; padding: .45rem .8rem; }
+  .review .toc-sub a:hover { background: var(--surface); }
+  .review > aside { display: grid; gap: var(--s4); max-height: calc(100vh - 2 * var(--s6)); overflow-y: auto; scrollbar-width: thin; }
+}
 @media (max-width: 959px) { .toc-title, .toc-sub { display: none; } .review > aside .aside-card { order: -1; } }
 .review section { scroll-margin-top: var(--s6); }
 .answers-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s3); flex-wrap: wrap; margin: var(--s6) 0 var(--s3); }
