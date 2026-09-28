@@ -1,14 +1,15 @@
 # Privacy and data handling
 
-Status: **draft**. Decision D5 (below) must be completed by the owner before colleagues use the app.
+What leaves your machines, what is stored, and for how long. If you run the app for other people,
+complete the checklist at the end first.
 
 ## What leaves the server
 
 | Data | Where it goes | Form |
 |---|---|---|
-| Uploaded documents, typed/spoken answers | the owner's laptop (Ollama over Tailscale) | raw, for pseudonymisation only |
+| Uploaded documents, typed/spoken answers | your own model machine (Ollama over Tailscale) | raw, for pseudonymisation only |
 | Pseudonymised documents, answers, questions | Jev (TypeSafe), Claude (Anthropic) | names, contact details, addresses, IBAN/BSN, birth dates replaced by tokens |
-| Audio | nowhere | transcribed on the server, deleted right after |
+| Audio (spoken answers, optional) | nowhere | transcribed on the server, deleted right after |
 
 Enforced in code: external providers only accept `SafeText` (see docs/architecture.md), and
 `tests/test_privacy.py` fails if raw text could reach them. Employer and client names are kept
@@ -32,9 +33,9 @@ upload sensitive data beyond a normal CV.
 Candidates see only their own runs. Admins see usage metadata and invites, never content.
 (Coach sharing is planned for M7.)
 
-## D5: to complete before colleague use (owner)
+## Before other people use your instance (decision D5)
 
-**Owner's own use: decided 2026-09-27.** The owner accepts that pseudonymised text from their own
+**Reference instance, owner's own use: decided 2026-09-27.** The owner accepts that pseudonymised text from their own
 documents and answers goes to Anthropic and TypeSafe. Reason: what remains after
 pseudonymisation (employers, roles, projects, technologies, the target vacancy) is already
 public in the owner's applications and public profiles, and their own name is theirs to share.
@@ -43,5 +44,5 @@ The checklist below still applies before anyone else uses the app.
 - [ ] TypeSafe data retention and training terms for API traffic (direct API): ...
 - [ ] Anthropic API data retention for this account/organisation: ...
 - [ ] Employer AI policy (if colleagues will use it): allowed tools, what may be processed, approval needed: ...
-- [ ] Decide: is the laptop-as-inference-node acceptable for colleagues' data?
+- [ ] Decide: is your own machine as the inference node acceptable for other people's data?
 - [ ] Record the outcome and date here.

@@ -7,7 +7,7 @@
 
 providers:
   ollama:
-    # Your M1 Max, reached over Tailscale. Use the laptop's Tailscale IP (100.x.y.z) in
+    # The model machine, reached over Tailscale. Use its Tailscale IP (100.x.y.z) in
     # OLLAMA_BASE_URL on the server; locally http://localhost:11434 works.
     base_url_env: OLLAMA_BASE_URL
   omlx:

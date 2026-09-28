@@ -1,4 +1,4 @@
-# Runs on the bot's Hetzner server next to the trading bot, so it is deliberately capped.
+# Runs on a small server shared with other services, so it is deliberately capped.
 # There is no Ollama or Caddy service here:
 # - Ollama runs on the laptop and is reached over Tailscale (OLLAMA_BASE_URL in .env).
 # - The server's existing nginx owns ports 80/443; the app only listens on localhost and
