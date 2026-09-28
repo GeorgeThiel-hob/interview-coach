@@ -11,7 +11,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /bin/uv
 ARG WITH_DEV=0
 ARG WITH_SPEECH=0
 # The build runs as root: drop its uv cache so the app user can create its own at runtime.
-ENV UV_LINK_MODE=copy UV_CACHE_DIR=/tmp/uv-cache XDG_CACHE_HOME=/tmp/cache
+ENV UV_LINK_MODE=copy UV_CACHE_DIR=/tmp/uv-cache XDG_CACHE_HOME=/tmp/cache \
+    HF_HOME=/srv/data/models
 WORKDIR /srv
 COPY pyproject.toml uv.lock README.md ./
 RUN groups=""; [ "$WITH_DEV" = 1 ] && groups="$groups --group dev"; [ "$WITH_SPEECH" = 1 ] && groups="$groups --group speech"; \
