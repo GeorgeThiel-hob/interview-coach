@@ -2,7 +2,7 @@
 
 Each test runs the real SDK / HTTP code path against a mocked HTTP transport, so request
 building and response parsing are exercised without network access or API keys. The
-response bodies follow the providers' documented formats (Jev: docs/vendor/typesafe).
+response bodies follow the providers' documented formats (Jev: docs.typesafe.ai).
 """
 
 from __future__ import annotations

@@ -1,5 +1,5 @@
 [project]
-name = "interview-simulator"
+name = "interview-coach"
 version = "1.0.0"
 description = "Interview Coach: interview practice with a local Qwen model, Jev and Claude."
 readme = "README.md"

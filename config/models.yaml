@@ -88,7 +88,7 @@ roles:
     max_tokens: 2000
 
 # Price per million tokens, in USD, as published by each provider (checked 2026-09-27).
-# Anthropic: model table in the Claude API docs. Jev: docs/vendor/typesafe (Models page).
+# Anthropic: model table in the Claude API docs. Jev: docs.typesafe.ai (Models page).
 pricing_usd_per_mtok:
   claude-sonnet-5: {input: 2.00, output: 10.00}
   claude-haiku-4-5: {input: 1.00, output: 5.00}
