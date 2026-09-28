@@ -2,7 +2,7 @@
 
 Run with ``make snapshots`` (deselected in normal test runs). Output: ``design/snapshots/``
 (git-ignored), one file per screen plus the vendored JS, viewable offline in a browser and
-uploadable to a design tool. See docs/design-handoff.md.
+uploadable to a design tool.
 """
 
 from __future__ import annotations

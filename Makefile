@@ -17,7 +17,7 @@ eval-ci:
 	uv run python scripts/run_eval.py --subset 10
 bench:            ## local model speed benchmark (see README)
 	uv run python scripts/bench_local.py --target ollama:qwen3.6:35b-a3b --target ollama:qwen3.8:27b
-snapshots:        ## every page rendered with fictional data -> design/snapshots/ (see docs/design-handoff.md)
+snapshots:        ## every page rendered with fictional data -> design/snapshots/ (fictional data)
 	$(DYLD) uv run pytest -m snapshot -q
 web:              ## local web app on http://localhost:8000 (needs .env)
 	$(DYLD) uv run uvicorn app.main:app_factory --factory --reload
