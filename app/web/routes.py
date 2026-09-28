@@ -68,6 +68,15 @@ def lang_of(request: Request) -> str:
     return str(request.session.get("lang", "nl"))
 
 
+def speech_available(request: Request) -> bool:
+    """Spoken answers need faster-whisper in the image (WITH_SPEECH=1) or an injected fake."""
+    import importlib.util
+
+    return request.app.state.transcriber is not None or bool(
+        importlib.util.find_spec("faster_whisper")
+    )
+
+
 def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> HTMLResponse:
     lang = lang_of(request)
     run = ctx.get("run")
@@ -81,6 +90,7 @@ def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> H
             "lang": lang,
             "user": current_user(request),
             "csrf": csrf_token(request),
+            "speech_ok": speech_available(request),
             **ctx,
         },
         status_code=status_code,

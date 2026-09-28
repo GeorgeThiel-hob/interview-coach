@@ -14,7 +14,7 @@
 
 <form method="post" action="/runs/{{ run.id }}/answer" hx-post="/runs/{{ run.id }}/answer" hx-target="#turn" hx-swap="innerHTML" hx-disabled-elt="button">
   <input type="hidden" name="csrf" value="{{ csrf }}">
-  {% if run.settings.answer_mode == 'spoken' %}{% include "partials/recorder.html" %}{% endif %}
+  {% if run.settings.answer_mode == 'spoken' and speech_ok %}{% include "partials/recorder.html" %}{% endif %}
   <label for="answer">{{ t('your_answer') }}</label>
   <textarea id="answer" name="text" required></textarea>
   <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
