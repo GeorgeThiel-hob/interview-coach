@@ -283,6 +283,52 @@ T: dict[str, dict[str, str]] = {
     "choose_file": {"nl": "Kies een bestand", "en": "Choose a file"},
     "start_hint": {"nl": "Duurt ongeveer 3 minuten", "en": "Takes about 3 minutes"},
     "password_hint": {"nl": "Minimaal 10 tekens.", "en": "At least 10 characters."},
+    "kind_eis": {"nl": "eis", "en": "required"},
+    "kind_wens": {"nl": "wens", "en": "nice to have"},
+    # public demo page
+    "demo_eyebrow": {"nl": "Demo · geen account nodig", "en": "Demo · no account needed"},
+    "demo_title": {
+        "nl": "Oefen sollicitatiegesprekken met een AI-coach die je privacy bewaakt",
+        "en": "Practise job interviews with an AI coach that guards your privacy",
+    },
+    "demo_lead": {
+        "nl": "Interview Coach bereidt je voor op één concrete vacature: een briefing, een oefengesprek waarin een AI-interviewer doorvraagt op je antwoorden, en een eerlijke terugblik met scores, bronnen en een oefenplan.",
+        "en": "Interview Coach prepares you for one specific vacancy: a briefing, a practice interview in which an AI interviewer follows up on your answers, and an honest review with scores, sources and a practice plan.",
+    },
+    "demo_step1_title": {"nl": "Voorbereiden", "en": "Prepare"},
+    "demo_step1": {
+        "nl": "Upload vacature en cv. De app zoekt per eis het bewijs in je cv en schrijft een briefing.",
+        "en": "Upload the vacancy and your CV. The app finds evidence for each requirement and writes a briefing.",
+    },
+    "demo_step2_title": {"nl": "Oefenen", "en": "Practise"},
+    "demo_step2": {
+        "nl": "Een gesprek van 15 tot 45 minuten, getypt of gesproken, met vervolgvragen op jouw antwoorden.",
+        "en": "A 15 to 45 minute interview, typed or spoken, with follow-up questions on your answers.",
+    },
+    "demo_step3_title": {"nl": "Terugkijken", "en": "Review"},
+    "demo_step3": {
+        "nl": "Scores per antwoord (STAR, concreetheid, resultaat), dekking van de eisen en feedback met bronverwijzingen.",
+        "en": "Scores per answer (STAR, specificity, results), requirement coverage and feedback that cites its sources.",
+    },
+    "demo_privacy_title": {"nl": "Privacy by design.", "en": "Privacy by design."},
+    "demo_privacy": {
+        "nl": "Namen en contactgegevens worden vervangen door labels op een lokaal taalmodel (Ollama, via een privé Tailscale-netwerk) voordat er tekst naar een externe AI-dienst gaat. Zonder lokaal model start er geen nieuwe ronde.",
+        "en": "Names and contact details are replaced by labels on a local language model (Ollama, over a private Tailscale network) before any text reaches an external AI service. Without the local model, no new run starts.",
+    },
+    "demo_disclaimer": {
+        "nl": "Dit is een echte ronde met een fictieve kandidaat (Sanne Visser) en een fictieve vacature. Alles hieronder is ongewijzigde uitvoer van de modellen.",
+        "en": "This is a real run with a fictional candidate (Sanne Visser) and a fictional vacancy. Everything below is unedited model output.",
+    },
+    "demo_stack": {
+        "nl": "Gebouwd met FastAPI, htmx, SQLite, Ollama (Qwen), Claude en TypeSafe Jev; draait in Docker achter nginx.",
+        "en": "Built with FastAPI, htmx, SQLite, Ollama (Qwen), Claude and TypeSafe Jev; runs in Docker behind nginx.",
+    },
+    "demo_source": {"nl": "Broncode op GitHub", "en": "Source code on GitHub"},
+    "demo_about": {"nl": "Over deze demo", "en": "About this demo"},
+    "demo_briefing_hint": {
+        "nl": "wat de kandidaat vóór het gesprek kreeg",
+        "en": "what the candidate got before the interview",
+    },
 }
 
 

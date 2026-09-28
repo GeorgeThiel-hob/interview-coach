@@ -1,0 +1,1855 @@
+{
+ "settings": {
+  "interview_type": "mixed",
+  "language": "en",
+  "length": 15,
+  "answer_mode": "typed",
+  "difficulty": "realistic"
+ },
+ "briefing": {
+  "likely_questions": [
+   "Can you walk us through the RAG assistant you built at Harbour Logistics — how did you design it and what made it reliable?",
+   "How did you build the evaluation set of 200 questions, and how do you measure answer quality more generally?",
+   "What guardrails have you implemented against hallucinations, and how would you extend that approach here?",
+   "How would you take a language model application from prototype to production, working with a platform team?",
+   "Tell us about your experience with GDPR and personal data — how did that shape your technical decisions?",
+   "This role is in the public sector working with policy and operations stakeholders — how comfortable are you translating non-technical questions into technical solutions?",
+   "You mention open-source models like Ollama — what's your experience self-hosting LLMs versus using commercial APIs?",
+   "Why are you interested in moving from a logistics/energy consultancy background into public sector AI work?"
+  ],
+  "strongest_evidence": [
+   {
+    "requirement_id": "eis_1",
+    "summary": "MSc Artificial Intelligence and BSc Computer Science.",
+    "chunk_refs": [
+     "cv:p5"
+    ]
+   },
+   {
+    "requirement_id": "eis_2",
+    "summary": "Five years Python experience, including production pipelines for multiple clients.",
+    "chunk_refs": [
+     "cv:p2",
+     "cv:role2:b1"
+    ]
+   },
+   {
+    "requirement_id": "eis_3",
+    "summary": "Two years focused on LLM applications; built a RAG assistant in production use.",
+    "chunk_refs": [
+     "cv:p6",
+     "cv:p2"
+    ]
+   },
+   {
+    "requirement_id": "eis_4",
+    "summary": "Deployed via Docker and GitHub Actions to Kubernetes; lists these tools explicitly.",
+    "chunk_refs": [
+     "cv:role1:b4",
+     "cv:p6"
+    ]
+   },
+   {
+    "requirement_id": "eis_5",
+    "summary": "Fluent English; profile written in clear, professional English.",
+    "chunk_refs": [
+     "cv:p7",
+     "cv:p2"
+    ]
+   },
+   {
+    "requirement_id": "wens_1",
+    "summary": "Built an evaluation set and guardrails (citations, refusal on no source) that reduced wrong answers from 18% to 6%.",
+    "chunk_refs": [
+     "cv:role1:b3",
+     "cv:p6"
+    ]
+   },
+   {
+    "requirement_id": "wens_2",
+    "summary": "Worked directly with a privacy officer on GDPR pseudonymisation of client data.",
+    "chunk_refs": [
+     "cv:role2:b3"
+    ]
+   },
+   {
+    "requirement_id": "wens_3",
+    "summary": "Hands-on with LangChain and Ollama for self-hosted/open-source models; runs an open-source AI meetup.",
+    "chunk_refs": [
+     "cv:p6",
+     "cv:p8"
+    ]
+   }
+  ],
+  "gaps": [
+   {
+    "requirement_id": "resp_1",
+    "advice": "No direct evidence of building agents, but the RAG assistant is a strong bridge — describe the architecture and Python stack in detail, and be honest that agent-based work would be new but builds naturally on this."
+   },
+   {
+    "requirement_id": "resp_2",
+    "advice": "CV shows deployment via Docker/GitHub Actions/Kubernetes done together with a platform team, which closely matches this responsibility — lean on that experience explicitly rather than claiming direct ownership of production operations beyond what's described."
+   },
+   {
+    "requirement_id": "resp_3",
+    "advice": "Strong indirect evidence via the evaluation set and guardrails work at Harbour Logistics — present this proactively as the closest match, since it demonstrates the same skill even if not framed as a formal responsibility before."
+   },
+   {
+    "requirement_id": "resp_4",
+    "advice": "No explicit stakeholder-translation example in the CV; use the profile's stated ability to 'explain technical choices clearly' and offer to describe a concrete instance from the RAG project (e.g. explaining guardrail choices to planners) without overstating formal policy experience."
+   },
+   {
+    "requirement_id": "wens_4",
+    "advice": "Public sector experience is only partial — logistics and energy clients are not government but do involve complex stakeholders (privacy officer, planners). Acknowledge the lack of direct public sector experience honestly, and emphasize transferable stakeholder-management skills and willingness to learn sector-specific processes."
+   }
+  ],
+  "prepare": [
+   "A clear, structured walkthrough of the RAG assistant project: architecture, evaluation methodology, and how guardrails reduced hallucinations from 18% to 6%.",
+   "A concrete story showing how you explained a technical or guardrail decision to a non-technical stakeholder (planner or privacy officer), to address the resp_4 gap.",
+   "Honest talking points on public sector unfamiliarity (wens_4) and agent-based/production-ownership gaps (resp_1, resp_2) — framed as eagerness to learn plus relevant transferable experience."
+  ],
+  "practice_plan": [
+   {
+    "action": "When telling project stories, explicitly spell out YOUR own actions and the concrete Result/impact (numbers, time saved, error rates, user counts) rather than stopping at the situation or task.",
+    "why": "Your STAR rates show Action and Result are the weakest links (0.375 each) and results are quantified in only 37.5% of answers; e.g. in the citations/RAG answer you described the approach but not what changed afterward.",
+    "links": [
+     "stat:star_rates",
+     "stat:quantified_rate",
+     "turn:722dcd5ebcda4cd092ef3d49ec8eb992",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Prepare 2-3 sentences with hard numbers for your key projects (e.g. exact time savings, accuracy improvements, hours saved per employee) so you can drop them in even when not directly asked.",
+    "why": "Only 37.5% of your answers included quantified results, and this was flagged as a recurring weak point across your interview.",
+    "links": [
+     "stat:quantified_rate",
+     "turn:ad673bfb98ab4ac585268fb7f8bd4b04"
+    ]
+   },
+   {
+    "action": "Actively bring up your CI/CD, Docker, and version-control experience, and mention your English communication skills, even if not directly asked - work them into project stories.",
+    "why": "These two required skills were never mentioned in the interview, leaving a visible gap versus the job requirements.",
+    "links": [
+     "tip:gap"
+    ]
+   },
+   {
+    "action": "Keep using strong clarifying/closing questions like the one you asked about AI deployment readiness - it scored very well and shows genuine engagement.",
+    "why": "Your question about deciding when an AI application is 'good enough' was rated highly (quality 1.09) and led to a strong follow-up exchange - this is a technique worth repeating deliberately.",
+    "links": [
+     "turn:75edba24e6a34988bac79ae974e76f0f",
+     "turn:f429560c9e9e4fa0b6d180c8df31f107",
+     "tip:closing-question"
+    ]
+   },
+   {
+    "action": "Before answering technical or scale questions, pause briefly to structure your answer as Situation-Task-Action-Result instead of jumping straight into details.",
+    "why": "Your Situation and Task components score higher (0.75/0.5) than Action/Result (0.375 each), suggesting you front-load context but rush the outcome - a short pause can help you plan the full arc.",
+    "links": [
+     "stat:star_rates",
+     "tip:pause",
+     "tip:star"
+    ]
+   }
+  ]
+ },
+ "requirements": {
+  "eis_1": {
+   "text": "A completed degree at bachelor level or higher in computer science, AI, data science or similar.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p5"
+   ]
+  },
+  "eis_2": {
+   "text": "At least 3 years of experience with Python in production environments.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p2",
+    "cv:role2:b1"
+   ]
+  },
+  "eis_3": {
+   "text": "Demonstrable experience with applications based on language models (for example RAG).",
+   "kind": "eis",
+   "evidence_strength": "partial",
+   "evidence_refs": [
+    "cv:p6",
+    "cv:p2"
+   ]
+  },
+  "eis_4": {
+   "text": "Experience with CI/CD, containers (Docker) and version control (Git).",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role1:b4",
+    "cv:p6"
+   ]
+  },
+  "eis_5": {
+   "text": "Good written and spoken English.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p7",
+    "cv:p2"
+   ]
+  },
+  "resp_1": {
+   "text": "Design and build AI applications with language models (RAG, agents) in Python.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_2": {
+   "text": "Take applications to production and run them, together with the platform team.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_3": {
+   "text": "Measure answer quality and build guardrails against hallucinations.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_4": {
+   "text": "Translate questions from policy and operations into feasible solutions and explain choices to non-technical colleagues.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "wens_1": {
+   "text": "Experience evaluating LLM output and building guardrails.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role1:b3",
+    "cv:p6"
+   ]
+  },
+  "wens_2": {
+   "text": "Knowledge of privacy law (GDPR) and working with personal data.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role2:b3"
+   ]
+  },
+  "wens_3": {
+   "text": "Experience with open-source or self-hosted language models.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p6",
+    "cv:p8"
+   ]
+  },
+  "wens_4": {
+   "text": "Experience in the public sector or with complex stakeholders.",
+   "kind": "wens",
+   "evidence_strength": "partial",
+   "evidence_refs": [
+    "cv:role2:b3"
+   ]
+  }
+ },
+ "report": {
+  "schema": "report/v1",
+  "run_id": "cddc4b0be8114617b045f82a9821abd3",
+  "created_at": "2026-09-28T08:17:30+00:00",
+  "language": "en",
+  "vacancy": {
+   "title": "AI Engineer",
+   "organisation": "City of Riverton",
+   "summary": "The City of Riverton is seeking an AI Engineer to build reliable, privacy-focused applications based on language models that assist residents and staff. The role involves taking these applications from prototype to production while ensuring explainability and quality."
+  },
+  "requirements": [
+   {
+    "id": "eis_1",
+    "kind": "eis",
+    "text": "A completed degree at bachelor level or higher in computer science, AI, data science or similar.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "eis_2",
+    "kind": "eis",
+    "text": "At least 3 years of experience with Python in production environments.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "eis_3",
+    "kind": "eis",
+    "text": "Demonstrable experience with applications based on language models (for example RAG).",
+    "evidence_in_documents": "partial",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "eis_4",
+    "kind": "eis",
+    "text": "Experience with CI/CD, containers (Docker) and version control (Git).",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "eis_5",
+    "kind": "eis",
+    "text": "Good written and spoken English.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "resp_1",
+    "kind": "responsibility",
+    "text": "Design and build AI applications with language models (RAG, agents) in Python.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "resp_2",
+    "kind": "responsibility",
+    "text": "Take applications to production and run them, together with the platform team.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "partial"
+   },
+   {
+    "id": "resp_3",
+    "kind": "responsibility",
+    "text": "Measure answer quality and build guardrails against hallucinations.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "resp_4",
+    "kind": "responsibility",
+    "text": "Translate questions from policy and operations into feasible solutions and explain choices to non-technical colleagues.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "wens_1",
+    "kind": "wens",
+    "text": "Experience evaluating LLM output and building guardrails.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "wens_2",
+    "kind": "wens",
+    "text": "Knowledge of privacy law (GDPR) and working with personal data.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "wens_3",
+    "kind": "wens",
+    "text": "Experience with open-source or self-hosted language models.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "wens_4",
+    "kind": "wens",
+    "text": "Experience in the public sector or with complex stakeholders.",
+    "evidence_in_documents": "partial",
+    "evidence_in_interview": "none"
+   }
+  ],
+  "answers": [
+   {
+    "turn_id": "3ea0c3aa92f04f77a8fd4608edf9b1dd",
+    "topic": "Understand candidate's motivation for the role and the public sector context",
+    "persona": "hiring_manager",
+    "question": "Given your experience pseudonymizing client data under GDPR, how do you approach balancing the need for robust privacy with the requirement to build reliable, explainable AI applications in a public sector context?",
+    "answer": "Wants to build AI that helps residents directly, where reliability and privacy matter more than\nflashy features; the city's focus on explainability matches how Sanne Visser worked with citations and\nevaluation sets.",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.68,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 0.82,
+      "confidence": 0.8,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.74,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer speaks generally about wanting to build AI and matching city focus, without stating a concrete personal task or responsibility."
+     },
+     "a_star_a": {
+      "value": 0.2,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.18,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "It references 'citations and evaluation sets' vaguely rather than giving a concrete detailed example."
+     },
+     "a_quantified": {
+      "value": 0.02,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV confirms the candidate worked with a privacy officer on pseudonymizing client data under GDPR, matching the reference to Sanne Visser's work."
+     },
+     "a_overclaim": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer does not claim more than what is supported by the CV evidence."
+     },
+     "a_hedging": {
+      "value": 0.31,
+      "confidence": 0.53,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_4": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer does not explain translating policy into solutions or communicating with non-technical colleagues."
+     },
+     "a_req_wens_4": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer does not clearly demonstrate public sector or complex stakeholder experience, only a motivational statement."
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You connected privacy and explainability by linking your work with citations and evaluation sets, showing you see them as complementary rather than conflicting goals.",
+       "sources": [
+        "turn:3ea0c3aa92f04f77a8fd4608edf9b1dd"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention that you worked directly with a privacy officer on pseudonymising client data under GDPR at DataWorks Consultancy, which is directly relevant to this question.",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Can you describe a concrete situation where you had to balance a privacy requirement (like pseudonymisation) against the need for an AI system to remain explainable or accurate?",
+       "sources": [
+        "turn:3ea0c3aa92f04f77a8fd4608edf9b1dd"
+       ]
+      },
+      {
+       "text": "Do you have an example of explaining a privacy-related tradeoff to a non-technical stakeholder, similar to how you explain citations and evaluation results?",
+       "sources": [
+        "turn:3ea0c3aa92f04f77a8fd4608edf9b1dd"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Start with your GDPR experience: you worked with a privacy officer to pseudonymise client data, learning how to protect sensitive information while keeping data usable.",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      },
+      {
+       "text": "Explain how you carry that privacy mindset into AI system design, prioritizing reliability and privacy over flashy features when building tools meant to help residents.",
+       "sources": [
+        "turn:3ea0c3aa92f04f77a8fd4608edf9b1dd"
+       ]
+      },
+      {
+       "text": "Link this to explainability: mention how you require citations and refuse answers without a source, which supports both trust and privacy by limiting exposure of raw data.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Mention your evaluation set approach as a way to validate that privacy-preserving methods don't compromise the accuracy or explainability of the system.",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "694c4492978543c096355ac6c9d8fe8a",
+    "topic": "Explore hands-on experience building and productionizing LLM-based applications",
+    "persona": "technical_lead",
+    "question": "You mentioned using LangChain and Ollama for your recent LLM applications. How exactly did you structure the retrieval architecture to ensure the model's outputs remained grounded in the source data?",
+    "answer": "S: 40 planners lost time searching customs rules in PDFs and mailboxes; answers were\ninconsistent. T: build an assistant that answers with the right source. A: interviewed planners,\nbuilt a RAG pipeline in Python with LangChain over the rule documents, required a citation in\nevery answer, shipped a pilot to 5 planners first, then all 40. R: average search time per\nquestion from 12 to 3 minutes; planners trust it because every answer shows its source.",
+    "judgments": {
+     "a_quality": {
+      "value": 2.75,
+      "confidence": 0.75,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.92,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.91,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.91,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.96,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": 0.84,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_overclaim": {
+      "value": 0.33,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.0,
+      "confidence": 1.0,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_3": {
+      "value": 0.96,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_4": {
+      "value": 0.32,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_1": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_2": {
+      "value": 0.71,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.65,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You gave a clear STAR structure and mentioned requiring 'a citation in every answer' as the grounding mechanism",
+       "sources": [
+        "turn:694c4492978543c096355ac6c9d8fe8a"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention the guardrail of refusing to answer when no source is found, which directly addresses grounding beyond just citations",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "You didn't mention the evaluation set of 200 questions used to measure and reduce wrong answers over iterations, which is strong evidence for how you validated grounding",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "You didn't describe the Docker/GitHub Actions/Kubernetes deployment, which speaks to how you took this RAG app to production with the platform team",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Can you walk through the actual retrieval architecture - how you chunked the customs rule documents, what embedding/vector store you used, and how you tied retrieved chunks to the citations shown to planners?",
+       "sources": [
+        "turn:694c4492978543c096355ac6c9d8fe8a"
+       ]
+      },
+      {
+       "text": "Did you use Ollama for local inference in this pipeline, and if so, how did that fit with LangChain in the retrieval flow?",
+       "sources": [
+        "cv:p6"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Built a RAG pipeline in Python with LangChain over customs rule documents, requiring every answer to include a citation to its source",
+       "sources": [
+        "turn:694c4492978543c096355ac6c9d8fe8a"
+       ]
+      },
+      {
+       "text": "Added guardrails so the assistant refuses to answer when no source document is found, keeping outputs grounded",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Piloted with 5 planners before rolling out to all 40, cutting average search time from 12 to 3 minutes",
+       "sources": [
+        "turn:694c4492978543c096355ac6c9d8fe8a"
+       ]
+      },
+      {
+       "text": "Deployed with Docker and GitHub Actions to Kubernetes, run together with the platform team",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "722dcd5ebcda4cd092ef3d49ec8eb992",
+    "topic": "Assess approach to measuring quality and preventing hallucinations",
+    "persona": "technical_lead",
+    "question": "You implemented citations in your RAG pipeline, but how exactly did you handle cases where the retrieved documents provided conflicting information or lacked a clear answer?",
+    "answer": "These are cases or points in the projects where good communication is needed with product owners to discuss the desired output and to then tweak the tool call scripts to get the correct information and to give less weigth to answers that either are dated or wrong",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.94,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 0.96,
+      "confidence": 0.96,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer vaguely gestures at situations but doesn't clearly describe a specific context or scenario."
+     },
+     "a_star_t": {
+      "value": 0.72,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer mentions communicating and tweaking scripts but lacks concrete, specific actions taken."
+     },
+     "a_star_r": {
+      "value": 0.25,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.09,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.02,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV mentions adding guardrails like requiring citations and refusing answers without sources, which aligns loosely with weighting down wrong/dated answers."
+     },
+     "a_overclaim": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer is vague and doesn't make strong claims beyond what's plausible given the CV."
+     },
+     "a_hedging": {
+      "value": 1.06,
+      "confidence": 0.29,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_3": {
+      "value": 0.34,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_1": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer is too vague and lacks concrete detail on evaluating LLM output to serve as strong evidence for this requirement."
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You mentioned tweaking tool call scripts and weighting answers differently based on how dated or reliable they are, which shows some practical thinking about conflicting sources.",
+       "sources": [
+        "turn:722dcd5ebcda4cd092ef3d49ec8eb992"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention the guardrails you actually built at Harbour Logistics: requiring citations and refusing to answer when no source is found, which directly addresses cases with no clear answer.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "You didn't reference your evaluation set of 200 verified questions, which would show how you measured whether your handling of conflicting/unclear information actually improved answer quality.",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Do you have a concrete example of a case where retrieved documents conflicted, and how the refuse-when-no-source rule or citation requirement handled it?",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Did your evaluation set of 200 questions include cases specifically designed to test conflicting or missing information, and how did the error rate change for those cases?",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "When documents conflict or lack a clear answer, the system requires citations and refuses to answer if no reliable source is found.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "I also worked closely with product owners to understand desired output and tweak the retrieval/tool call scripts, giving less weight to outdated or incorrect answers.",
+       "sources": [
+        "turn:722dcd5ebcda4cd092ef3d49ec8eb992"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "45228a603ea6451ba3ee60e66e548e0d",
+    "topic": "Probe experience with GDPR, self-hosted models and translating requirements for non-technical stakeholders",
+    "persona": "intake_account_manager",
+    "question": "Tell me about a time you had to explain a technical AI decision to someone without a technical background, especially involving privacy or data handling.",
+    "answer": "Runs a monthly open-source AI meetup (~30 attendees); at Harbour Logistics gave a demo to the\nmanagement team explaining in plain words why the assistant sometimes says \"I don't know\" and why\nthat is a feature.",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.98,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 1.77,
+      "confidence": 0.77,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.88,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.78,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.86,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer describes a demo and explanation but no clear outcome or result is stated."
+     },
+     "a_specific": {
+      "value": 0.92,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "It mentions ~30 attendees, a numeric detail."
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The meetup and demo details align with CV mentions of the meetup and LLM-related skills."
+     },
+     "a_overclaim": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The claims made are supported by CV evidence about the meetup and LLM work."
+     },
+     "a_hedging": {
+      "value": 0.03,
+      "confidence": 0.95,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_4": {
+      "value": 0.87,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_2": {
+      "value": 0.27,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_3": {
+      "value": 0.83,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Nice concrete example of translating a technical behavior ('I don't know') into a business-friendly explanation for management",
+       "sources": [
+        "turn:45228a603ea6451ba3ee60e66e548e0d"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention your work with the privacy officer on pseudonymising client data under GDPR at DataWorks — that's directly relevant to the privacy angle of this question",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      },
+      {
+       "text": "You didn't connect this to the guardrails you built (citations required, refuse when no source found) which is exactly why the assistant says 'I don't know' — tying these together would strengthen the technical explanation",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Do you have an example where you specifically explained a GDPR-related choice (like pseudonymisation) to a non-technical stakeholder, similar to how you explained the assistant's behavior at Harbour Logistics?",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      },
+      {
+       "text": "Did the Harbour Logistics assistant handle any personal or sensitive data, and if so, did privacy come up in that management demo?",
+       "sources": [
+        "cv:role1:h"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Set the scene: demo to Harbour Logistics management team about the RAG assistant's guardrails",
+       "sources": [
+        "turn:45228a603ea6451ba3ee60e66e548e0d"
+       ]
+      },
+      {
+       "text": "Explain the technical choice: assistant refuses to answer without a source/citation, which you built in as a guardrail",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Translate why: framed 'I don't know' as trustworthiness, not failure, so non-technical managers understood the tradeoff",
+       "sources": [
+        "turn:45228a603ea6451ba3ee60e66e548e0d"
+       ]
+      },
+      {
+       "text": "If relevant, connect to your GDPR/privacy experience pseudonymising data with a privacy officer, showing you can handle both technical and compliance conversations",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "ac3331975e1e4dfc803de4988972ec37",
+    "topic": "Test requirement eis_1: A completed degree at bachelor level or higher in computer science, AI, data science or similar.",
+    "persona": "hiring_manager",
+    "question": "Can you confirm if your MSc in Artificial Intelligence satisfies the requirement for a completed degree at bachelor level or higher? Please specify the exact title of the degree and the year it was awarded.",
+    "answer": "MCs in Artificial Inteligence awarded in 2021",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.64,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 1.8,
+      "confidence": 0.77,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.66,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.03,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.06,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.79,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.91,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.23,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": 0.78,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_overclaim": {
+      "value": 0.1,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.06,
+      "confidence": 0.91,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_1": {
+      "value": 0.91,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You confirmed the degree and year, matching your CV: MSc Artificial Intelligence (2021)",
+       "sources": [
+        "turn:ac3331975e1e4dfc803de4988972ec37",
+        "cv:p5"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You also have a BSc Computer Science (2019), which further reinforces you meet the bachelor-level requirement",
+       "sources": [
+        "cv:p5"
+       ]
+      }
+     ],
+     "explore": [],
+     "outline": [
+      {
+       "text": "Confirm: Yes, this satisfies the requirement",
+       "sources": [
+        "turn:ac3331975e1e4dfc803de4988972ec37"
+       ]
+      },
+      {
+       "text": "State exact title: MSc Artificial Intelligence",
+       "sources": [
+        "cv:p5"
+       ]
+      },
+      {
+       "text": "State year awarded: 2021",
+       "sources": [
+        "cv:p5"
+       ]
+      },
+      {
+       "text": "Mention you also hold a BSc Computer Science (2019) as additional confirmation",
+       "sources": [
+        "cv:p5"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "ad673bfb98ab4ac585268fb7f8bd4b04",
+    "topic": "Test requirement eis_2: At least 3 years of experience with Python in production environments.",
+    "persona": "hiring_manager",
+    "question": "You have five years of experience, but I need to verify if at least three of those years involve Python specifically in production environments. Can you describe the scale and stability of the Python systems you deployed for your energy and logistics clients?",
+    "answer": "my scripts run in systems inside a company azure env, serving the work for 5 direct users. But the whole pipeline is meant to help these 5 employees handle data for all employees company wide. Companies with 400-500 current employees, with the system running live. ",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.61,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 1.73,
+      "confidence": 0.73,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.9,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.8,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate describes personally building and running scripts/pipelines in Azure for a specific user base, indicating personal action."
+     },
+     "a_star_r": {
+      "value": 0.8,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.9,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.88,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV mentions Python pipelines built for energy and logistics clients, which aligns with the described production system serving company employees."
+     },
+     "a_overclaim": {
+      "value": 0.32,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.2,
+      "confidence": 0.69,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_2": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer describes a live production Python system, supporting the requirement of production experience, though it doesn't explicitly confirm the 3-year duration."
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You gave concrete scale details, mentioning the Azure environment and the 400-500 employee company size the pipeline serves.",
+       "sources": [
+        "turn:ad673bfb98ab4ac585268fb7f8bd4b04"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention your Python pipelines built with Airflow and PostgreSQL for three clients in energy and logistics at DataWorks Consultancy, which directly answers the question about your energy and logistics clients.",
+       "sources": [
+        "cv:role2:b1"
+       ]
+      },
+      {
+       "text": "You didn't mention migrating a legacy batch process to streaming, reducing report turnaround from one day to 15 minutes, which shows production stability and impact.",
+       "sources": [
+        "cv:role2:b2"
+       ]
+      },
+      {
+       "text": "You didn't reference your RAG assistant deployment with Docker, GitHub Actions and Kubernetes, which is another example of a production Python system.",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Can you clarify how many years you spent specifically on the Airflow/PostgreSQL pipelines at DataWorks, and how that relates to the 3-year Python-in-production requirement?",
+       "sources": [
+        "cv:role2:b1"
+       ]
+      },
+      {
+       "text": "Do you have details on the uptime, monitoring, or error rates of the systems you deployed in the Azure environment, to demonstrate stability?",
+       "sources": [
+        "turn:ad673bfb98ab4ac585268fb7f8bd4b04"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "At DataWorks Consultancy (2021-2023), I built Python pipelines using Airflow and PostgreSQL for three energy and logistics clients.",
+       "sources": [
+        "cv:role2:b1"
+       ]
+      },
+      {
+       "text": "One key project was migrating a legacy batch process to streaming, cutting report turnaround from one day to 15 minutes, demonstrating production stability.",
+       "sources": [
+        "cv:role2:b2"
+       ]
+      },
+      {
+       "text": "Currently, my scripts run in a company Azure environment supporting data handling for a company of 400-500 employees, serving 5 direct users, showing the system is live in production.",
+       "sources": [
+        "turn:ad673bfb98ab4ac585268fb7f8bd4b04"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "75edba24e6a34988bac79ae974e76f0f",
+    "topic": "Close the interview and allow candidate to ask questions",
+    "persona": "intake_account_manager",
+    "question": "That covers what I wanted to ask today, what questions do you have for us about the role or the team?",
+    "answer": " How do you decide when an AI application is good enough to put in front of residents?",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.49,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate simply asks a question back rather than answering the interviewer's prompt with any information about themselves."
+     },
+     "a_star_s": {
+      "value": 0.19,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.1,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.2,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.07,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.15,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.09,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "not_in_cv",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The question posed is not related to or supported by any content in the CV."
+     },
+     "a_overclaim": {
+      "value": 0.06,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.01,
+      "confidence": 0.98,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [],
+     "add": [
+      {
+       "text": "You could have grounded your question in your own experience, mentioning the evaluation set of 200 questions and the drop in wrong answers from 18% to 6% you built at Harbour Logistics, to show you already think about this in practice.",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "You could also have referenced the guardrails you added (citations required, refuse when no source found) as a way of framing your question about readiness for residents.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Do you have a specific example of a threshold or metric you used to decide an AI feature was ready for real users, beyond the internal planner tool?",
+       "sources": [
+        "turn:75edba24e6a34988bac79ae974e76f0f"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Mention that at Harbour Logistics you built an evaluation set of 200 questions and tracked wrong-answer rate dropping from 18% to 6%.",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Note the guardrails you implemented (required citations, refusal when no source found) as part of your own bar for 'good enough'.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Then ask your question about how the team decides when an AI application is ready for residents, to compare their criteria with your own approach.",
+       "sources": [
+        "turn:75edba24e6a34988bac79ae974e76f0f"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "f429560c9e9e4fa0b6d180c8df31f107",
+    "topic": "Close the interview and allow candidate to ask questions",
+    "persona": "intake_account_manager",
+    "question": "That's a great question. When you mention deciding if an AI application is good enough for residents, are you asking about the technical evaluation process we'd use, or are you more interested in understanding the governance and approval steps before deployment?",
+    "answer": "in this case its more direct to the residents, so yes the evaluation process. Its nice to build things, i am guilty of that, but its important to build things people actually want. To not biuld blindly. ",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.52,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 1.09,
+      "confidence": 0.89,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate describes the context that the question is about resident-facing evaluation and the general situation of building things people want."
+     },
+     "a_star_t": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate does not clearly state their own specific task or responsibility, just a general preference/value about not building blindly."
+     },
+     "a_star_a": {
+      "value": 0.32,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.25,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.09,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.07,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": 0.9,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_overclaim": {
+      "value": 0.11,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.5,
+      "confidence": 0.25,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "You clarified the question and emphasized the value of building things people actually want, not building blindly",
+       "sources": [
+        "turn:f429560c9e9e4fa0b6d180c8df31f107"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "You didn't mention your concrete evaluation set of 200 questions with verified answers, where the share of wrong answers fell from 18% to 6% over three iterations, which is directly relevant to describing an evaluation process",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "You didn't mention the guardrails you added, like requiring citations and refusing to answer when no source is found, which is a good example of deciding if an AI application is good enough for users",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Do you have an example of how you gathered feedback from planners or residents to determine if the RAG assistant was meeting their actual needs?",
+       "sources": [
+        "cv:role1:b1"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Confirm it's about the evaluation process, and note your general philosophy of building things people actually want rather than building blindly",
+       "sources": [
+        "turn:f429560c9e9e4fa0b6d180c8df31f107"
+       ]
+      },
+      {
+       "text": "Describe how you set up an evaluation set of 200 verified questions, tracking wrong-answer rate over iterations (18% to 6%)",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Mention the guardrails you built in: requiring citations and refusing to answer when no source is found, to ensure quality before deployment",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Tie it back to residents by explaining how this evaluation approach would help ensure the application is genuinely useful and trustworthy for them",
+       "sources": [
+        "turn:f429560c9e9e4fa0b6d180c8df31f107"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   }
+  ],
+  "stats": {
+   "star_rates": {
+    "S": 0.75,
+    "T": 0.5,
+    "A": 0.375,
+    "R": 0.375
+   },
+   "specific_rate": 0.5,
+   "quantified_rate": 0.375,
+   "overclaim_rate": 0.0,
+   "quality_distribution": {
+    "0": 1,
+    "1": 3,
+    "2": 3,
+    "3": 1
+   },
+   "cv_consistency": {
+    "consistent": 7,
+    "not_in_cv": 1
+   },
+   "answers": 8
+  },
+  "focus_items": [
+   {
+    "id": "star_a",
+    "label": "Own actions are described too little",
+    "linked_requirements": [],
+    "severity": 0.62,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [],
+    "previous_answer": ""
+   },
+   {
+    "id": "star_r",
+    "label": "Results are rarely stated",
+    "linked_requirements": [],
+    "severity": 0.62,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [],
+    "previous_answer": ""
+   },
+   {
+    "id": "quantified",
+    "label": "Results are rarely quantified",
+    "linked_requirements": [],
+    "severity": 0.62,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [],
+    "previous_answer": ""
+   },
+   {
+    "id": "unused_eis_4",
+    "label": "Experience for 'Experience with CI/CD, containers (Docker) and version…' was not brought up",
+    "linked_requirements": [
+     "eis_4"
+    ],
+    "severity": 0.7,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [
+     "You mentioned using LangChain and Ollama for your recent LLM applications. How exactly did you structure the retrieval architecture to ensure the model's outputs remained grounded in the source data?"
+    ],
+    "previous_answer": "S: 40 planners lost time searching customs rules in PDFs and mailboxes; answers were\ninconsistent. T: build an assistant that answers with the right source. A: interviewed planners,\nbuilt a RAG pipeline in Python with LangChain over the rule documents, required a citation in\nevery answer, shipped a pilot to 5 planners first, then all 40. R: average search time per\nquestion from 12 to 3 minutes; pl"
+   },
+   {
+    "id": "unused_eis_5",
+    "label": "Experience for 'Good written and spoken English.' was not brought up",
+    "linked_requirements": [
+     "eis_5"
+    ],
+    "severity": 0.7,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [],
+    "previous_answer": ""
+   }
+  ],
+  "practice_plan": [
+   {
+    "action": "When telling project stories, explicitly spell out YOUR own actions and the concrete Result/impact (numbers, time saved, error rates, user counts) rather than stopping at the situation or task.",
+    "why": "Your STAR rates show Action and Result are the weakest links (0.375 each) and results are quantified in only 37.5% of answers; e.g. in the citations/RAG answer you described the approach but not what changed afterward.",
+    "links": [
+     "stat:star_rates",
+     "stat:quantified_rate",
+     "turn:722dcd5ebcda4cd092ef3d49ec8eb992",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Prepare 2-3 sentences with hard numbers for your key projects (e.g. exact time savings, accuracy improvements, hours saved per employee) so you can drop them in even when not directly asked.",
+    "why": "Only 37.5% of your answers included quantified results, and this was flagged as a recurring weak point across your interview.",
+    "links": [
+     "stat:quantified_rate",
+     "turn:ad673bfb98ab4ac585268fb7f8bd4b04"
+    ]
+   },
+   {
+    "action": "Actively bring up your CI/CD, Docker, and version-control experience, and mention your English communication skills, even if not directly asked - work them into project stories.",
+    "why": "These two required skills were never mentioned in the interview, leaving a visible gap versus the job requirements.",
+    "links": [
+     "tip:gap"
+    ]
+   },
+   {
+    "action": "Keep using strong clarifying/closing questions like the one you asked about AI deployment readiness - it scored very well and shows genuine engagement.",
+    "why": "Your question about deciding when an AI application is 'good enough' was rated highly (quality 1.09) and led to a strong follow-up exchange - this is a technique worth repeating deliberately.",
+    "links": [
+     "turn:75edba24e6a34988bac79ae974e76f0f",
+     "turn:f429560c9e9e4fa0b6d180c8df31f107",
+     "tip:closing-question"
+    ]
+   },
+   {
+    "action": "Before answering technical or scale questions, pause briefly to structure your answer as Situation-Task-Action-Result instead of jumping straight into details.",
+    "why": "Your Situation and Task components score higher (0.75/0.5) than Action/Result (0.375 each), suggesting you front-load context but rush the outcome - a short pause can help you plan the full arc.",
+    "links": [
+     "stat:star_rates",
+     "tip:pause",
+     "tip:star"
+    ]
+   }
+  ],
+  "models": {
+   "jev_version": "jev-1.13.0",
+   "claude": "claude-sonnet-5",
+   "local": "qwen3.6:35b-a3b"
+  }
+ }
+}

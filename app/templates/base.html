@@ -190,6 +190,12 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 .review { display: grid; gap: var(--s8); }
 @media (min-width: 960px) { .review { grid-template-columns: 300px minmax(0, 1fr); } .review > aside { position: sticky; top: var(--s6); align-self: start; } }
 .toc, .toc-sub { grid-template-columns: minmax(0, 1fr); } .review > aside { min-width: 0; }
+.demo-intro { margin-bottom: var(--s8); } .demo-intro .lead { max-width: 44rem; }
+.demo-steps { list-style: none; padding: 0; display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); counter-reset: st; margin: var(--s6) 0; }
+.demo-steps li { background: var(--card); border-radius: var(--r-lg); padding: var(--s4); display: grid; gap: .3rem; counter-increment: st; }
+.demo-steps li::before { content: counter(st); font: 400 1.4rem/1 var(--font-display); color: var(--accent); }
+.demo-steps span { font-size: var(--fs-sm); color: var(--muted); }
+#briefing details > summary { cursor: pointer; list-style: none; } #briefing h3 { margin: var(--s6) 0 var(--s3); }
 .toc { display: grid; gap: 2px; } .toc a { padding: .6rem .8rem; border-radius: var(--pill); text-decoration: none; color: var(--fg); font-weight: 600; }
 .toc a:hover, .toc a[aria-current=true] { background: var(--accent-100); color: var(--accent-800); }
 @media (max-width: 959px) { .toc { position: sticky; top: 0; z-index: 2; display: flex; overflow-x: auto; gap: .4rem; padding: .5rem 0; background: var(--bg); } .toc a { flex: none; background: var(--card); } }

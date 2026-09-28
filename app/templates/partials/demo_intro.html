@@ -1,0 +1,31 @@
+{% from "_macros.html" import sources %}
+<section id="about" class="demo-intro">
+  <div class="eyebrow">{{ t('demo_eyebrow') }}</div>
+  <h1>{{ t('demo_title') }}</h1>
+  <p class="lead">{{ t('demo_lead') }}</p>
+  <ol class="demo-steps">
+    <li><b>{{ t('demo_step1_title') }}</b><span>{{ t('demo_step1') }}</span></li>
+    <li><b>{{ t('demo_step2_title') }}</b><span>{{ t('demo_step2') }}</span></li>
+    <li><b>{{ t('demo_step3_title') }}</b><span>{{ t('demo_step3') }}</span></li>
+  </ol>
+  <div class="alert" role="note"><div><b>{{ t('demo_privacy_title') }}</b> {{ t('demo_privacy') }}</div></div>
+  <p class="small muted">{{ t('demo_disclaimer') }}</p>
+  <p class="small muted">{{ t('demo_stack') }}{% if repo_url %} · <a href="{{ repo_url }}" rel="noopener">{{ t('demo_source') }}</a>{% endif %}</p>
+</section>
+
+<section id="briefing">
+  <details class="card">
+    <summary><h2 style="display:inline">{{ t('briefing') }}</h2> <span class="muted small">{{ t('demo_briefing_hint') }}</span></summary>
+    <h3>{{ t('likely_questions') }}</h3>
+    <ol class="qlist">{% for q in b.get('likely_questions', []) %}<li><div><b>{{ q }}</b></div></li>{% endfor %}</ol>
+    <h3>{{ t('strongest_evidence') }}</h3>
+    {% for e in b.get('strongest_evidence', []) %}
+    <div class="ev"><b>{{ reqs[e.requirement_id].text if e.requirement_id in reqs else e.requirement_id }}</b>
+      <div>{{ e.summary }} {{ sources(e.chunk_refs, t) }}</div></div>
+    {% endfor %}
+    {% if b.get('gaps') %}
+    <h3>{{ t('gaps') }}</h3>
+    <div class="gaps">{% for g in b.get('gaps', []) %}<div><b>{{ reqs[g.requirement_id].text if g.requirement_id in reqs else g.requirement_id }}</b><p class="small" style="margin:.35rem 0 0">{{ g.advice }}</p></div>{% endfor %}</div>
+    {% endif %}
+  </details>
+</section>

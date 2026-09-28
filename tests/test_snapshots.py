@@ -50,6 +50,9 @@ def test_snapshot_all_pages(web: tuple[TestClient, Stack]) -> None:
     shutil.copytree(STATIC, OUT / "static", ignore=shutil.ignore_patterns(".DS_Store"))
 
     save("01-login", page(client, "/login"))
+    save("00-demo-nl", page(client, "/demo?lang=nl"))
+    save("00-demo-en", page(client, "/demo?lang=en"))
+    client.get("/?lang=nl")
     login_new_user(client, st, "jan@example.nl")
     save("03-home-empty", page(client, "/"))
     save("04-new-run", page(client, "/runs/new"))

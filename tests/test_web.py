@@ -210,3 +210,18 @@ def test_focus_label_is_shortened_at_a_word_boundary() -> None:
     assert out[:-1] == text[: len(out) - 1]  # a prefix of the original
     assert text[len(out) - 1] == " "  # cut between words
     assert short("kort") == "kort"
+
+
+def test_public_demo_needs_no_login_and_offers_no_run_actions(
+    web: tuple[TestClient, Stack],
+) -> None:
+    client, _ = web
+    client.cookies.clear()
+    for lang, word in (("nl", "Terugblik"), ("en", "Review")):
+        page = client.get(f"/demo?lang={lang}")
+        assert page.status_code == 200 and word in page.text
+        assert "Sanne Visser" in page.text or "Sanne" in page.text  # fictional candidate
+        assert 'action="/runs/' not in page.text and "/practice/" not in page.text
+        assert f'lang="{lang}"' in page.text
+    pdf = client.get("/demo/report.pdf?lang=en")
+    assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF-")

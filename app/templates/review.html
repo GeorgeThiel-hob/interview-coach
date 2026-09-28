@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% from "_macros.html" import badge, sources, status_pill, avatar, persona_name %}
 {% block head %}<script src="/static/vendor/chart-4.4.7.umd.js" defer></script><script src="/static/chart-theme.js" defer></script>{% endblock %}
+{% block title %}{% if demo %}{{ t('demo_title') }} · {% endif %}{{ t('app') }}{% endblock %}
 {% block content %}
+{% set demo = demo|default(false) %}
 {% set star = r.stats.get('star_rates', {}) %}
 {% set low = (star|dictsort(by='value')|first) if star else none %}
 {% set qd = r.stats.get('quality_distribution', {}) %}
@@ -22,12 +24,17 @@
       <p class="small muted" style="margin:.2rem 0 0">{{ run.created_at.strftime('%d-%m-%Y') }} · {{ run.settings.get('length', 30) }} min · {{ t(run.settings.get('answer_mode', 'typed')) }}</p>
     </div>
     <div class="actions">
+      {% if demo %}
+      <a class="btn" href="/demo/report.pdf?lang={{ lang }}">{{ t('download_pdf') }}</a>
+      {% else %}
       <a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a>
       <a class="btn outline" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a>
+      {% endif %}
     </div>
   </div>
   <nav class="toc" aria-label="{{ t('on_this_page') }}">
     <div class="toc-title">{{ t('on_this_page') }}</div>
+    {% if demo %}<a href="#about">{{ t('demo_about') }}</a><a href="#briefing">{{ t('briefing') }}</a>{% endif %}
     <a href="#summary">{{ t('summary') }}</a>
     <a href="#stats">{{ t('stats') }}</a>
     <a href="#coverage">{{ t('coverage') }}</a>
@@ -40,12 +47,15 @@
       {% endfor %}
     </div>
   </nav>
+  {% if not demo %}
   <form method="post" action="/runs/{{ run.id }}/delete" onsubmit="return confirm({{ t('delete_confirm')|tojson|forceescape }})" style="padding:.5rem .3rem">
     <input type="hidden" name="csrf" value="{{ csrf }}"><button class="danger">{{ t('delete_run') }}</button>
   </form>
+  {% endif %}
 </aside>
 
 <div>
+  {% if demo %}{% include "partials/demo_intro.html" %}{% endif %}
   <section id="summary">
     <div class="eyebrow">{{ t('review') }}</div>
     <h1>{% if low and low[1] < 0.6 %}{{ t('review_headline_weak').format(part=t('star_part_' ~ low[0])) }}{% else %}{{ t('review_headline_good') }}{% endif %}</h1>
@@ -86,7 +96,7 @@
     <table>
       <tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr>
       {% for q in r.requirements if q.kind in ('eis','wens') %}
-      <tr><td>{{ q.text }} <span class="kind">{{ q.kind }}</span>
+      <tr><td>{{ q.text }} <span class="kind">{{ t('kind_' ~ q.kind) }}</span>
             {% if q.evidence_in_documents != 'none' and q.evidence_in_interview == 'none' %}<span class="hint">{{ t('not_brought_up') }}</span>{% endif %}</td>
           <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else 'uncertain') }}">{{ '✓' if q.evidence_in_documents == 'strong' else ('✗' if q.evidence_in_documents == 'none' else '~') }} {{ t('cov_' ~ q.evidence_in_documents) }}</span></td>
           <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else 'uncertain') }}">{{ '✓' if q.evidence_in_interview == 'strong' else ('✗' if q.evidence_in_interview == 'none' else '~') }} {{ t('cov_' ~ q.evidence_in_interview) }}</span></td></tr>
@@ -137,7 +147,7 @@
         </div>
         {% endif %}
         <div class="actions" style="margin-top:var(--s4)">
-          <a class="btn outline" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a>
+          {% if not demo %}<a class="btn outline" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a>{% endif %}
           {% if loop.first %}<span class="legend">{{ t('chip_legend') }}</span>{% endif %}
         </div>
       </div>
