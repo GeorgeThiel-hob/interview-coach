@@ -1,14 +1,33 @@
-<div class="card">
-  <p class="small muted">{{ t('question') }} {{ progress.question }} · {{ t('topic') }} {{ progress.topic }} {{ t('of') }} {{ progress.topics }}{% if progress.follow_up %} · {{ t('follow_up') }}{% endif %} · {{ progress.minutes }} / {{ progress.length }} min</p>
-  <progress value="{{ progress.topic }}" max="{{ progress.topics }}" aria-label="topics covered"></progress>
-  <p class="persona">{{ (question.persona or 'interviewer')|replace('_', ' ') }}</p>
-  <p class="question">{{ question.text_pseudonymised }}</p>
-  <form method="post" action="/runs/{{ run.id }}/answer" hx-post="/runs/{{ run.id }}/answer" hx-target="#turn" hx-swap="innerHTML" hx-disabled-elt="button">
-    <input type="hidden" name="csrf" value="{{ csrf }}">
-    {% if run.settings.answer_mode == 'spoken' %}{% include "partials/recorder.html" %}{% endif %}
-    <label for="answer">{{ t('your_answer') }}</label>
-    <textarea id="answer" name="text" required></textarea>
-    <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
-    <p><button>{{ t('send') }}</button> <span class="htmx-indicator muted">{{ t('thinking') }}</span></p>
-  </form>
+{% from "_macros.html" import avatar, persona_name %}
+<div class="turnhead">
+  <span>{{ t('question') }} {{ progress.question }} · {{ t('topic') }} {{ progress.topic }} {{ t('of') }} {{ progress.topics }}{% if progress.follow_up %} · <span style="color:var(--sage-700)">{{ t('follow_up') }}</span>{% endif %}</span>
+  <b>{{ progress.minutes }} <span class="muted" style="font-weight:500">/ {{ progress.length }} min</span></b>
 </div>
+<div class="topics" style="--n:{{ progress.topics }}" role="progressbar" aria-label="{{ t('topic') }}" aria-valuemin="0" aria-valuenow="{{ progress.topic }}" aria-valuemax="{{ progress.topics }}">
+  {% for i in range(progress.topics) %}<span class="{{ 'done' if i + 1 < progress.topic else ('current' if i + 1 == progress.topic else '') }}"><i></i></span>{% endfor %}
+</div>
+
+<div class="card raised">
+  <div class="persona-row">{{ avatar(question.persona) }}<span class="persona">{{ persona_name(question.persona) }}</span></div>
+  <p class="question">{{ question.text_pseudonymised }}</p>
+</div>
+
+<form method="post" action="/runs/{{ run.id }}/answer" hx-post="/runs/{{ run.id }}/answer" hx-target="#turn" hx-swap="innerHTML" hx-disabled-elt="button">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  {% if run.settings.answer_mode == 'spoken' %}{% include "partials/recorder.html" %}{% endif %}
+  <label for="answer">{{ t('your_answer') }}</label>
+  <textarea id="answer" name="text" required></textarea>
+  <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
+  <div class="hints"><span>{{ t('answer_tip') }}</span><span>Ctrl + Enter</span></div>
+  <div class="actions" style="margin-top:var(--s4)"><button class="lg">{{ t('send') }}</button></div>
+  <div class="htmx-indicator indicator" role="status" aria-live="polite">
+    <span class="thinking" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span><b>{{ t('thinking') }}</b><br><span class="small muted">{{ t('thinking_hint') }}</span></span>
+  </div>
+</form>
+<p class="small muted" style="margin-top:var(--s4)">{{ t('privacy_inline') }}</p>
+<script>
+document.getElementById('answer').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); e.target.form.requestSubmit(); }
+});
+</script>

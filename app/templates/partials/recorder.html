@@ -1,15 +1,21 @@
-<div x-data="recorder('{{ run.id }}')" class="alert">
-  <button type="button" class="secondary" x-show="!recording" @click="start()">🎙 {{ t('record') }}</button>
-  <button type="button" class="danger" x-show="recording" @click="stop()">■ {{ t('stop') }} (<span x-text="seconds"></span> s)</button>
+<div x-data="recorder('{{ run.id }}')" class="rec-panel">
+  <span class="live" x-show="recording">{{ t('recording') }}</span>
+  <span class="timer" x-show="recording || done" x-text="String(Math.floor(seconds/60)).padStart(2,'0') + ':' + String(seconds%60).padStart(2,'0')">00:00</span>
+  <button type="button" class="rec" x-show="!recording" @click="start()" aria-label="{{ t('record') }}">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>
+  </button>
+  <button type="button" class="rec stop on" x-show="recording" @click="stop()" aria-label="{{ t('stop') }}"><span></span></button>
+  <b x-show="!recording && !busy">{{ t('record') }}</b>
+  <b x-show="recording">{{ t('stop') }}</b>
   <span class="muted small" x-show="busy">…</span>
-  <p class="small muted" x-show="done">{{ t('confirm_transcript') }}</p>
+  <p class="small muted" x-show="done" style="margin:0">{{ t('confirm_transcript') }}</p>
 </div>
 <script>
 function recorder(runId) {
   return { recording:false, busy:false, done:false, seconds:0, rec:null, chunks:[], t0:0, timer:null,
     async start() {
       const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      this.rec = new MediaRecorder(stream); this.chunks = [];
+      this.rec = new MediaRecorder(stream); this.chunks = []; this.seconds = 0; this.done = false;
       this.rec.ondataavailable = e => this.chunks.push(e.data);
       this.rec.onstop = () => this.upload(stream);
       this.rec.start(); this.recording = true; this.t0 = Date.now();

@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% from "_macros.html" import badge %}
+{% block main_class %}reading{% endblock %}
 {% block content %}
-<div class="card">
-  <h1>{{ t('practice_again') }}</h1>
-  <p class="question">{{ question }}</p>
-  {% if run.settings.answer_mode == 'spoken' %}<p class="small">{{ t('drill_instructions') }}</p>{% endif %}
-  <form method="post" action="/runs/{{ run.id }}/practice/{{ turn_id }}">
-    <input type="hidden" name="csrf" value="{{ csrf }}">
-    {% include "partials/recorder.html" %}
-    <label for="answer">{{ t('your_answer') }}</label>
-    <textarea id="answer" name="text" required></textarea>
-    <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
-    <p><button>{{ t('send') }}</button></p>
-  </form>
+<p><a href="/runs/{{ run.id }}/review">← {{ t('review') }}</a></p>
+<div class="eyebrow">{{ t('practice_again') }}</div>
+<div class="card raised" style="margin-top:var(--s3)">
+  <p class="question" style="margin:0">{{ question }}</p>
 </div>
+{% if run.settings.answer_mode == 'spoken' %}<div class="alert info">{{ t('drill_instructions') }}</div>{% endif %}
+<form method="post" action="/runs/{{ run.id }}/practice/{{ turn_id }}">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  {% include "partials/recorder.html" %}
+  <label for="answer">{{ t('your_answer') }}</label>
+  <textarea id="answer" name="text" required></textarea>
+  <input type="hidden" name="audio_duration_s" id="audio_duration_s" value="">
+  <div class="actions" style="margin:var(--s4) 0 var(--s8)"><button class="lg">{{ t('send') }}</button></div>
+</form>
 {% for a in attempts %}
-<div class="card">
-  <h2>{{ t('before') if loop.first else t('after') ~ ' #' ~ (loop.index - 1) }}</h2>
-  <p style="white-space:pre-wrap">{{ a.text }}</p>
+<section class="card attempt {{ 'soft' if loop.first else '' }}">
+  <h2><span class="num {{ '' if loop.first else 'hot' }}">{{ loop.index }}</span>{{ t('before') if loop.first else t('after') ~ ' #' ~ (loop.index - 1) }}</h2>
+  <p class="said">{{ a.text }}</p>
   <p>{% for k, j in a.judgments.items() %}{{ badge(k, {'value': j.answer.get('value'), 'confidence': j.confidence, 'uncertain': j.uncertain, 'escalated': j.escalated, 'provider': j.provider, 'rationale': j.answer.get('rationale')}, t) }}{% endfor %}</p>
   {% if a.speaking %}<p class="small muted">{{ a.speaking.duration_s }} s · {{ a.speaking.wpm }} wpm · {{ a.speaking.fillers_per_min }} fillers/min</p>{% endif %}
-</div>
+</section>
 {% endfor %}
-<p><a href="/runs/{{ run.id }}/review">← {{ t('review') }}</a></p>
 {% endblock %}

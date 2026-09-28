@@ -23,15 +23,15 @@ from tests.test_web import csrf, login_new_user, new_run, wait_status
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "design" / "snapshots"
-VENDOR = ROOT / "app" / "static" / "vendor"
+STATIC = ROOT / "app" / "static"
 
 pytestmark = pytest.mark.snapshot
 web = test_web.web  # reuse the web-app fixture
 
 
 def save(name: str, html: str) -> None:
-    # standalone: vendored scripts next to the file, no server needed
-    html = html.replace('src="/static/', 'src="static/')
+    # standalone: static files (scripts, fonts) next to the file, no server needed
+    html = html.replace('"/static/', '"static/')
     (OUT / f"{name}.html").write_text(html, encoding="utf-8")
 
 
@@ -46,8 +46,8 @@ def test_snapshot_all_pages(web: tuple[TestClient, Stack]) -> None:
     st.jev.handlers["judge"] = weak_answers
     if OUT.exists():
         shutil.rmtree(OUT)
-    (OUT / "static").mkdir(parents=True)
-    shutil.copytree(VENDOR, OUT / "static" / "vendor")
+    OUT.mkdir(parents=True)
+    shutil.copytree(STATIC, OUT / "static", ignore=shutil.ignore_patterns(".DS_Store"))
 
     save("01-login", page(client, "/login"))
     login_new_user(client, st, "jan@example.nl")
@@ -96,7 +96,7 @@ def test_snapshot_all_pages(web: tuple[TestClient, Stack]) -> None:
 
     # screens that are hard to reach with instant fake models: render their templates directly
     t = lambda key: translate(key, "nl")  # noqa: E731
-    base = {"t": t, "lang": "nl", "csrf": "x", "user": {"role": "candidate"}, "request": None}
+    base = {"t": t, "lang": "nl", "csrf": "x", "user": {"role": "candidate"}}
 
     class RunStub:
         id = run_id

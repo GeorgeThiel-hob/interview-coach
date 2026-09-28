@@ -1,33 +1,82 @@
 {% extends "base.html" %}
+{% block main_class %}reading{% endblock %}
 {% block content %}
-{% if not local_ok %}<div class="alert">{{ t('local_offline') }}</div>{% endif %}
-<form class="card" method="post" action="/runs" enctype="multipart/form-data">
+{% if not local_ok %}<div class="alert" role="status">{{ t('local_offline') }}</div>{% endif %}
+<form method="post" action="/runs" enctype="multipart/form-data">
   <input type="hidden" name="csrf" value="{{ csrf }}">
-  <h1>{{ t('new_run') }}</h1>
-  <label for="vacancy_file">{{ t('vacancy') }} (PDF, DOCX, TXT)</label>
-  <input id="vacancy_file" type="file" name="vacancy_file" accept=".pdf,.docx,.txt,.md">
-  <label for="vacancy_text" class="muted small">{{ t('or_paste') }}</label>
-  <textarea id="vacancy_text" name="vacancy_text" rows="4"></textarea>
-  <label for="cv_file">{{ t('cv') }} (PDF, DOCX)</label>
-  <input id="cv_file" type="file" name="cv_file" accept=".pdf,.docx,.txt,.md" required>
-  <label for="previous_file">{{ t('previous_report') }}</label>
-  <input id="previous_file" type="file" name="previous_file" accept=".json,.pdf">
-  <label for="extra_file">{{ t('extra') }}</label>
-  <input id="extra_file" type="file" name="extra_file" accept=".pdf,.docx,.txt,.md">
-  <h2 style="margin-top:1.2rem">{{ t('settings') }}</h2>
-  <div class="row">
-    <div><label for="interview_type">{{ t('interview_type') }}</label>
-      <select id="interview_type" name="interview_type">{% for v in ['intake','client','mixed'] %}<option value="{{ v }}" {% if v == 'mixed' %}selected{% endif %}>{{ t(v) }}</option>{% endfor %}</select></div>
-    <div><label for="language">{{ t('language') }}</label>
-      <select id="language" name="language"><option value="nl">Nederlands</option><option value="en">English</option></select></div>
-    <div><label for="length">{{ t('length') }}</label>
-      <select id="length" name="length"><option>15</option><option selected>30</option><option>45</option></select></div>
-    <div><label for="answer_mode">{{ t('answer_mode') }}</label>
-      <select id="answer_mode" name="answer_mode"><option value="typed">{{ t('typed') }}</option><option value="spoken">{{ t('spoken') }}</option></select></div>
-    <div><label for="difficulty">{{ t('difficulty') }}</label>
-      <select id="difficulty" name="difficulty">{% for v in ['friendly','realistic','critical'] %}<option value="{{ v }}" {% if v == 'realistic' %}selected{% endif %}>{{ t(v) }}</option>{% endfor %}</select></div>
-  </div>
-  <p style="margin-top:1rem"><button {% if not local_ok %}disabled{% endif %}>{{ t('start') }}</button></p>
-  <p class="muted small">{{ t('privacy_note') }}</p>
+  <div class="pagehead"><div><h1>{{ t('new_run') }}</h1><p class="lead">{{ t('new_run_lead') }}</p></div></div>
+
+  <section class="card">
+    <div class="stephead"><span class="num hot">1</span><h2>{{ t('documents') }}</h2></div>
+    <div class="grid2">
+      <div x-data="{ paste: false }">
+        <div class="field-label"><span>{{ t('vacancy') }} <span style="color:var(--accent-press)">*</span></span>
+          <span class="seg"><button type="button" :aria-pressed="!paste" @click="paste = false">{{ t('use_file') }}</button><button type="button" :aria-pressed="paste" @click="paste = true">{{ t('use_paste') }}</button></span></div>
+        <label class="dropzone" for="vacancy_file" x-show="!paste">
+          <span class="dz-icon" aria-hidden="true">↑</span>
+          <span><span data-name="{{ t('choose_file') }}">{{ t('choose_file') }}</span><small>PDF, DOCX, TXT</small></span>
+          <span class="sr-only">{{ t('vacancy') }}</span>
+          <input id="vacancy_file" type="file" name="vacancy_file" accept=".pdf,.docx,.txt,.md">
+        </label>
+        <div x-show="paste" x-cloak>
+          <label for="vacancy_text" class="sr-only">{{ t('or_paste') }}</label>
+          <textarea id="vacancy_text" name="vacancy_text" rows="4" placeholder="{{ t('or_paste') }}"></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="field-label"><span>{{ t('cv') }} <span style="color:var(--accent-press)">*</span></span></div>
+        <label class="dropzone" for="cv_file">
+          <span class="dz-icon" aria-hidden="true">↑</span>
+          <span><span data-name="{{ t('choose_file') }}">{{ t('choose_file') }}</span><small>PDF, DOCX</small></span>
+          <span class="sr-only">{{ t('cv') }}</span>
+          <input id="cv_file" type="file" name="cv_file" accept=".pdf,.docx,.txt,.md" required>
+        </label>
+      </div>
+      <div>
+        <div class="field-label"><span>{{ t('previous_report') }}</span></div>
+        <label class="dropzone" for="previous_file">
+          <span class="dz-icon" aria-hidden="true">↑</span>
+          <span><span data-name="{{ t('choose_file') }}">{{ t('choose_file') }}</span><small>JSON, PDF</small></span>
+          <span class="sr-only">{{ t('previous_report') }}</span>
+          <input id="previous_file" type="file" name="previous_file" accept=".json,.pdf">
+        </label>
+      </div>
+      <div>
+        <div class="field-label"><span>{{ t('extra') }}</span></div>
+        <label class="dropzone" for="extra_file">
+          <span class="dz-icon" aria-hidden="true">↑</span>
+          <span><span data-name="{{ t('choose_file') }}">{{ t('choose_file') }}</span><small>PDF, DOCX, TXT</small></span>
+          <span class="sr-only">{{ t('extra') }}</span>
+          <input id="extra_file" type="file" name="extra_file" accept=".pdf,.docx,.txt,.md">
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="stephead"><span class="num">2</span><h2>{{ t('settings') }}</h2></div>
+    <div class="grid2">
+      <fieldset class="opts-field"><legend>{{ t('interview_type') }}</legend><div class="opts">
+        {% for v in ['intake','client','mixed'] %}<label><input type="radio" name="interview_type" value="{{ v }}" {% if v == 'mixed' %}checked{% endif %}>{{ t(v) }}</label>{% endfor %}</div></fieldset>
+      <fieldset class="opts-field"><legend>{{ t('language') }}</legend><div class="opts">
+        <label><input type="radio" name="language" value="nl" {% if lang != 'en' %}checked{% endif %}>Nederlands</label><label><input type="radio" name="language" value="en" {% if lang == 'en' %}checked{% endif %}>English</label></div></fieldset>
+      <fieldset class="opts-field"><legend>{{ t('length') }}</legend><div class="opts">
+        {% for v in [15, 30, 45] %}<label><input type="radio" name="length" value="{{ v }}" {% if v == 30 %}checked{% endif %}>{{ v }} min</label>{% endfor %}</div></fieldset>
+      <fieldset class="opts-field"><legend>{{ t('answer_mode') }}</legend><div class="opts">
+        <label><input type="radio" name="answer_mode" value="typed" checked>{{ t('typed') }}</label><label><input type="radio" name="answer_mode" value="spoken">{{ t('spoken') }}</label></div></fieldset>
+      <fieldset class="opts-field"><legend>{{ t('difficulty') }}</legend><div class="opts">
+        {% for v in ['friendly','realistic','critical'] %}<label><input type="radio" name="difficulty" value="{{ v }}" {% if v == 'realistic' %}checked{% endif %}>{{ t(v) }}</label>{% endfor %}</div></fieldset>
+    </div>
+  </section>
+
+  <div class="actions"><button class="lg" {% if not local_ok %}disabled{% endif %}>{{ t('start') }} →</button><span class="small muted">{{ t('start_hint') }}</span></div>
+  <div class="alert info" style="margin-top:var(--s6)">{{ t('privacy_note') }}</div>
 </form>
+<script>
+document.querySelectorAll('.dropzone input[type=file]').forEach(i => i.addEventListener('change', () => {
+  const z = i.closest('.dropzone'), n = z.querySelector('[data-name]'), ic = z.querySelector('.dz-icon');
+  if (i.files[0]) { n.textContent = i.files[0].name; z.classList.add('filled'); ic.textContent = '✓'; }
+  else { n.textContent = n.dataset.name; z.classList.remove('filled'); ic.textContent = '↑'; }
+}));
+</script>
 {% endblock %}

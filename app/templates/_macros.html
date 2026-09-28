@@ -2,21 +2,38 @@
   {{- {'a_quality': t('crit_quality'), 'a_star_s': 'S', 'a_star_t': 'T', 'a_star_a': 'A', 'a_star_r': 'R', 'a_specific': t('crit_specific'), 'a_quantified': t('crit_quantified'), 'a_cv_consistency': 'CV', 'a_overclaim': t('crit_overclaim'), 'a_hedging': t('crit_hedging'), 'f_mastery': t('crit_mastery')}.get(key, key.replace('a_req_', '')) -}}
 {%- endmacro %}
 
+{# Score chip. Green = good (.yes), terracotta = weak (.no), dashed ochre = the model was uncertain (.uncertain).
+   The ✓ / ✗ / ? glyphs keep the meaning readable without colour. #}
 {% macro badge(key, j, t) -%}
   {%- set label = crit_label(key, t) -%}
   {%- if j.value is string -%}
-    <span class="badge{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{{ label }}: {{ j.value }}{% if j.confidence is not none %} · {{ (j.confidence*100)|round|int }}%{% endif %}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
+    <span class="badge{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{% if j.uncertain %}? {% endif %}{{ label }}: {{ j.value }}{% if j.confidence is not none %} · {{ (j.confidence*100)|round|int }}%{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
   {%- elif key in ('a_quality', 'a_hedging') -%}
-    <span class="badge{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }}">{{ label }}: {{ j.value|round(1) }}{% if j.confidence is not none %} · {{ (j.confidence*100)|round|int }}%{% endif %}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
+    <span class="badge{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }}">{% if j.uncertain %}? {% endif %}{{ label }}: {{ j.value|round(1) }}{% if j.confidence is not none %} · {{ (j.confidence*100)|round|int }}%{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
   {%- else -%}
     {%- set yes = j.value >= 0.5 -%}
     {%- set good = (not yes) if key == 'a_overclaim' else yes -%}
-    <span class="badge {{ 'yes' if good else 'no' }}{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }} · p={{ j.value|round(2) }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{{ '✓' if yes else '✗' }} {{ label }}{% if j.uncertain %} · {{ t('uncertain') }}{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
+    <span class="badge {{ 'yes' if good else 'no' }}{% if j.uncertain %} uncertain{% endif %}" title="{{ j.provider }} · p={{ j.value|round(2) }}{% if j.rationale %}: {{ j.rationale }}{% endif %}">{{ '?' if j.uncertain else ('✓' if yes else '✗') }} {{ label }}{% if j.uncertain %}<span class="sr-only"> · {{ t('uncertain') }}</span>{% endif %}{% if j.escalated %} · Claude{% endif %}</span>
   {%- endif -%}
 {%- endmacro %}
 
 {% macro sources(refs, t) -%}
   {%- for ref in refs -%}
-    <span class="badge small" title="{{ ref }}">{{ t('your_answer_src') if ref.startswith('turn:') else ('CV ' ~ ref[3:].replace(':', ' ')) }}</span>
+    <span class="badge src" title="{{ ref }}">{{ t('your_answer_src') if ref.startswith('turn:') else ('CV ' ~ ref[3:].replace(':', ' ')) }}</span>
   {%- endfor -%}
+{%- endmacro %}
+
+{# Run status as a pill with a glyph (see .pill.* in base.html). #}
+{% macro status_pill(status, t) -%}
+  <span class="pill {{ status }}">{{ t('st_' ~ status) }}</span>
+{%- endmacro %}
+
+{# Interviewer initials in a soft circle; colour per persona. #}
+{% macro avatar(persona) -%}
+  {%- set p = persona or 'interviewer' -%}
+  <span class="avatar {{ p }}" aria-hidden="true">{{ {'hiring_manager': 'HM', 'technical_lead': 'TL', 'intake_account_manager': 'AM'}.get(p, 'IV') }}</span>
+{%- endmacro %}
+
+{% macro persona_name(persona) -%}
+  {{- (persona or 'interviewer')|replace('_', ' ')|capitalize -}}
 {%- endmacro %}
