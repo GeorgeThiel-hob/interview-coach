@@ -69,6 +69,12 @@ class BriefingOut(BaseModel):
     prepare: list[str]
 
 
+def prepare_items(b: BriefingOut) -> list[str]:
+    """Three things to prepare; when the model left the list empty, use the gap advice."""
+    items = [p for p in b.prepare if p.strip()] or [g.advice for g in b.gaps if g.advice.strip()]
+    return items[:3]
+
+
 def _requirements(engine: Engine, run_id: str) -> list[Requirement]:
     with Session(engine) as s:
         return list(s.exec(select(Requirement).where(Requirement.run_id == run_id)).all())
@@ -133,6 +139,16 @@ def allowed_personas(settings: dict[str, Any]) -> list[str]:
     return list(interview_config()["personas"][settings.get("interview_type", "mixed")])
 
 
+def _attach(topics: list[TopicOut], rid: str) -> None:
+    """Add a requirement to the non-opening topic with the fewest requirements."""
+    if not topics:
+        return
+    pool = topics[1:] or topics
+    target = min(pool, key=lambda t: len(t.requirement_ids))
+    if rid not in target.requirement_ids:
+        target.requirement_ids.append(rid)
+
+
 def enforce_plan(
     plan: PlanOut, reqs: list[Requirement], settings: dict[str, Any], focus_ids: set[str]
 ) -> list[TopicOut]:
@@ -151,9 +167,19 @@ def enforce_plan(
         topics.append(t)
     closings = [t for t in topics if t.question_type == "closing"]
     topics = [t for t in topics if t.question_type != "closing"]
+    # the topic count per length is a code rule: keep the first topics (the opening stays first)
+    # and move the requirements of the dropped ones onto the kept topics, so coverage is kept
+    limit = max(1, topic_count(settings) - 1)  # minus the closing topic
+    dropped_reqs = [r for t in topics[limit:] for r in t.requirement_ids]
+    topics = topics[:limit]
+    for rid in dropped_reqs:
+        _attach(topics, rid)
     covered = {r for t in topics for r in t.requirement_ids}
     missing = [r for r in reqs if r.kind == "eis" and r.id not in covered]
     for r in missing:
+        if len(topics) >= limit:
+            _attach(topics, r.id)
+            continue
         topics.append(
             TopicOut(
                 goal=f"Test requirement {r.id}: {r.text}",
@@ -239,7 +265,7 @@ async def make_briefing(gateway: Gateway, engine: Engine, run_id: str) -> Briefi
                 for e in out.parsed.strongest_evidence
                 if e.requirement_id in valid_reqs
             ],
-            "prepare": out.parsed.prepare[:3],
+            "prepare": prepare_items(out.parsed),
         }
     )
     with Session(engine) as s:

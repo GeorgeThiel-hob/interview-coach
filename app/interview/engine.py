@@ -75,6 +75,16 @@ def two_sentences(text: str) -> str:
     return " ".join(parts[:2]).strip()
 
 
+# Chinese, Japanese and Korean scripts. The local model (Qwen) sometimes switches mid-sentence.
+_FOREIGN_SCRIPT = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af\uff00-\uffef]")
+WRONG_LANGUAGE = "only_the_interview_language (no Chinese, Japanese or Korean characters)"
+
+
+def foreign_script(text: str) -> bool:
+    """True if the text contains CJK characters (never valid in an NL or EN interview)."""
+    return bool(_FOREIGN_SCRIPT.search(text))
+
+
 def follow_up_fits(
     *,
     elapsed_s: float,
@@ -430,6 +440,8 @@ class InterviewEngine:
         return two_sentences(out.text)
 
     async def _guardrails(self, topic: PlanTopic, question: str) -> list[str]:
+        if foreign_script(question):  # checked in code; no need to ask Jev
+            return [WRONG_LANGUAGE]
         state = join([self._question_context(topic), fence("question_to_check", stored(question))])
         asked = [Asked(q, get(q), get(q).build()) for q in GUARDRAIL_IDS]
         out = await ask(

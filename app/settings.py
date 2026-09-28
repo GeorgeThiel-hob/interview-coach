@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     whisper_model: str = "small"  # faster-whisper size; [DECISION] small or medium
     # /healthz?deep=1 (external API reachability) requires this token in X-Health-Token
     health_token: str = ""
+    # Public /demo page: link to the source code (empty = no link)
+    demo_repo_url: str = ""
 
 
 @lru_cache

@@ -9,9 +9,12 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
+import unicodedata
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import (
@@ -67,6 +70,9 @@ def lang_of(request: Request) -> str:
 
 def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> HTMLResponse:
     lang = lang_of(request)
+    run = ctx.get("run")
+    if isinstance(run, Run) and run.settings.get("language") in ("nl", "en"):
+        lang = str(run.settings["language"])  # pages of a run speak the interview language
     return TEMPLATES.TemplateResponse(
         request,
         name,
@@ -467,6 +473,70 @@ async def review_page(request: Request, run_id: str) -> Response:
     )
 
 
+# ---------------------------------------------------------------- public demo (no login)
+
+DEMO_DIR = Path(__file__).resolve().parents[1] / "demo"
+_demo_pdf: dict[str, bytes] = {}
+
+
+class DemoRun:
+    """Stands in for a Run on the review template; the demo has no database row."""
+
+    id = "demo"
+    status = "done"
+
+    def __init__(self, settings: dict[str, Any], created_at: datetime) -> None:
+        self.settings = settings
+        self.created_at = created_at
+
+
+def _demo(lang: str) -> dict[str, Any]:
+    """A frozen real run with a fictional candidate (app/demo/<lang>.json, see demo/README.md)."""
+    data: dict[str, Any] = json.loads((DEMO_DIR / f"{lang}.json").read_text(encoding="utf-8"))
+    data["report"] = Report.model_validate(data["report"])
+    return data
+
+
+def _demo_lang(request: Request) -> str:
+    lang = lang_of(request)
+    return lang if lang in ("nl", "en") else "nl"
+
+
+@router.get("/demo", response_class=HTMLResponse)
+async def demo_page(request: Request) -> HTMLResponse:
+    d = _demo(_demo_lang(request))
+    report: Report = d["report"]
+    run = DemoRun(d["settings"], datetime.fromisoformat(report.created_at))
+    return render(
+        request,
+        "review.html",
+        demo=True,
+        run=run,
+        r=report,
+        b=d["briefing"],
+        reqs=d["requirements"],
+        repo_url=request.app.state.settings.demo_repo_url,
+        tips=all_tips(),
+        chart=json.dumps(_chart_data(report)),
+    )
+
+
+@router.get("/demo/report.pdf")
+async def demo_pdf(request: Request) -> Response:
+    lang = _demo_lang(request)
+    if lang not in _demo_pdf:  # rendered once per language, then served from memory
+        _demo_pdf[lang] = await asyncio.to_thread(to_pdf, _demo(lang)["report"])
+    return Response(
+        _demo_pdf[lang],
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": download_header(
+                _demo(lang)["report"].vacancy.title, "pdf", inline=True
+            )
+        },
+    )
+
+
 def _chart_data(r: Report) -> dict[str, Any]:
     return {
         "star": r.stats.get("star_rates", {}),
@@ -479,6 +549,19 @@ def _chart_data(r: Report) -> dict[str, Any]:
     }
 
 
+def download_header(title: str, ext: str, *, inline: bool = False) -> str:
+    """Content-Disposition naming the file after the vacancy, e.g. "AI Engineer.pdf"."""
+    name = re.sub(r'[\\/:*?"<>|\x00-\x1f]+', " ", title or "")
+    name = re.sub(r"\s+", " ", name).strip(" .")[:80] or "Interview Coach"
+    ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    ascii_name = re.sub(r"\s+", " ", ascii_name).strip() or "Interview Coach"
+    kind = "inline" if inline else "attachment"
+    return (
+        f'{kind}; filename="{ascii_name}.{ext}"; '
+        f"filename*=UTF-8''{quote(name + '.' + ext, safe='')}"
+    )
+
+
 @router.get("/runs/{run_id}/report.json")
 async def report_json(request: Request, run_id: str) -> Response:
     own_run(request, run_id)
@@ -489,7 +572,7 @@ async def report_json(request: Request, run_id: str) -> Response:
     return Response(
         report.to_json(),
         media_type="application/json",
-        headers={"Content-Disposition": f'attachment; filename="report-{run_id[:8]}.json"'},
+        headers={"Content-Disposition": download_header(report.vacancy.title, "json")},
     )
 
 
@@ -504,7 +587,7 @@ async def report_pdf(request: Request, run_id: str) -> Response:
     return Response(
         pdf,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'attachment; filename="report-{run_id[:8]}.pdf"'},
+        headers={"Content-Disposition": download_header(report.vacancy.title, "pdf")},
     )
 
 

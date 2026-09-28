@@ -31,6 +31,8 @@ accounts, data or judgment. Roughly in order.
 - [x] PDF: score chips show internal criterion IDs (`a_quality`, `a_star_s`, `a_req_eis_1`)
       where the web page shows readable labels; a coverage-table row is split across pages.
 - [x] Focus items quoting a requirement cut its label off mid-word.
+- [ ] Tips library (`knowledge/tips/`) is English only: tip titles show in English in Dutch
+      reviews and PDFs. Add Dutch versions.
 - [ ] Coverage "in documents: none" for an experience requirement that the CV does show;
       check the evidence map against the real CV.
 

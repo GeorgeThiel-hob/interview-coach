@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_macros.html" import sources %}
 {% block content %}
 {% set ns = namespace(total=0, strong=0) %}
 {% for r in reqs.values() if r.kind in ('eis', 'wens') %}{% set ns.total = ns.total + 1 %}{% if r.evidence_strength == 'strong' %}{% set ns.strong = ns.strong + 1 %}{% endif %}{% endfor %}
@@ -17,7 +18,7 @@
     <h2>{{ t('strongest_evidence') }}</h2>
     {% for e in b.get('strongest_evidence', []) %}
     <div class="ev"><b>{{ reqs[e.requirement_id].text if e.requirement_id in reqs else e.requirement_id }}</b>
-      <div>{{ e.summary }}<div style="margin-top:.4rem">{% for ref in e.chunk_refs %}<span class="badge src">{{ ref }}</span>{% endfor %}</div></div></div>
+      <div>{{ e.summary }}<div style="margin-top:.4rem">{{ sources(e.chunk_refs, t) }}</div></div></div>
     {% endfor %}
   </section>
 
@@ -30,10 +31,12 @@
 </div>
 
 <aside>
+  {% if b.get('prepare') %}
   <section class="card soft">
     <h2>{{ t('prepare') }}</h2>
     <ul class="checklist">{% for p in b.get('prepare', []) %}<li><label><input type="checkbox"> {{ p }}</label></li>{% endfor %}</ul>
   </section>
+  {% endif %}
   <section class="card raised">
     <div class="chips"><span>{{ run.settings.get('length', 30) }} min</span><span>{{ t(run.settings.get('answer_mode', 'typed')) }}</span><span>{{ t(run.settings.get('difficulty', 'realistic')) }}</span></div>
     <p class="small muted">{{ t('pause_anytime') }}</p>

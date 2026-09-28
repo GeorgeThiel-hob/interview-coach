@@ -18,6 +18,7 @@ from app.review.tips import all_tips
 from app.web.i18n import translate
 
 TEMPLATES = Path(__file__).resolve().parents[1] / "templates"
+STATIC = Path(__file__).resolve().parents[1] / "static"
 ATTACHMENT_NAME = "report.json"
 
 
@@ -42,7 +43,8 @@ def to_pdf(report: Report) -> bytes:
     from pypdf import PdfReader, PdfWriter
     from weasyprint import HTML  # type: ignore[import-untyped]
 
-    pdf = HTML(string=render_html(report)).write_pdf()
+    # base_url: fonts in the template resolve against app/static
+    pdf = HTML(string=render_html(report), base_url=str(STATIC)).write_pdf()
     assert pdf is not None
     writer = PdfWriter(clone_from=PdfReader(io.BytesIO(pdf)))
     writer.add_attachment(ATTACHMENT_NAME, report.to_json().encode("utf-8"))

@@ -1,0 +1,1923 @@
+{
+ "settings": {
+  "interview_type": "mixed",
+  "language": "nl",
+  "length": 15,
+  "answer_mode": "typed",
+  "difficulty": "realistic"
+ },
+ "briefing": {
+  "likely_questions": [
+   "Kun je toelichten hoe je de RAG-assistent bij Havenlogistiek hebt opgezet en welke rol taalmodellen daarin speelden?",
+   "Hoe heb je de kwaliteit van LLM-antwoorden gemeten en welke guardrails heb je gebouwd tegen hallucinaties?",
+   "Welke ervaring heb je met CI/CD, Docker en Kubernetes in een productieomgeving?",
+   "Je hebt niet eerder in de publieke sector gewerkt; hoe denk je dat je ervaring met complexe stakeholders (zoals bij de privacy officer) zich vertaalt naar samenwerken met beleidsadviseurs en klantcontactmedewerkers?",
+   "Hoe zou je een AI-toepassing in productie zetten en beheren samen met een platformteam bij de gemeente?",
+   "Hoe ga je om met privacy en de AVG bij het werken met persoonsgegevens van inwoners?",
+   "Wat motiveert je om van de private sector naar de publieke sector over te stappen?",
+   "Hoe leg je technische keuzes uit aan niet-technische collega's, zoals beleidsmedewerkers?"
+  ],
+  "strongest_evidence": [
+   {
+    "requirement_id": "eis_1",
+    "summary": "MSc Artificial Intelligence en BSc Informatica, ruim boven het gevraagde hbo-niveau.",
+    "chunk_refs": [
+     "cv:p6"
+    ]
+   },
+   {
+    "requirement_id": "eis_2",
+    "summary": "Vijf jaar ervaring met Python, waarvan meerdere jaren in productie-pipelines (Airflow, PostgreSQL) bij meerdere klanten.",
+    "chunk_refs": [
+     "cv:p2",
+     "cv:role2:b1"
+    ]
+   },
+   {
+    "requirement_id": "eis_3",
+    "summary": "Bouwde zelf een RAG-assistent voor douaneregels die door 40 planners wordt gebruikt en de zoektijd sterk verkortte.",
+    "chunk_refs": [
+     "cv:role1:b1",
+     "cv:p2"
+    ]
+   },
+   {
+    "requirement_id": "eis_4",
+    "summary": "Deployment met Docker en GitHub Actions naar Kubernetes, beheer samen met platformteam; vaardigheden expliciet genoemd.",
+    "chunk_refs": [
+     "cv:p7",
+     "cv:role1:b4"
+    ]
+   },
+   {
+    "requirement_id": "eis_5",
+    "summary": "Nederlands als moedertaal.",
+    "chunk_refs": [
+     "cv:p8"
+    ]
+   },
+   {
+    "requirement_id": "wens_1",
+    "summary": "Evaluatieset van 200 vragen opgezet en guardrails toegevoegd (bronvermelding verplicht, weigeren bij ontbrekende bron), foutpercentage gedaald van 18% naar 6%.",
+    "chunk_refs": [
+     "cv:role1:b3",
+     "cv:p7"
+    ]
+   },
+   {
+    "requirement_id": "wens_2",
+    "summary": "Samengewerkt met een privacy officer aan pseudonimisering van klantdata volgens de AVG.",
+    "chunk_refs": [
+     "cv:role2:b3"
+    ]
+   },
+   {
+    "requirement_id": "wens_3",
+    "summary": "Werkt met open-source/lokaal gehoste modellen (LangChain, Ollama) en organiseert een meetup over open-source AI.",
+    "chunk_refs": [
+     "cv:p7",
+     "cv:p9",
+     "cv:p2"
+    ]
+   }
+  ],
+  "gaps": [
+   {
+    "requirement_id": "wens_4",
+    "advice": "Er is geen directe publieke-sector ervaring, maar de samenwerking met een privacy officer bij DataWerk Consultancy laat zien dat de kandidaat kan werken met gevoelige stakeholders en regelgeving. Benoem dit expliciet als bruggetje en geef aan open te staan voor de andere dynamiek van beleid en politiek in de publieke sector."
+   },
+   {
+    "requirement_id": "resp_1",
+    "advice": "Hoewel niet als aparte verantwoordelijkheid genoemd, sluit dit direct aan bij de RAG-assistent die is gebouwd bij Havenlogistiek. Leg uit hoe die ervaring 1-op-1 vertaalt naar het ontwerpen van AI-toepassingen met taalmodellen (RAG/agents) in Python, zonder te claimen al agent-architecturen te hebben gebouwd als dat niet zo is."
+   },
+   {
+    "requirement_id": "resp_2",
+    "advice": "Er is ervaring met deployment en beheer samen met een platformteam (Docker, GitHub Actions, Kubernetes), wat een goede basis is. Wees eerlijk dat dit in een ander domein was en geef aan bereid te zijn snel de specifieke infrastructuur van de gemeente te leren."
+   },
+   {
+    "requirement_id": "resp_3",
+    "advice": "De evaluatieset en guardrails bij Havenlogistiek zijn sterk relevant bewijs; benoem deze concreet in plaats van generiek te praten over kwaliteit meten."
+   },
+   {
+    "requirement_id": "resp_4",
+    "advice": "Er is geen expliciet voorbeeld van het vertalen van beleidsvragen naar technische oplossingen. Gebruik als bruggetje de samenwerking met planners (uitleggen waarom en hoe de assistent werkt) en met de privacy officer, en geef aan hoe je dat zou aanpakken bij beleidsadviseurs."
+   }
+  ],
+  "prepare": [
+   "Bereid een concreet, gestructureerd verhaal voor over de RAG-assistent bij Havenlogistiek: probleem, aanpak, evaluatie, resultaat en guardrails.",
+   "Denk vooraf na over hoe je jouw AVG/privacy-ervaring en samenwerking met stakeholders vertaalt naar de publieke sector, zonder overclaiming.",
+   "Bereid concrete voorbeelden voor van hoe je technische keuzes hebt uitgelegd aan niet-technische collega's (bijv. planners), aangezien dit een kernverantwoordelijkheid van de rol is."
+  ],
+  "practice_plan": [
+   {
+    "action": "Werk een concreet voorbeeld uit waarin een release of samenwerking wél tegenslag opliep, en vertel wat jij zelf concreet deed om dat op te lossen (niet alleen 'het platformteam loste het op').",
+    "why": "Bij de vraag over tegenslag tijdens een release moest je uitwijken naar een ander voorbeeld en gaf je aan dat je Kubernetes-kennis basaal is; dit was je zwakste inhoudelijke antwoord (quality 2.0) en toont een gap in eigen probleemoplossend handelen.",
+    "links": [
+     "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb",
+     "tip:gap",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Benoem expliciet je hbo-opleiding informatica en je ervaring met CI/CD, Docker en versiebeheer, ook als het niet direct gevraagd wordt, bijvoorbeeld in je pitch of bij een passende vraag.",
+    "why": "Twee eisen uit de vacature (hbo-opleiding en CI/CD/Docker-ervaring) zijn niet expliciet benoemd tijdens het gesprek, terwijl je cv hier wel op wijst (severity 0.7).",
+    "links": [
+     "stat:cv_consistency",
+     "tip:pitch"
+    ]
+   },
+   {
+    "action": "Maak je antwoorden concreter en kwantificeer resultaten vaker: noem cijfers, tijdsbesparingen of foutpercentages waar mogelijk.",
+    "why": "Je specifieke antwoorden scoren goed (71%), maar slechts 43% van je antwoorden bevat kwantificering; concrete cijfers maken je STAR-verhalen overtuigender.",
+    "links": [
+     "stat:quantified_rate",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Vermijd vage, procesmatige formuleringen zoals 'goed communiceren en vroeg betrekken' zonder concreet voorbeeld; ga direct naar een specifieke situatie met actie en resultaat.",
+    "why": "Je antwoord over samenwerking met het platformteam bleef abstract en leverde de laagste actiescore op binnen STAR; concreetheid direct in het eerste antwoord voorkomt een vervolgvraag die je moet redden.",
+    "links": [
+     "turn:115250eddd4a40b1a2a17da103f79101",
+     "stat:star_rates",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Bereid gerichte, scherpe vervolgvragen voor het einde van het gesprek voor, en herhaal of vraag actief door op antwoorden over volgende stappen zodat je concrete afspraken meekrijgt.",
+    "why": "Je stelde relevante vragen over evaluatie-eigenaarschap en kwaliteitscriteria, maar deze beurt scoorde het laagst (quality 0.0) doordat de vraag over vervolgstappen afgekapt bleef; dit is een gemiste kans om het gesprek sterk af te sluiten.",
+    "links": [
+     "turn:b982337262cb4ac5a5995375c0921f66",
+     "tip:closing-question"
+    ]
+   }
+  ]
+ },
+ "requirements": {
+  "eis_1": {
+   "text": "Afgeronde opleiding op minimaal hbo-niveau in informatica, AI, data science of vergelijkbaar.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p6"
+   ]
+  },
+  "eis_2": {
+   "text": "Minimaal 3 jaar werkervaring met Python in productieomgevingen.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p2",
+    "cv:role2:b1"
+   ]
+  },
+  "eis_3": {
+   "text": "Aantoonbare ervaring met toepassingen op basis van taalmodellen (bijvoorbeeld RAG).",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role1:b1",
+    "cv:p2"
+   ]
+  },
+  "eis_4": {
+   "text": "Ervaring met CI/CD, containers (Docker) en versiebeheer (Git).",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p7",
+    "cv:role1:b4"
+   ]
+  },
+  "eis_5": {
+   "text": "Goede beheersing van de Nederlandse taal in woord en geschrift.",
+   "kind": "eis",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p8"
+   ]
+  },
+  "wens_1": {
+   "text": "Ervaring met het evalueren van LLM-output en met guardrails.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role1:b3",
+    "cv:p7"
+   ]
+  },
+  "wens_2": {
+   "text": "Kennis van privacywetgeving (AVG) en het werken met persoonsgegevens.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:role2:b3"
+   ]
+  },
+  "wens_3": {
+   "text": "Ervaring met open-source of lokaal gehoste taalmodellen.",
+   "kind": "wens",
+   "evidence_strength": "strong",
+   "evidence_refs": [
+    "cv:p7",
+    "cv:p9",
+    "cv:p2"
+   ]
+  },
+  "wens_4": {
+   "text": "Ervaring in de publieke sector of met complexe stakeholders.",
+   "kind": "wens",
+   "evidence_strength": "partial",
+   "evidence_refs": [
+    "cv:role2:b3"
+   ]
+  },
+  "resp_1": {
+   "text": "Je ontwerpt en bouwt AI-toepassingen met taalmodellen (RAG, agents) in Python.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_2": {
+   "text": "Je zet toepassingen in productie en beheert ze, samen met het platformteam.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_3": {
+   "text": "Je meet de kwaliteit van de antwoorden en bouwt guardrails tegen hallucinaties.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  },
+  "resp_4": {
+   "text": "Je vertaalt vragen van beleid en uitvoering naar haalbare oplossingen en legt keuzes uit aan niet-technische collega's.",
+   "kind": "responsibility",
+   "evidence_strength": "none",
+   "evidence_refs": []
+  }
+ },
+ "report": {
+  "schema": "report/v1",
+  "run_id": "870dcfe6508641c48f325aabf8fb7844",
+  "created_at": "2026-09-28T09:03:26+00:00",
+  "language": "nl",
+  "vacancy": {
+   "title": "AI Engineer",
+   "organisation": "Gemeente Rivierstad",
+   "summary": "De organisatie wil inwoners sneller en beter helpen met behulp van AI door samen met beleidsadviseurs en klantcontactmedewerkers toepassingen op basis van taalmodellen te bouwen. Betrouwbaarheid, privacy en uitlegbaarheid staan hierbij voorop."
+  },
+  "requirements": [
+   {
+    "id": "eis_1",
+    "kind": "eis",
+    "text": "Afgeronde opleiding op minimaal hbo-niveau in informatica, AI, data science of vergelijkbaar.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "eis_2",
+    "kind": "eis",
+    "text": "Minimaal 3 jaar werkervaring met Python in productieomgevingen.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "eis_3",
+    "kind": "eis",
+    "text": "Aantoonbare ervaring met toepassingen op basis van taalmodellen (bijvoorbeeld RAG).",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "eis_4",
+    "kind": "eis",
+    "text": "Ervaring met CI/CD, containers (Docker) en versiebeheer (Git).",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "eis_5",
+    "kind": "eis",
+    "text": "Goede beheersing van de Nederlandse taal in woord en geschrift.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "resp_1",
+    "kind": "responsibility",
+    "text": "Je ontwerpt en bouwt AI-toepassingen met taalmodellen (RAG, agents) in Python.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "resp_2",
+    "kind": "responsibility",
+    "text": "Je zet toepassingen in productie en beheert ze, samen met het platformteam.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "partial"
+   },
+   {
+    "id": "resp_3",
+    "kind": "responsibility",
+    "text": "Je meet de kwaliteit van de antwoorden en bouwt guardrails tegen hallucinaties.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "resp_4",
+    "kind": "responsibility",
+    "text": "Je vertaalt vragen van beleid en uitvoering naar haalbare oplossingen en legt keuzes uit aan niet-technische collega's.",
+    "evidence_in_documents": "none",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "wens_1",
+    "kind": "wens",
+    "text": "Ervaring met het evalueren van LLM-output en met guardrails.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "strong"
+   },
+   {
+    "id": "wens_2",
+    "kind": "wens",
+    "text": "Kennis van privacywetgeving (AVG) en het werken met persoonsgegevens.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "wens_3",
+    "kind": "wens",
+    "text": "Ervaring met open-source of lokaal gehoste taalmodellen.",
+    "evidence_in_documents": "strong",
+    "evidence_in_interview": "none"
+   },
+   {
+    "id": "wens_4",
+    "kind": "wens",
+    "text": "Ervaring in de publieke sector of met complexe stakeholders.",
+    "evidence_in_documents": "partial",
+    "evidence_in_interview": "none"
+   }
+  ],
+  "answers": [
+   {
+    "turn_id": "934a74009b5441228d2572f6653580b6",
+    "topic": "Kennismaken en motivatie voor de functie en organisatie verkennen",
+    "persona": "intake_account_manager",
+    "question": "Wat trekt je aan in deze rol als AI Engineer bij de gemeente, en hoe sluit dat aan bij wat je tot nu toe hebt gedaan?",
+    "answer": "Wat me aantrekt is dat je hier AI bouwt voor mensen die er direct iets aan hebben. Een medewerker die met de juiste regelgeving erbij een inwoner sneller kan helpen, dat vind ik waardevol werk. Ik heb tijdens mijn stage bij Waterschap Oostpolder al even geproefd aan de publieke sector, en dat idee van werken voor inwoners is me altijd bijgebleven.\n\nHet sluit ook heel goed aan bij wat ik nu doe. Bij Havenlogistiek heb ik een RAG-assistent gebouwd die planners helpt met douaneregels. Dat is eigenlijk precies het soort toepassing dat jullie beschrijven, alleen met andere regels en andere gebruikers. En de nadruk op betrouwbaarheid en uitlegbaarheid past bij hoe ik werk: bronvermelding bij elk antwoord, en een evaluatieset waar elke release doorheen moet voordat hij live gaat.",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.94,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 2.26,
+      "confidence": 0.74,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.84,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.94,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.93,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer describes building a RAG-assistant that helps planners with customs rules, which is a concrete result."
+     },
+     "a_specific": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.03,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "not_in_cv",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV only mentions educational background, not the internship or work experience described in the answer, so it's plausible but unverifiable."
+     },
+     "a_overclaim": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate claims specific work experience and project outcomes at Waterschap Oostpolder and Havenlogistiek that are not supported by the CV evidence provided."
+     },
+     "a_hedging": {
+      "value": 0.02,
+      "confidence": 0.98,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_1": {
+      "value": 0.2,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je legt concreet de link tussen je RAG-assistent bij Havenlogistiek en de gevraagde toepassing, en noemt specifieke praktijken als bronvermelding en een evaluatieset",
+       "sources": [
+        "turn:934a74009b5441228d2572f6653580b6"
+       ]
+      },
+      {
+       "text": "Je motivatie is persoonlijk gemaakt door te verwijzen naar je stage bij Waterschap Oostpolder als eerste kennismaking met de publieke sector",
+       "sources": [
+        "turn:934a74009b5441228d2572f6653580b6",
+        "cv:role3:h"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt de evaluatieset, maar niet het concrete resultaat: het foutpercentage daalde van 18% naar 6% na drie iteraties, wat je uitlegbaarheid-verhaal nog sterker zou maken",
+       "sources": [
+        "cv:role1:b2",
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Je hebt niet genoemd dat de RAG-assistent door 40 planners wordt gebruikt en de zoektijd per vraag van 12 naar 3 minuten bracht, wat laat zien dat je impact meet",
+       "sources": [
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Je ervaring met het samenwerken met een privacy officer aan AVG-pseudonimisering bij DataWerk Consultancy sluit ook goed aan bij werken met gevoelige overheidsdata, maar kwam niet aan bod",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Heb je tijdens je stage bij Waterschap Oostpolder al specifiek gewerkt met regelgeving of besluitvorming die inwoners raakt, of was dat vooral technisch (sensordata/pompstoringen)?",
+       "sources": [
+        "cv:role3:b1"
+       ]
+      },
+      {
+       "text": "Heb je een voorbeeld van hoe je zou omgaan met de extra eisen aan transparantie en verantwoording die bij een gemeente gelden, vergeleken met een commerciële omgeving?",
+       "sources": [
+        "turn:934a74009b5441228d2572f6653580b6"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Noem je motivatie: AI bouwen die medewerkers helpt inwoners sneller en beter te bedienen",
+       "sources": [
+        "turn:934a74009b5441228d2572f6653580b6"
+       ]
+      },
+      {
+       "text": "Leg de parallel met je RAG-assistent bij Havenlogistiek: planners geholpen met douaneregels, zoektijd van 12 naar 3 minuten voor 40 gebruikers",
+       "sources": [
+        "cv:role1:b1",
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Benoem je aanpak voor betrouwbaarheid: verplichte bronvermelding, weigeren bij ontbrekende bron, en een evaluatieset waarmee het foutpercentage van 18% naar 6% daalde",
+       "sources": [
+        "cv:role1:b2",
+        "cv:role1:b3",
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Verwijs naar je stage bij Waterschap Oostpolder als eerste ervaring met de publieke sector die je motivatie versterkte",
+       "sources": [
+        "cv:role3:h"
+       ]
+      },
+      {
+       "text": "Optioneel: noem je ervaring met AVG/privacy bij DataWerk Consultancy als relevant voor werken met gevoelige overheidsdata",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "178c0c6e54f047708b29ed427d5af382",
+    "topic": "Diepgaand verkennen van ervaring met taalmodeltoepassingen, evaluatie en guardrails",
+    "persona": "technical_lead",
+    "question": "Kun je uitleggen hoe je de RAG-assistent voor de planners hebt opgezet, van architectuurkeuzes tot het meten van de kwaliteit van antwoorden?",
+    "answer": "Het vertrekpunt was dat onze 40 planners veel tijd kwijt waren aan zoeken naar douaneregels in pdf's en mailboxen, en dat ze elkaar niet altijd hetzelfde antwoord gaven. Ik moest een assistent bouwen die antwoordt met de juiste bron erbij.\n\nIk ben begonnen met interviews met planners, om te weten welke vragen ze echt stelden. Daarna heb ik in Python met LangChain een RAG-pipeline gebouwd over de regeldocumenten. De belangrijkste architectuurkeuze was dat elk antwoord verplicht een bron toont, en dat de assistent weigert als hij geen bron vindt. We startten met een pilot bij 5 planners en rolden daarna uit naar alle 40.\n\nVoor de kwaliteit heb ik een evaluatieset van 200 vragen gemaakt, met antwoorden die twee senior planners hadden gecontroleerd. Die draait bij elke wijziging in CI. Zo ging het aandeel foute antwoorden van 18% naar 6%, en de zoektijd per vraag van 12 naar 3 minuten.",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.33,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 2.99,
+      "confidence": 0.99,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.96,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": 0.92,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_overclaim": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer's claims about the RAG assistant, guardrails, source citation, and metrics align with the CV evidence points describing the same project."
+     },
+     "a_hedging": {
+      "value": 0.0,
+      "confidence": 1.0,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_3": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_5": {
+      "value": 0.94,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_1": {
+      "value": 0.96,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_3": {
+      "value": 0.29,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_1": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_3": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je legt goed uit hoe je begon met interviews met planners om echte vragen te achterhalen, en beschrijft concrete architectuurkeuzes zoals verplichte bronvermelding en weigeren zonder bron.",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382"
+       ]
+      },
+      {
+       "text": "Je onderbouwt de kwaliteitsverbetering met harde cijfers: van 18% naar 6% foute antwoorden en van 12 naar 3 minuten zoektijd.",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382",
+        "cv:role1:b2",
+        "cv:p4"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt niet dat de deployment via Docker en GitHub Actions naar een Kubernetes-cluster ging, en dat je dit samen met het platformteam beheerde.",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Je vermeldt niet dat je ervaring hebt met Ollama en lokaal gehoste taalmodellen, wat relevant is gezien de wens naar open-source of lokaal gehoste modellen.",
+       "sources": [
+        "cv:p7"
+       ]
+      },
+      {
+       "text": "Je zegt dat het foutpercentage daalde van 18% naar 6%, maar niet dat dit volgens je cv na drie iteraties gebeurde; dat detail maakt je evaluatieproces concreter.",
+       "sources": [
+        "cv:p4"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Heb je voorbeelden van specifieke guardrails tegen hallucinaties naast het weigeren zonder bron, bijvoorbeeld validatie van gegenereerde tekst of prompt-engineering technieken die je hebt toegepast?",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382"
+       ]
+      },
+      {
+       "text": "Gebruikte je open-source of lokale taalmodellen (zoals Ollama) in dit project, of alleen externe API's?",
+       "sources": [
+        "cv:p7"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Startpunt: 40 planners verloren tijd aan zoeken in pdf's/mailboxen en gaven inconsistente antwoorden.",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382"
+       ]
+      },
+      {
+       "text": "Aanpak: interviews met planners, RAG-pipeline in Python met LangChain, pilot bij 5 planners, uitgerold naar 40.",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382"
+       ]
+      },
+      {
+       "text": "Guardrails: verplichte bronvermelding en weigeren bij ontbrekende bron.",
+       "sources": [
+        "cv:role1:b3",
+        "turn:178c0c6e54f047708b29ed427d5af382"
+       ]
+      },
+      {
+       "text": "Kwaliteit: evaluatieset van 200 vragen gecontroleerd door senior planners, draait in CI, resultaat 18% naar 6% fouten na drie iteraties, zoektijd van 12 naar 3 minuten.",
+       "sources": [
+        "turn:178c0c6e54f047708b29ed427d5af382",
+        "cv:role1:b2",
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Deployment: Docker en GitHub Actions naar Kubernetes, beheerd samen met platformteam.",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "15ef1028a66c45aeb5c547c90607a39b",
+    "topic": "Diepgaand verkennen van ervaring met taalmodeltoepassingen, evaluatie en guardrails",
+    "persona": "technical_lead",
+    "question": "Je noemt dat de foutmarge daalde van 18% naar 6%, maar hoe heb je die meting concreet opgezet? Leg uit welke specifieke guardrails of evaluatiemethoden jij hebt geïmplementeerd om dit resultaat te garanderen.",
+    "answer": "De basis was een evaluatieset van 200 vragen die echt uit de praktijk kwamen, met bij elke vraag een antwoord dat door twee senior planners was gecontroleerd. Bij elke wijziging draait die set automatisch in CI. Per vraag controleren we twee dingen: klopt het antwoord inhoudelijk met het gecontroleerde antwoord, en verwijst de assistent naar de juiste bron. Is een van die twee fout, dan telt het antwoord als fout. Zo kwamen we aan dat percentage.\n\nAan de guardrail-kant heb ik twee dingen ingebouwd. De assistent weigert als er geen passende bron gevonden wordt, en hij toont altijd de bron, zodat een planner het zelf kan nalezen.\n\n\"Garanderen\" zou ik het overigens niet noemen: 6% is nog steeds niet nul. Daarom is die bronvermelding zo belangrijk. De planner blijft zelf de laatste controle.",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.78,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 3.0,
+      "confidence": 1.0,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.78,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.93,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.92,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.95,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV explicitly mentions the RAG assistant with guardrails like mandatory source citation and refusal when no source is found, matching the candidate's answer, with the eval set details being plausible elaboration."
+     },
+     "a_overclaim": {
+      "value": 0.3,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.17,
+      "confidence": 0.75,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_3": {
+      "value": 0.89,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_5": {
+      "value": 0.92,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_1": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_3": {
+      "value": 0.34,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_1": {
+      "value": 0.69,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_3": {
+      "value": 0.96,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je legt heel concreet uit hoe de evaluatieset (200 vragen, gecontroleerd door twee senior planners) werkt en welke twee criteria (inhoudelijke juistheid en juiste bronverwijzing) je gebruikt om een antwoord als fout te tellen.",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b",
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Mooi dat je zelf nuanceert dat '6%' geen garantie is en dat de planner de laatste check blijft doen - dat toont goed kritisch denken over de beperkingen van je eigen guardrails.",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt niet dat dit resultaat in drie iteraties is bereikt (van 18% naar 6% na drie iteraties) - dat zou goed laten zien hoe je stapsgewijs hebt bijgestuurd op basis van de evaluatieresultaten.",
+       "sources": [
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Je vermeldt niet dat deze RAG-assistent door 40 planners wordt gebruikt en de zoektijd van 12 naar 3 minuten bracht - dat onderbouwt de impact van je evaluatie- en guardrail-werk extra.",
+       "sources": [
+        "cv:p4",
+        "cv:role1:b1"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Kun je een voorbeeld geven van een concrete fout die de evaluatieset opving tijdens een van die drie iteraties, en wat je daarna precies aanpaste?",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b"
+       ]
+      },
+      {
+       "text": "Heb je ook gekeken naar andere evaluatiemethoden dan exact-match op het gecontroleerde antwoord, bijvoorbeeld met een LLM-as-judge of automatische scoring, of was het volledig handmatig gecontroleerd?",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Evaluatieset: 200 praktijkvragen met door twee senior planners gecontroleerde antwoorden, automatisch gedraaid in CI bij elke wijziging.",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b",
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Foutdefinitie: telt als fout bij onjuiste inhoud of verkeerde bronverwijzing - zo kwam ik op 18% naar 6% na drie iteraties.",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b",
+        "cv:p4"
+       ]
+      },
+      {
+       "text": "Guardrails: verplichte bronvermelding en weigeren bij ontbrekende bron, zodat de planner zelf kan verifiëren.",
+       "sources": [
+        "turn:15ef1028a66c45aeb5c547c90607a39b",
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Impact: gebruikt door 40 planners, zoektijd van 12 naar 3 minuten, met de nuance dat 6% geen garantie is en de planner de laatste controle houdt.",
+       "sources": [
+        "cv:p4",
+        "turn:15ef1028a66c45aeb5c547c90607a39b"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "115250eddd4a40b1a2a17da103f79101",
+    "topic": "Ervaring met productie, samenwerking met platformteam en vertalen van beleidsvragen naar oplossingen, inclusief privacyaspecten",
+    "persona": "hiring_manager",
+    "question": "Je noemt dat je samenwerkt met het platformteam om toepassingen in productie te brengen, maar op je cv zie ik vooral Docker en Kubernetes zonder expliciete verwijzing naar die samenwerking. Kun je concreet beschrijven hoe jij als developer en het platformteam gezamenlijk een release naar de productieomgeving hebt afgerond?",
+    "answer": "Ja, dat klopt. Met het platformteam werk ik eigenlijk vooral samen door goed te communiceren en ze vroeg te betrekken. Ik probeer altijd duidelijk af te stemmen wat ik nodig heb en wanneer, zodat er geen verrassingen zijn op het moment dat we live gaan. Ik vind het belangrijk om elkaars expertise te respecteren: zij weten meer van het cluster, ik meer van de applicatie. Als je elkaar daarin serieus neemt en regelmatig overlegt, gaat een release meestal vrij soepel.",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 1.0,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 1.0,
+      "confidence": 1.0,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer gives general communication philosophy rather than a specific situation."
+     },
+     "a_star_t": {
+      "value": 0.89,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "Actions described are vague ('communiceren', 'afstemmen') without concrete specifics."
+     },
+     "a_star_r": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "No concrete outcome or result of a specific release is mentioned, only a general claim that releases go smoothly."
+     },
+     "a_specific": {
+      "value": 0.05,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.03,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "CV mentions deployment with Docker/Kubernetes managed together with the platform team, supporting the general claim of collaboration."
+     },
+     "a_overclaim": {
+      "value": 0.26,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.37,
+      "confidence": 0.44,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_2": {
+      "value": 0.12,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_4": {
+      "value": 0.32,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_2": {
+      "value": 0.15,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_4": {
+      "value": 0.05,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_2": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer lacks concrete evidence of actually deploying and managing applications with the platform team, only describing a general attitude."
+     },
+     "a_req_resp_4": {
+      "value": 0.09,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je benoemt duidelijk het principe van vroeg afstemmen en elkaars expertise respecteren ('zij weten meer van het cluster, ik meer van de applicatie')",
+       "sources": [
+        "turn:115250eddd4a40b1a2a17da103f79101"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt niet dat je concreet Docker en GitHub Actions gebruikt voor deployment naar een Kubernetes-cluster, wat je samen met het platformteam beheert",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Je laat de guardrails (bronvermelding verplicht, weigeren bij ontbrekende bron) die je toevoegde niet terugkomen als concreet voorbeeld van samenwerking rond productiekwaliteit",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Heb je een concreet voorbeeld van een specifieke release waarbij jij en het platformteam samen een probleem oplosten of een deployment afrondden voor de RAG-assistent?",
+       "sources": [
+        "cv:role1:h",
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Kun je vertellen hoe de afstemming er in de praktijk uitzag, bijvoorbeeld welke afspraken of overlegmomenten er waren rond het Kubernetes-cluster?",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Noem het concrete project: de RAG-assistent voor planners bij Havenlogistiek",
+       "sources": [
+        "cv:role1:b1"
+       ]
+      },
+      {
+       "text": "Beschrijf de technische samenwerking: deployment met Docker en GitHub Actions naar Kubernetes, beheer samen met platformteam",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Leg uit hoe je afstemde: vroeg betrekken, duidelijk communiceren wat je nodig had en wanneer",
+       "sources": [
+        "turn:115250eddd4a40b1a2a17da103f79101"
+       ]
+      },
+      {
+       "text": "Benoem het resultaat: soepele releases doordat expertise over cluster en applicatie gecombineerd werd",
+       "sources": [
+        "turn:115250eddd4a40b1a2a17da103f79101"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "0920a8af8dcd44bdad7e2ff81d6c7fcb",
+    "topic": "Ervaring met productie, samenwerking met platformteam en vertalen van beleidsvragen naar oplossingen, inclusief privacyaspecten",
+    "persona": "hiring_manager",
+    "question": "Je noemt dat je vroeg communiceert en afstemt om verrassingen te voorkomen. Kun je een specifiek voorbeeld geven waarin het platformteam later tegenslag had tijdens de release, en wat jij concreet hebt gedaan om die blokkade op te lossen?",
+    "answer": "Eerlijk gezegd heb ik bij Havenlogistiek geen grote blokkade meegemaakt waarbij een release echt vastliep. Mijn Kubernetes-kennis is ook vrij basaal, dus als er iets op clusterniveau speelde, loste het platformteam dat zelf op.\n\nHet voorbeeld dat er het dichtst bij komt is van DataWerk. Daar moest ik voor een energieklant een batchjob ombouwen naar een streaming-opzet met Airflow en PostgreSQL. Het risico was dat bestaande rapportages zouden breken. Daarom hebben we oud en nieuw twee weken naast elkaar laten draaien en de uitkomsten elke dag vergeleken. Verschillen zochten we meteen samen uit, voordat we de oude job uitzetten.\n\nUiteindelijk ging de overstap zonder verstoring, en de doorlooptijd van rapportages ging van een dag naar 15 minuten. Die aanpak, parallel draaien en vergelijken, zou ik bij een lastige release met een platformteam ook zo toepassen.",
+    "judgments": {
+     "next_move": {
+      "value": "probe_deeper",
+      "confidence": 0.93,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 2.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate admits no real platform-team blockage occurred but gives a concrete alternative example with parallel-run strategy and measurable result."
+     },
+     "a_star_s": {
+      "value": 0.86,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.93,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.87,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.98,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.85,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.97,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The DataWerk Airflow/PostgreSQL streaming migration matches cv:role2:b1 evidence."
+     },
+     "a_overclaim": {
+      "value": 0.2,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 1.22,
+      "confidence": 0.47,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_2": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The example describes Python pipeline work in production, supporting years of Python production experience."
+     },
+     "a_req_eis_4": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "No mention of CI/CD, Docker, or Git in this answer."
+     },
+     "a_req_wens_2": {
+      "value": 0.28,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_4": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "No public sector or complex stakeholder context is mentioned."
+     },
+     "a_req_resp_2": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate explicitly says the platform team handled cluster-level issues themselves, not a joint production deployment."
+     },
+     "a_req_resp_4": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate translated a technical migration risk into a practical mitigation approach communicated to stakeholders."
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je bent eerlijk over wat je wel en niet zelf hebt gedaan bij het platformteam, en het DataWerk-voorbeeld met 'oud en nieuw twee weken naast elkaar laten draaien en de uitkomsten elke dag vergeleken' laat een concrete, zorgvuldige aanpak zien.",
+       "sources": [
+        "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt niet dat je bij Havenlogistiek zelf deployt met Docker en GitHub Actions naar een Kubernetes-cluster en dit beheer samen met het platformteam doet, wat juist direct relevant is voor deze vraag.",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Je gebruikt de guardrails die je bij de RAG-assistent toevoegde (bronvermelding, weigeren bij ontbrekende bron) niet als voorbeeld van hoe je risico's bij productie-releases mitigeert.",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Heb je bij Havenlogistiek weleens meegemaakt dat een deployment naar het Kubernetes-cluster faalde of vertraging opliep, en wat deed je toen concreet richting het platformteam?",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Is er een moment geweest waarop je vroegtijdig moest afstemmen met het platformteam om een probleem te voorkomen voordat het escaleerde?",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Wees eerlijk: bij Havenlogistiek geen grote blokkade meegemaakt, clusterniveau-issues loste het platformteam zelf op",
+       "sources": [
+        "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb"
+       ]
+      },
+      {
+       "text": "Noem wel dat je daar samen met het platformteam deployment doet via Docker en GitHub Actions naar Kubernetes, en beschrijf hoe die samenwerking normaal verloopt",
+       "sources": [
+        "cv:role1:b4"
+       ]
+      },
+      {
+       "text": "Gebruik het DataWerk-voorbeeld als illustratie van je aanpak: oud en nieuw twee weken parallel draaien en dagelijks vergelijken om risico's te beperken",
+       "sources": [
+        "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb",
+        "cv:role2:b2"
+       ]
+      },
+      {
+       "text": "Sluit af met resultaat: geen verstoring bij de overstap en doorlooptijd van rapportages van een dag naar 15 minuten",
+       "sources": [
+        "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb",
+        "cv:p5"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "e7af68574f914965963294129211143f",
+    "topic": "Ervaring met productie, samenwerking met platformteam en vertalen van beleidsvragen naar oplossingen, inclusief privacyaspecten",
+    "persona": "hiring_manager",
+    "question": "Je noemt dat je bij DataWerk het risico van brekende rapportages hebt geminimaliseerd door oud en nieuw twee weken naast elkaar te draaien. Welke specifieke technische mechanismen of alerting-regels heb jij hierin opgezet om de verschillen tussen de batch- en streaming-output automatisch te detecteren?",
+    "answer": "Het was eerlijk gezegd vrij eenvoudig, maar het werkte. Ik heb in Airflow een aparte taak toegevoegd die elke ochtend draaide, nadat beide versies klaar waren. Die taak voerde vergelijkingsqueries uit in PostgreSQL: per rapportage het aantal rijen, en per klant en per dag de totalen van de belangrijkste waarden.\n\nWeek een getal meer af dan een kleine drempel, dan faalde de taak en kreeg ik een melding. Dan ging ik handmatig uitzoeken waar het verschil vandaan kwam. Meestal ging het om timing, bijvoorbeeld data die in de streaming-versie net iets later binnenkwam dan in de batchjob.\n\nPas toen we een week achter elkaar geen afwijkingen meer hadden, zijn we overgestapt op de nieuwe opzet.",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.48,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 2.89,
+      "confidence": 0.89,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_s": {
+      "value": 0.84,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_t": {
+      "value": 0.93,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.94,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_r": {
+      "value": 0.92,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.94,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quantified": {
+      "value": 0.18,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "not_in_cv",
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The CV mentions Airflow and PostgreSQL pipelines generally but does not specifically describe this comparison-alerting mechanism, so it is plausible but not explicitly documented in the CV."
+     },
+     "a_overclaim": {
+      "value": 0.19,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.43,
+      "confidence": 0.35,
+      "provider": "jev",
+      "uncertain": true,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_eis_2": {
+      "value": 1.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The answer demonstrates hands-on Python/Airflow/PostgreSQL production work, supporting evidence of production experience relevant to eis_2."
+     },
+     "a_req_eis_4": {
+      "value": 0.2,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_2": {
+      "value": 0.17,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_wens_4": {
+      "value": 0.08,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_2": {
+      "value": 0.72,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_req_resp_4": {
+      "value": 0.22,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je geeft een concreet en specifiek antwoord op de technische vraag: een Airflow-taak die vergelijkingsqueries in PostgreSQL uitvoerde op rijaantallen en totalen per klant/dag, met een drempelwaarde en handmatige uitzoekprocedure bij afwijkingen.",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je noemt niet dat je bij DataWerk ook samenwerkte met een privacy officer aan het pseudonimiseren van klantdata volgens de AVG - relevant gezien de wens naar privacywetgeving-kennis in deze rol.",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      },
+      {
+       "text": "Je vermeldt niet dat deze pipelines voor drie klanten in energie en logistiek werden gebouwd, wat context geeft over de schaal en complexiteit van de omgeving.",
+       "sources": [
+        "cv:role2:b1"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Heb je bij het opzetten van deze vergelijkingsqueries ook rekening gehouden met persoonsgegevens of pseudonimisering, gezien je AVG-ervaring bij dezelfde klant? Zo ja, hoe borgde je dat in deze validatie-opzet?",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      },
+      {
+       "text": "Is de drempelwaarde voor afwijkingen door jou zelf bepaald, en hoe heb je die gekalibreerd zodat je niet te veel valse meldingen kreeg?",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Ik voegde een dagelijkse Airflow-taak toe die na afronding van batch en streaming vergelijkingsqueries in PostgreSQL draaide.",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      },
+      {
+       "text": "Deze queries vergeleken rijaantallen en totalen van kernwaarden per klant en per dag tussen beide versies.",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      },
+      {
+       "text": "Bij afwijking boven een drempel faalde de taak en kreeg ik een melding, waarna ik handmatig de oorzaak analyseerde - vaak timing-verschillen in de streaming-instroom.",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      },
+      {
+       "text": "Pas na een week zonder afwijkingen zijn we overgestapt op de nieuwe streaming-opzet, wat het risico op brekende rapportages minimaliseerde.",
+       "sources": [
+        "turn:e7af68574f914965963294129211143f"
+       ]
+      },
+      {
+       "text": "Daarnaast werkte ik bij deze klant samen met een privacy officer aan het pseudonimiseren van klantdata volgens de AVG, wat relevant is voor het werken met persoonsgegevens in productieomgevingen.",
+       "sources": [
+        "cv:role2:b3"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   },
+   {
+    "turn_id": "b982337262cb4ac5a5995375c0921f66",
+    "topic": "Afsluiting en ruimte voor vragen van de kandidaat",
+    "persona": "intake_account_manager",
+    "question": "Heb je nog vragen over het team, de rol of de volgende stappen in dit proces?",
+    "answer": "Ja, graag. Ik heb er twee over de rol.\n\nHoe bepalen jullie wanneer een AI-toepassing goed genoeg is om aan inwoners voor te leggen? Ik ben benieuwd of daar vaste criteria voor zijn, of dat jullie dat per toepassing afwegen.\n\nEn wie in het team is eigenaar van de evaluatie van de modeluitvoer zodra iets live staat? In mijn ervaring zakt de kwaliteit daar makkelijk weg als niemand er echt verantwoordelijk voor is.\n\nEn tot slot nog kort over de volgende stappen: wanneer hoor ik van jullie, en hoe ziet een eventuele tweede ronde eruit?",
+    "judgments": {
+     "next_move": {
+      "value": "next_topic",
+      "confidence": 0.74,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_quality": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The candidate asks questions back rather than answering the interview question directly, so it does not answer a behavioral prompt at all."
+     },
+     "a_star_s": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "No situation or context is described; the candidate only poses questions."
+     },
+     "a_star_t": {
+      "value": 0.27,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_star_a": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "No personal actions are described; it's a set of questions for the interviewer."
+     },
+     "a_star_r": {
+      "value": 0.16,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_specific": {
+      "value": 0.0,
+      "confidence": null,
+      "provider": "claude",
+      "uncertain": false,
+      "escalated": true,
+      "rationale": "The response is general and inquisitive, not a concrete example."
+     },
+     "a_quantified": {
+      "value": 0.14,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_cv_consistency": {
+      "value": "consistent",
+      "confidence": 0.82,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_overclaim": {
+      "value": 0.17,
+      "confidence": null,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     },
+     "a_hedging": {
+      "value": 0.12,
+      "confidence": 0.81,
+      "provider": "jev",
+      "uncertain": false,
+      "escalated": false,
+      "rationale": null
+     }
+    },
+    "feedback": {
+     "strengths": [
+      {
+       "text": "Je stelde gerichte, inhoudelijke vragen over de rol, zoals wie eigenaar is van de evaluatie van modeluitvoer zodra iets live staat",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66"
+       ]
+      },
+      {
+       "text": "Je legde je vraag duidelijk aan je eigen ervaring, met 'in mijn ervaring zakt de kwaliteit daar makkelijk weg als niemand er echt verantwoordelijk voor is'",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66"
+       ]
+      }
+     ],
+     "add": [
+      {
+       "text": "Je had je vraag over evaluatie-eigenaarschap kunnen onderbouwen met je eigen ervaring: je zette zelf een evaluatieset van 200 vragen op waarbij het foutpercentage daalde van 18% naar 6% na iteraties, dat had je vraag concreter en geloofwaardiger gemaakt",
+       "sources": [
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Je noemde guardrails niet, terwijl je bij Havenlogistiek zelf bronvermelding en weigeren bij ontbrekende bron als guardrail toevoegde, dit sluit direct aan bij je vraag over kwaliteitsborging",
+       "sources": [
+        "cv:role1:b3"
+       ]
+      }
+     ],
+     "explore": [
+      {
+       "text": "Was er bij Havenlogistiek een duidelijke eigenaar voor de evaluatie na livegang, of ontbrak die juist en is dat waar je vraag vandaan komt?",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66"
+       ]
+      }
+     ],
+     "outline": [
+      {
+       "text": "Stel je vraag over 'goed genoeg' criteria, en verwijs kort naar je eigen evaluatieset van 200 vragen als referentiepunt",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66",
+        "cv:role1:b2"
+       ]
+      },
+      {
+       "text": "Vraag naar eigenaarschap van evaluatie na livegang, en noem dat je zelf guardrails zoals bronvermelding en weigeren bij ontbrekende bron hebt toegevoegd om kwaliteit te bewaken",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66",
+        "cv:role1:b3"
+       ]
+      },
+      {
+       "text": "Sluit af met je vraag over de volgende stappen en timing van een eventuele tweede ronde",
+       "sources": [
+        "turn:b982337262cb4ac5a5995375c0921f66"
+       ]
+      }
+     ]
+    },
+    "speaking": null,
+    "focus_item_id": null
+   }
+  ],
+  "stats": {
+   "star_rates": {
+    "S": 0.714,
+    "T": 0.857,
+    "A": 0.714,
+    "R": 0.714
+   },
+   "specific_rate": 0.714,
+   "quantified_rate": 0.429,
+   "overclaim_rate": 0.143,
+   "quality_distribution": {
+    "0": 1,
+    "1": 1,
+    "2": 2,
+    "3": 3
+   },
+   "cv_consistency": {
+    "not_in_cv": 2,
+    "consistent": 5
+   },
+   "answers": 7
+  },
+  "focus_items": [
+   {
+    "id": "unused_eis_1",
+    "label": "Ervaring voor 'Afgeronde opleiding op minimaal hbo-niveau in informatica…' niet benoemd",
+    "linked_requirements": [
+     "eis_1"
+    ],
+    "severity": 0.7,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [
+     "Wat trekt je aan in deze rol als AI Engineer bij de gemeente, en hoe sluit dat aan bij wat je tot nu toe hebt gedaan?"
+    ],
+    "previous_answer": "Wat me aantrekt is dat je hier AI bouwt voor mensen die er direct iets aan hebben. Een medewerker die met de juiste regelgeving erbij een inwoner sneller kan helpen, dat vind ik waardevol werk. Ik heb tijdens mijn stage bij Waterschap Oostpolder al even geproefd aan de publieke sector, en dat idee van werken voor inwoners is me altijd bijgebleven.\n\nHet sluit ook heel goed aan bij wat ik nu doe. Bi"
+   },
+   {
+    "id": "unused_eis_4",
+    "label": "Ervaring voor 'Ervaring met CI/CD, containers (Docker) en versiebeheer…' niet benoemd",
+    "linked_requirements": [
+     "eis_4"
+    ],
+    "severity": 0.7,
+    "history": [
+     "weak"
+    ],
+    "previous_questions": [
+     "Je noemt dat je samenwerkt met het platformteam om toepassingen in productie te brengen, maar op je cv zie ik vooral Docker en Kubernetes zonder expliciete verwijzing naar die samenwerking. Kun je concreet beschrijven hoe jij als developer en het platformteam gezamenlijk een release naar de productieomgeving hebt afgerond?",
+     "Je noemt dat je vroeg communiceert en afstemt om verrassingen te voorkomen. Kun je een specifiek voorbeeld geven waarin het platformteam later tegenslag had tijdens de release, en wat jij concreet hebt gedaan om die blokkade op te lossen?",
+     "Je noemt dat je bij DataWerk het risico van brekende rapportages hebt geminimaliseerd door oud en nieuw twee weken naast elkaar te draaien. Welke specifieke technische mechanismen of alerting-regels heb jij hierin opgezet om de verschillen tussen de batch- en streaming-output automatisch te detecteren?"
+    ],
+    "previous_answer": "Het was eerlijk gezegd vrij eenvoudig, maar het werkte. Ik heb in Airflow een aparte taak toegevoegd die elke ochtend draaide, nadat beide versies klaar waren. Die taak voerde vergelijkingsqueries uit in PostgreSQL: per rapportage het aantal rijen, en per klant en per dag de totalen van de belangrijkste waarden.\n\nWeek een getal meer af dan een kleine drempel, dan faalde de taak en kreeg ik een mel"
+   }
+  ],
+  "practice_plan": [
+   {
+    "action": "Werk een concreet voorbeeld uit waarin een release of samenwerking wél tegenslag opliep, en vertel wat jij zelf concreet deed om dat op te lossen (niet alleen 'het platformteam loste het op').",
+    "why": "Bij de vraag over tegenslag tijdens een release moest je uitwijken naar een ander voorbeeld en gaf je aan dat je Kubernetes-kennis basaal is; dit was je zwakste inhoudelijke antwoord (quality 2.0) en toont een gap in eigen probleemoplossend handelen.",
+    "links": [
+     "turn:0920a8af8dcd44bdad7e2ff81d6c7fcb",
+     "tip:gap",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Benoem expliciet je hbo-opleiding informatica en je ervaring met CI/CD, Docker en versiebeheer, ook als het niet direct gevraagd wordt, bijvoorbeeld in je pitch of bij een passende vraag.",
+    "why": "Twee eisen uit de vacature (hbo-opleiding en CI/CD/Docker-ervaring) zijn niet expliciet benoemd tijdens het gesprek, terwijl je cv hier wel op wijst (severity 0.7).",
+    "links": [
+     "stat:cv_consistency",
+     "tip:pitch"
+    ]
+   },
+   {
+    "action": "Maak je antwoorden concreter en kwantificeer resultaten vaker: noem cijfers, tijdsbesparingen of foutpercentages waar mogelijk.",
+    "why": "Je specifieke antwoorden scoren goed (71%), maar slechts 43% van je antwoorden bevat kwantificering; concrete cijfers maken je STAR-verhalen overtuigender.",
+    "links": [
+     "stat:quantified_rate",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Vermijd vage, procesmatige formuleringen zoals 'goed communiceren en vroeg betrekken' zonder concreet voorbeeld; ga direct naar een specifieke situatie met actie en resultaat.",
+    "why": "Je antwoord over samenwerking met het platformteam bleef abstract en leverde de laagste actiescore op binnen STAR; concreetheid direct in het eerste antwoord voorkomt een vervolgvraag die je moet redden.",
+    "links": [
+     "turn:115250eddd4a40b1a2a17da103f79101",
+     "stat:star_rates",
+     "tip:star"
+    ]
+   },
+   {
+    "action": "Bereid gerichte, scherpe vervolgvragen voor het einde van het gesprek voor, en herhaal of vraag actief door op antwoorden over volgende stappen zodat je concrete afspraken meekrijgt.",
+    "why": "Je stelde relevante vragen over evaluatie-eigenaarschap en kwaliteitscriteria, maar deze beurt scoorde het laagst (quality 0.0) doordat de vraag over vervolgstappen afgekapt bleef; dit is een gemiste kans om het gesprek sterk af te sluiten.",
+    "links": [
+     "turn:b982337262cb4ac5a5995375c0921f66",
+     "tip:closing-question"
+    ]
+   }
+  ],
+  "models": {
+   "jev_version": "jev-1.13.0",
+   "claude": "claude-sonnet-5",
+   "local": "qwen3.6:35b-a3b"
+  }
+ }
+}

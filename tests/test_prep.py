@@ -160,3 +160,17 @@ def test_parse_worker_crash_is_a_clear_upload_error(monkeypatch) -> None:  # typ
     monkeypatch.setattr(parse.mp, "get_context", lambda _: Ctx())
     with pytest.raises(parse.UploadError, match="could not be read"):
         parse.parse_upload(b"%PDF-1.4 broken", "x.pdf")
+
+
+def test_empty_prepare_list_falls_back_to_gap_advice() -> None:
+    # seen in a real English run: the model returned "prepare": []
+    from app.prep.plan import BriefingOut, GapAdvice, prepare_items
+
+    b = BriefingOut(
+        likely_questions=["q"],
+        strongest_evidence=[],
+        gaps=[GapAdvice(requirement_id=f"eis_{i}", advice=f"advice {i}") for i in range(1, 5)],
+        prepare=[],
+    )
+    assert prepare_items(b) == ["advice 1", "advice 2", "advice 3"]
+    assert prepare_items(b.model_copy(update={"prepare": ["a", "b", "c", "d"]})) == ["a", "b", "c"]

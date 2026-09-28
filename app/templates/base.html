@@ -165,7 +165,7 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 /* interview */
 .topics { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 6px; }
 .topics > span { height: 8px; border-radius: var(--pill); background: var(--line); overflow: hidden; }
-.topics > span > i { display: block; height: 100%; background: var(--sage-500); border-radius: inherit; }
+.topics > span > i { display: block; width: 0; height: 100%; background: var(--sage-500); border-radius: inherit; }
 .avatar { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font: 400 1.1rem/1 var(--font-display); background: var(--sage-200); color: var(--sage-900); }
 .avatar.technical_lead { background: var(--accent-200); color: var(--accent-900); } .avatar.intake_account_manager { background: var(--card-2); color: var(--fg); }
 .persona { font-weight: 700; color: var(--fg); font-size: 1rem; text-transform: none; }
@@ -190,6 +190,12 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 .review { display: grid; gap: var(--s8); }
 @media (min-width: 960px) { .review { grid-template-columns: 300px minmax(0, 1fr); } .review > aside { position: sticky; top: var(--s6); align-self: start; } }
 .toc, .toc-sub { grid-template-columns: minmax(0, 1fr); } .review > aside { min-width: 0; }
+.demo-intro { margin-bottom: var(--s8); } .demo-intro .lead { max-width: 44rem; }
+.demo-steps { list-style: none; padding: 0; display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); counter-reset: st; margin: var(--s6) 0; }
+.demo-steps li { background: var(--card); border-radius: var(--r-lg); padding: var(--s4); display: grid; gap: .3rem; counter-increment: st; }
+.demo-steps li::before { content: counter(st); font: 400 1.4rem/1 var(--font-display); color: var(--accent); }
+.demo-steps span { font-size: var(--fs-sm); color: var(--muted); }
+#briefing details > summary { cursor: pointer; list-style: none; } #briefing h3 { margin: var(--s6) 0 var(--s3); }
 .toc { display: grid; gap: 2px; } .toc a { padding: .6rem .8rem; border-radius: var(--pill); text-decoration: none; color: var(--fg); font-weight: 600; }
 .toc a:hover, .toc a[aria-current=true] { background: var(--accent-100); color: var(--accent-800); }
 @media (max-width: 959px) { .toc { position: sticky; top: 0; z-index: 2; display: flex; overflow-x: auto; gap: .4rem; padding: .5rem 0; background: var(--bg); } .toc a { flex: none; background: var(--card); } }
@@ -267,6 +273,18 @@ fieldset.opts-field { border: 0; padding: 0; margin: 0; } fieldset.opts-field le
 .toc-title { font: 700 .75rem/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: var(--s4) .8rem .5rem; }
 .toc-sub { display: grid; margin: .2rem 0 0 .8rem; border-left: 2px solid var(--line); } .toc-sub a { display: flex; gap: .6rem; padding: .35rem .8rem; font-weight: 500; font-size: var(--fs-sm); border-radius: 0 var(--pill) var(--pill) 0; }
 .toc-sub a span:nth-child(2) { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* "On this page": a clear card on desktop, with a strong active state */
+@media (min-width: 960px) {
+  .review .toc { background: var(--card); border-radius: var(--r-lg); padding: var(--s2) var(--s3) var(--s4); box-shadow: var(--shadow-sm); gap: 4px; }
+  .review .toc-title { font-size: .85rem; color: var(--accent-press); padding: var(--s4) .9rem var(--s3); }
+  .review .toc > a { font-size: 1.02rem; padding: .7rem 1rem; border-left: 4px solid transparent; border-radius: 0 var(--pill) var(--pill) 0; }
+  .review .toc > a:hover { background: var(--surface); color: var(--fg); }
+  .review .toc > a[aria-current=true] { background: var(--accent-100); color: var(--accent-800); border-left-color: var(--accent); }
+  .review .toc-sub { margin-left: 1rem; }
+  .review .toc-sub a { font-size: .95rem; padding: .45rem .8rem; }
+  .review .toc-sub a:hover { background: var(--surface); }
+  .review > aside { display: grid; gap: var(--s4); max-height: calc(100vh - 2 * var(--s6)); overflow-y: auto; scrollbar-width: thin; }
+}
 @media (max-width: 959px) { .toc-title, .toc-sub { display: none; } .review > aside .aside-card { order: -1; } }
 .review section { scroll-margin-top: var(--s6); }
 .answers-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s3); flex-wrap: wrap; margin: var(--s6) 0 var(--s3); }
