@@ -80,7 +80,17 @@ chips and source chips).
 - Colours carry meaning (good / weak / uncertain) and must stay distinguishable without colour
   (the ✓ / ✗ and dashed border already help).
 
-## 5. Current visual state (starting point)
+## 5. Current visual state
+
+**v0.2 "Terracotta" (2026-09-28) is applied:** warm terracotta accent with sage for good results,
+Caprasimo (display) and Figtree (body) served from `app/static/fonts/` (SIL Open Font License,
+licence files next to the fonts), light and dark mode via `prefers-color-scheme`, radio pills on
+the new-run form, a two-column review with summary cards and a sticky contents list, Chart.js
+theme in `app/static/chart-theme.js`. All CSS still lives in `base.html`.
+
+The v0.1 starting point is kept below for reference.
+
+### v0.1 (before the refresh)
 
 Neutral light grey background, white cards with a thin border and 10 px radius, system font,
 one blue accent (`#1f5fbf`), green/red/amber for status. Functional but plain: no brand mark, no

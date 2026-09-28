@@ -1,81 +1,182 @@
 {% extends "base.html" %}
-{% from "_macros.html" import badge, sources %}
-{% block head %}<script src="/static/vendor/chart-4.4.7.umd.js" defer></script>{% endblock %}
+{% from "_macros.html" import badge, sources, status_pill, avatar, persona_name %}
+{% block head %}<script src="/static/vendor/chart-4.4.7.umd.js" defer></script><script src="/static/chart-theme.js" defer></script>{% endblock %}
 {% block content %}
-<h1>{{ t('review') }}{% if r.vacancy.title %} · {{ r.vacancy.title }}{% endif %}</h1>
-<p><a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a> <a class="btn secondary" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a></p>
-
-<div class="card">
-<h2>{{ t('stats') }}</h2>
 {% set star = r.stats.get('star_rates', {}) %}
-<p id="star-summary">STAR: {% for k, v in star.items() %}{{ k }} {{ (v*100)|round|int }}%{% if not loop.last %}, {% endif %}{% endfor %}.
- {{ t('star_summary').format(specific=(r.stats.get('specific_rate',0)*100)|round|int, quantified=(r.stats.get('quantified_rate',0)*100)|round|int) }}
- {% if star %}{% set low = star|dictsort(by='value')|first %}{{ t('weakest') }}: {{ low[0] }}.{% endif %}</p>
-<canvas id="starChart" height="140" role="img" aria-describedby="star-summary"></canvas>
-<p id="quality-summary" class="small muted">{{ t('quality_summary') }}: {% for k, v in r.stats.get('quality_distribution', {}).items() %}{{ t('level') }} {{ k }}: {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
-<canvas id="qualityChart" height="120" role="img" aria-describedby="quality-summary"></canvas>
-{% if r.stats.get('speaking') %}
-<h2>{{ t('speaking') }}</h2>
-<p id="speaking-summary">{{ t('speaking_summary').format(wpm=r.stats.speaking.avg_wpm, fillers=r.stats.speaking.avg_fillers_per_min, dur=r.stats.speaking.avg_duration_s) }}</p>
-<canvas id="speakingChart" height="120" role="img" aria-describedby="speaking-summary"></canvas>
-{% endif %}
-</div>
+{% set low = (star|dictsort(by='value')|first) if star else none %}
+{% set qd = r.stats.get('quality_distribution', {}) %}
+{% set ns = namespace(n=0, s=0, req=0, strong=0) %}
+{% for k, v in qd.items() %}{% set ns.n = ns.n + v %}{% set ns.s = ns.s + (k|int) * v %}{% endfor %}
+{% for q in r.requirements if q.kind in ('eis','wens') %}{% set ns.req = ns.req + 1 %}{% if q.evidence_in_interview == 'strong' %}{% set ns.strong = ns.strong + 1 %}{% endif %}{% endfor %}
+{% set avg = ('%.1f'|format(ns.s / ns.n)) if ns.n else '–' %}
+{% if lang == 'nl' %}{% set avg = avg|replace('.', ',') %}{% endif %}
+{% set r_rate = ((star.get('R', 0))*100)|round|int %}
+{% set spec_rate = (r.stats.get('specific_rate', 0)*100)|round|int %}
 
-<div class="card">
-<h2>{{ t('coverage') }}</h2>
-<table>
-  <tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr>
-  {% for q in r.requirements if q.kind in ('eis','wens') %}
-  <tr><td>{{ q.text }} <span class="muted small">({{ q.kind }})</span></td>
-      <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else '') }}">{{ t('cov_' ~ q.evidence_in_documents) }}</span></td>
-      <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else '') }}">{{ t('cov_' ~ q.evidence_in_interview) }}</span>
-      {% if q.evidence_in_documents != 'none' and q.evidence_in_interview == 'none' %}<span class="small muted">{{ t('not_brought_up') }}</span>{% endif %}</td></tr>
-  {% endfor %}
-</table>
-</div>
+<div class="review">
+<aside>
+  <div class="aside-card">
+    {{ status_pill(run.status, t) }}
+    <div>
+      <h3 style="margin:0">{{ r.vacancy.title or t('review') }}</h3>
+      <p class="small muted" style="margin:.2rem 0 0">{{ run.created_at.strftime('%d-%m-%Y') }} · {{ run.settings.get('length', 30) }} min · {{ t(run.settings.get('answer_mode', 'typed')) }}</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a>
+      <a class="btn outline" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a>
+    </div>
+  </div>
+  <nav class="toc" aria-label="{{ t('on_this_page') }}">
+    <div class="toc-title">{{ t('on_this_page') }}</div>
+    <a href="#summary">{{ t('summary') }}</a>
+    <a href="#stats">{{ t('stats') }}</a>
+    <a href="#coverage">{{ t('coverage') }}</a>
+    {% if r.practice_plan %}<a href="#plan">{{ t('practice_plan') }}</a>{% endif %}
+    {% if r.focus_items %}<a href="#focus">{{ t('focus_next') }}</a>{% endif %}
+    <a href="#answers">{{ t('answers') }} <span class="muted">({{ r.answers|length }})</span></a>
+    <div class="toc-sub">
+      {% for a in r.answers %}{% set qj = a.judgments.get('a_quality') %}
+      <a href="#{{ a.turn_id }}"><span class="muted">{{ loop.index }}</span><span>{{ a.question }}</span>{% if qj and qj.value is number %}<span class="muted">{{ qj.value|round|int }}</span>{% endif %}</a>
+      {% endfor %}
+    </div>
+  </nav>
+  <form method="post" action="/runs/{{ run.id }}/delete" onsubmit="return confirm({{ t('delete_confirm')|tojson|forceescape }})" style="padding:.5rem .3rem">
+    <input type="hidden" name="csrf" value="{{ csrf }}"><button class="danger">{{ t('delete_run') }}</button>
+  </form>
+</aside>
 
-{% if r.practice_plan %}
-<div class="card">
-<h2>{{ t('practice_plan') }}</h2>
-<ol>{% for p in r.practice_plan %}<li><b>{{ p.action }}</b> — {{ p.why }}
-  {% for l in p.links %}{% if l.startswith('tip:') and l[4:] in tips %} <a class="small" href="/tips#{{ l[4:] }}">{{ tips[l[4:]].title }}</a>{% elif l.startswith('turn:') %} <a class="small" href="#{{ l[5:] }}">{{ t('answer_link') }}</a>{% endif %}{% endfor %}</li>{% endfor %}</ol>
-</div>
-{% endif %}
+<div>
+  <section id="summary">
+    <div class="eyebrow">{{ t('review') }}</div>
+    <h1>{% if low and low[1] < 0.6 %}{{ t('review_headline_weak').format(part=t('star_part_' ~ low[0])) }}{% else %}{{ t('review_headline_good') }}{% endif %}</h1>
+    <div class="stats" style="margin:var(--s4) 0 var(--s6)">
+      <div class="stat"><b>{{ avg }}<small class="muted" style="font:600 1rem var(--font-body)"> / 3</small></b><span>{{ t('avg_quality') }}</span></div>
+      <div class="stat"><b>{{ ns.strong }}<small class="muted" style="font:600 1rem var(--font-body)"> / {{ ns.req }}</small></b><span>{{ t('reqs_strong_interview') }}</span></div>
+      <div class="stat{% if r_rate < 50 %} focus{% endif %}"><b>{{ r_rate }}%</b><span>{{ t('with_result') }}</span></div>
+      <div class="stat{% if spec_rate < 50 and r_rate >= 50 %} focus{% endif %}"><b>{{ spec_rate }}%</b><span>{{ t('concrete_examples') }}</span></div>
+    </div>
+  </section>
 
-{% if r.focus_items %}
-<div class="card">
-<h2>{{ t('focus_next') }}</h2>
-<ul>{% for f in r.focus_items %}<li>{{ f.label }} <span class="muted small">{% for h in f.history %}{{ t('hist_' ~ h) if t('hist_' ~ h) != 'hist_' ~ h else h }}{% if not loop.last %} → {% endif %}{% endfor %}</span></li>{% endfor %}</ul>
-<p class="small muted">{{ t('focus_hint') }}</p>
-</div>
-{% endif %}
+  <section class="card" id="stats">
+    <h2>{{ t('stats') }}</h2>
+    <div class="two-stats">
+      <div>
+        <h3>STAR</h3>
+        <canvas id="starChart" height="150" role="img" aria-describedby="star-summary"></canvas>
+        <p id="star-summary" class="small">STAR: {% for k, v in star.items() %}{{ k }} {{ (v*100)|round|int }}%{% if not loop.last %}, {% endif %}{% endfor %}.
+         {{ t('star_summary').format(specific=spec_rate, quantified=(r.stats.get('quantified_rate',0)*100)|round|int) }}
+         {% if low %}{{ t('weakest') }}: {{ low[0] }}.{% endif %}</p>
+      </div>
+      <div>
+        <h3>{{ t('crit_quality')|capitalize }}</h3>
+        <canvas id="qualityChart" height="150" role="img" aria-describedby="quality-summary"></canvas>
+        <p id="quality-summary" class="small muted">{{ t('quality_summary') }}: {% for k, v in qd.items() %}{{ t('level') }} {{ k }}: {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+      </div>
+    </div>
+    {% if r.stats.get('speaking') %}
+    <h3 style="margin-top:var(--s4)">{{ t('speaking') }}</h3>
+    <p id="speaking-summary" class="small">{{ t('speaking_summary').format(wpm=r.stats.speaking.avg_wpm, fillers=r.stats.speaking.avg_fillers_per_min, dur=r.stats.speaking.avg_duration_s) }}</p>
+    <canvas id="speakingChart" height="120" role="img" aria-describedby="speaking-summary"></canvas>
+    {% endif %}
+  </section>
 
-{% for a in r.answers %}
-<div class="card" id="{{ a.turn_id }}">
-  <p class="small muted"><span class="persona">{{ (a.persona or '')|replace('_',' ') }}</span> · {{ a.topic }}</p>
-  <p class="question">{{ a.question }}</p>
-  <p style="white-space:pre-wrap">{{ a.answer }}</p>
-  <p>{% for k, j in a.judgments.items() if k != 'next_move' %}{{ badge(k, j, t) }}{% endfor %}</p>
-  {% if a.speaking %}<p class="small muted">{{ a.speaking.duration_s }} s · {{ a.speaking.wpm }} wpm · {{ a.speaking.fillers_per_min }} fillers/min</p>{% endif %}
-  {% if a.feedback %}
-    {% for key, items in [('strong', a.feedback.strengths), ('add', a.feedback.add), ('explore', a.feedback.explore), ('outline', a.feedback.outline)] if items %}
-      <p style="margin-bottom:.2rem"><b>{{ t(key) }}</b></p>
-      <ul>{% for it in items %}<li>{{ it.text }} {{ sources(it.sources, t) }}</li>{% endfor %}</ul>
-    {% endfor %}
+  <section class="card" id="coverage">
+    <h2>{{ t('coverage') }}</h2>
+    <div class="cov-wrap">
+    <table>
+      <tr><th>{{ t('requirement') }}</th><th>{{ t('in_documents') }}</th><th>{{ t('in_interview') }}</th></tr>
+      {% for q in r.requirements if q.kind in ('eis','wens') %}
+      <tr><td>{{ q.text }} <span class="kind">{{ q.kind }}</span>
+            {% if q.evidence_in_documents != 'none' and q.evidence_in_interview == 'none' %}<span class="hint">{{ t('not_brought_up') }}</span>{% endif %}</td>
+          <td><span class="badge {{ 'yes' if q.evidence_in_documents == 'strong' else ('no' if q.evidence_in_documents == 'none' else 'uncertain') }}">{{ '✓' if q.evidence_in_documents == 'strong' else ('✗' if q.evidence_in_documents == 'none' else '~') }} {{ t('cov_' ~ q.evidence_in_documents) }}</span></td>
+          <td><span class="badge {{ 'yes' if q.evidence_in_interview == 'strong' else ('no' if q.evidence_in_interview == 'none' else 'uncertain') }}">{{ '✓' if q.evidence_in_interview == 'strong' else ('✗' if q.evidence_in_interview == 'none' else '~') }} {{ t('cov_' ~ q.evidence_in_interview) }}</span></td></tr>
+      {% endfor %}
+    </table>
+    </div>
+  </section>
+
+  {% if r.practice_plan or r.focus_items %}
+  <div class="grid2" style="margin-bottom:var(--s4)">
+    {% if r.practice_plan %}
+    <section class="card soft" id="plan" style="margin:0">
+      <h2>{{ t('practice_plan') }}</h2>
+      <ol class="plan">{% for p in r.practice_plan %}<li><div><b>{{ p.action }}</b><span class="small">{{ p.why }}</span>
+        <span class="links">{% for l in p.links %}{% if l.startswith('tip:') and l[4:] in tips %}<a href="/tips#{{ l[4:] }}">{{ tips[l[4:]].title }}</a>{% elif l.startswith('turn:') %}<a href="#{{ l[5:] }}">{{ t('answer_link') }}</a>{% endif %}{% endfor %}</span></div></li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+    {% if r.focus_items %}
+    <section class="card sage" id="focus" style="margin:0">
+      <h2 style="color:var(--sage-900)">{{ t('focus_next') }}</h2>
+      <ul class="dots">{% for f in r.focus_items %}<li><span>{{ f.label }} <span class="muted small">{% for h in f.history %}{{ t('hist_' ~ h) if t('hist_' ~ h) != 'hist_' ~ h else h }}{% if not loop.last %} → {% endif %}{% endfor %}</span></span></li>{% endfor %}</ul>
+      <p class="small" style="color:var(--sage-800);margin:var(--s4) 0 0">{{ t('focus_hint') }}</p>
+    </section>
+    {% endif %}
+  </div>
   {% endif %}
-  <p><a class="btn secondary" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a></p>
-</div>
-{% endfor %}
 
-<form method="post" action="/runs/{{ run.id }}/delete" onsubmit="return confirm({{ t('delete_confirm')|tojson|forceescape }})">
-  <input type="hidden" name="csrf" value="{{ csrf }}"><button class="danger">{{ t('delete_run') }}</button>
-</form>
+  <section id="answers">
+    <div class="answers-head"><h2 style="margin:0">{{ t('answers') }}</h2>
+      <button type="button" class="ghost" id="toggle-all" data-open="{{ t('expand_all') }}" data-close="{{ t('collapse_all') }}">{{ t('expand_all') }}</button></div>
+    {% for a in r.answers %}{% set qj = a.judgments.get('a_quality') %}
+    <details class="answer" id="{{ a.turn_id }}" {% if loop.first %}open{% endif %}>
+      <summary>
+        <span class="num">{{ loop.index }}</span>
+        <span class="q"><small>{{ persona_name(a.persona) }} · {{ a.topic }}</small><b>{{ a.question }}</b></span>
+        {% if qj and qj.value is number %}<span class="badge" style="margin:0">{{ qj.value|round(1) }} / 3{% if qj.escalated %} · Claude{% endif %}</span>{% endif %}
+      </summary>
+      <div class="body">
+        <p class="said">{{ a.answer }}</p>
+        <p>{% for k, j in a.judgments.items() if k != 'next_move' %}{{ badge(k, j, t) }}{% endfor %}</p>
+        {% if a.speaking %}<p class="small muted">{{ a.speaking.duration_s }} s · {{ a.speaking.wpm }} wpm · {{ a.speaking.fillers_per_min }} fillers/min</p>{% endif %}
+        {% if a.feedback %}
+        <div class="fb">
+          {% for key, cls, items in [('strong', 'sterk', a.feedback.strengths), ('add', 'voeg-toe', a.feedback.add), ('explore', 'verken', a.feedback.explore), ('outline', 'opbouw', a.feedback.outline)] if items %}
+          <div class="{{ cls }}"><h4>{{ t(key) }}</h4>
+            <ul>{% for it in items %}<li>{{ it.text }} {{ sources(it.sources, t) }}</li>{% endfor %}</ul></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="actions" style="margin-top:var(--s4)">
+          <a class="btn outline" href="/runs/{{ run.id }}/practice/{{ a.turn_id }}">{{ t('practice_again') }}</a>
+          {% if loop.first %}<span class="legend">{{ t('chip_legend') }}</span>{% endif %}
+        </div>
+      </div>
+    </details>
+    {% endfor %}
+  </section>
+</div>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Open an answer card when its anchor is targeted (practice plan links, sidebar).
+  const openHash = () => { const el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') el.open = true; };
+  openHash(); window.addEventListener('hashchange', openHash);
+  const all = document.getElementById('toggle-all');
+  all.addEventListener('click', () => {
+    const cards = [...document.querySelectorAll('details.answer')]; const open = !cards.every(c => c.open);
+    cards.forEach(c => c.open = open); all.textContent = open ? all.dataset.close : all.dataset.open;
+  });
+  // Mark the current section in the sidebar.
+  const links = [...document.querySelectorAll('.toc > a')];
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(l => l.getAttribute('href') === '#' + e.target.id ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current'));
+    }), { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('.review section[id]').forEach(s => io.observe(s));
+  }
+
   const d = {{ chart|safe }};
   if (!window.Chart) return;
+  const th = window.icTheme;
+  if (th) {
+    new Chart(document.getElementById('starChart'), th.star(d.star));
+    new Chart(document.getElementById('qualityChart'), th.quality(d.quality, {{ t('level')|tojson }}));
+    const s = document.getElementById('speakingChart'); if (s) new Chart(s, th.speaking(d.speaking));
+    return;
+  }
   new Chart(document.getElementById('starChart'), {type:'bar', data:{labels:Object.keys(d.star), datasets:[{label:{{ t('pct_answers')|tojson }}, data:Object.values(d.star).map(v=>Math.round(v*100))}]}, options:{scales:{y:{min:0,max:100}}}});
   new Chart(document.getElementById('qualityChart'), {type:'bar', data:{labels:Object.keys(d.quality).map(k=>{{ (t('level') ~ ' ')|tojson }}+k), datasets:[{label:{{ t('answers_count')|tojson }}, data:Object.values(d.quality)}]}});
   const s = document.getElementById('speakingChart');

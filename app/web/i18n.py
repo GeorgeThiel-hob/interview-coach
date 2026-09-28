@@ -195,6 +195,94 @@ T: dict[str, dict[str, str]] = {
     "crit_overclaim": {"nl": "overdrijving", "en": "overclaim"},
     "crit_hedging": {"nl": "twijfel", "en": "hedging"},
     "crit_mastery": {"nl": "beheersing", "en": "mastery"},
+    # design refresh v0.2
+    "on_this_page": {"nl": "Op deze pagina", "en": "On this page"},
+    "summary": {"nl": "Samenvatting", "en": "Summary"},
+    "review_headline_weak": {
+        "nl": "Sterke basis. De grootste winst zit in {part}.",
+        "en": "A solid base. The biggest gain is in {part}.",
+    },
+    "review_headline_good": {
+        "nl": "Sterk gesprek. Houd dit niveau vast.",
+        "en": "A strong interview. Keep this level.",
+    },
+    "star_part_S": {"nl": "de situatie", "en": "the situation"},
+    "star_part_T": {"nl": "de taak", "en": "the task"},
+    "star_part_A": {"nl": "je acties", "en": "your actions"},
+    "star_part_R": {"nl": "het resultaat", "en": "the result"},
+    "avg_quality": {"nl": "gemiddelde kwaliteit", "en": "average quality"},
+    "reqs_strong_interview": {
+        "nl": "eisen sterk gedekt in het gesprek",
+        "en": "requirements strongly covered in the interview",
+    },
+    "with_result": {"nl": "antwoorden met resultaat (R)", "en": "answers with a result (R)"},
+    "expand_all": {"nl": "Alles openklappen", "en": "Expand all"},
+    "collapse_all": {"nl": "Alles dichtklappen", "en": "Collapse all"},
+    "chip_legend": {
+        "nl": "Stippellijn = het model twijfelde · Claude = dubbel gecontroleerd",
+        "en": "Dashed = the model was uncertain · Claude = double-checked",
+    },
+    "answer_tip": {
+        "nl": "Tip: situatie, taak, actie, resultaat. Even stil zijn om na te denken is prima.",
+        "en": "Tip: situation, task, action, result. A short pause to think is fine.",
+    },
+    "thinking_hint": {
+        "nl": "Dit duurt meestal 5 tot 20 seconden.",
+        "en": "This usually takes 5 to 20 seconds.",
+    },
+    "privacy_inline": {
+        "nl": "Namen en contactgegevens worden vervangen door labels voordat je antwoord naar een externe AI-dienst gaat.",
+        "en": "Names and contact details are replaced by labels before your answer goes to an external AI service.",
+    },
+    "recording": {"nl": "Opname loopt", "en": "Recording"},
+    "briefing_headline": {
+        "nl": "Je hebt sterk bewijs voor {n} van de {total} eisen",
+        "en": "You have strong evidence for {n} of {total} requirements",
+    },
+    "briefing_lead": {
+        "nl": "Lees dit in vijf minuten. Je hoeft niets uit je hoofd te leren: het gaat erom dat je weet welk bewijs je paraat hebt.",
+        "en": "Read this in five minutes. No need to memorise anything: what matters is knowing which evidence you have ready.",
+    },
+    "pause_anytime": {"nl": "Je kunt altijd pauzeren.", "en": "You can pause at any time."},
+    "failed_title": {"nl": "Dit is niet gelukt", "en": "This did not work"},
+    "preparing_lead": {
+        "nl": "Dit duurt ongeveer drie minuten. Laat dit tabblad open: zodra je briefing klaar is, ga je vanzelf verder.",
+        "en": "This takes about three minutes. Keep this tab open: you move on by yourself as soon as your briefing is ready.",
+    },
+    "reviewing_lead": {
+        "nl": "Een tot twee minuten. Twijfelgevallen worden door een tweede model gecontroleerd.",
+        "en": "One to two minutes. Uncertain scores are double-checked by a second model.",
+    },
+    "step_read_detail": {
+        "nl": "Namen, contactgegevens en werkgevers worden vervangen door labels zoals [PERSON_1]. Alleen de vervangen tekst gaat naar een externe AI-dienst.",
+        "en": "Names, contact details and employers are replaced by labels such as [PERSON_1]. Only the replaced text goes to an external AI service.",
+    },
+    "runs_lead": {
+        "nl": "Elke ronde is één vacature: voorbereiden, oefenen, terugkijken.",
+        "en": "Each run is one vacancy: prepare, practise, look back.",
+    },
+    "run_untitled": {"nl": "Oefenronde", "en": "Practice run"},
+    "action_start": {"nl": "Start gesprek", "en": "Start interview"},
+    "action_continue": {"nl": "Ga verder", "en": "Continue"},
+    "action_review": {"nl": "Bekijk terugblik", "en": "View review"},
+    "empty_title": {
+        "nl": "Klaar voor je eerste oefenronde?",
+        "en": "Ready for your first practice run?",
+    },
+    "empty_body": {
+        "nl": "Upload een vacature en je cv. Je krijgt een briefing, een oefengesprek van 15 tot 45 minuten en een eerlijke terugblik.",
+        "en": "Upload a vacancy and your CV. You get a briefing, a practice interview of 15 to 45 minutes and an honest review.",
+    },
+    "new_run_lead": {
+        "nl": "Een vacature en je cv zijn genoeg. De rest maakt de briefing scherper.",
+        "en": "A vacancy and your CV are enough. The rest makes the briefing sharper.",
+    },
+    "documents": {"nl": "Documenten", "en": "Documents"},
+    "use_file": {"nl": "Bestand", "en": "File"},
+    "use_paste": {"nl": "Plak tekst", "en": "Paste text"},
+    "choose_file": {"nl": "Kies een bestand", "en": "Choose a file"},
+    "start_hint": {"nl": "Duurt ongeveer 3 minuten", "en": "Takes about 3 minutes"},
+    "password_hint": {"nl": "Minimaal 10 tekens.", "en": "At least 10 characters."},
 }
 
 

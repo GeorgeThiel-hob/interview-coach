@@ -1,15 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card">
-<h1>{{ t('briefing') }}</h1>
-<h2>{{ t('likely_questions') }}</h2>
-<ul>{% for q in b.get('likely_questions', []) %}<li>{{ q }}</li>{% endfor %}</ul>
-<h2>{{ t('strongest_evidence') }}</h2>
-<ul>{% for e in b.get('strongest_evidence', []) %}<li><b>{{ reqs[e.requirement_id].text if e.requirement_id in reqs else e.requirement_id }}</b>: {{ e.summary }} <span class="muted small">{{ e.chunk_refs|join(', ') }}</span></li>{% endfor %}</ul>
-<h2>{{ t('gaps') }}</h2>
-<ul>{% for g in b.get('gaps', []) %}<li><b>{{ reqs[g.requirement_id].text if g.requirement_id in reqs else g.requirement_id }}</b>: {{ g.advice }}</li>{% endfor %}</ul>
-<h2>{{ t('prepare') }}</h2>
-<ol>{% for p in b.get('prepare', []) %}<li>{{ p }}</li>{% endfor %}</ol>
-<p><a class="btn" href="/runs/{{ run.id }}/interview">{{ t('start_interview') }}</a></p>
+{% set ns = namespace(total=0, strong=0) %}
+{% for r in reqs.values() if r.kind in ('eis', 'wens') %}{% set ns.total = ns.total + 1 %}{% if r.evidence_strength == 'strong' %}{% set ns.strong = ns.strong + 1 %}{% endif %}{% endfor %}
+<div class="two">
+<div>
+  <div class="eyebrow">{{ t('briefing') }}</div>
+  <h1>{% if ns.total %}{{ t('briefing_headline').format(n=ns.strong, total=ns.total) }}{% else %}{{ t('briefing') }}{% endif %}</h1>
+  <p class="lead">{{ t('briefing_lead') }}</p>
+
+  <section class="card">
+    <h2>{{ t('likely_questions') }}</h2>
+    <ol class="qlist">{% for q in b.get('likely_questions', []) %}<li><div><b>{{ q }}</b></div></li>{% endfor %}</ol>
+  </section>
+
+  <section class="card">
+    <h2>{{ t('strongest_evidence') }}</h2>
+    {% for e in b.get('strongest_evidence', []) %}
+    <div class="ev"><b>{{ reqs[e.requirement_id].text if e.requirement_id in reqs else e.requirement_id }}</b>
+      <div>{{ e.summary }}<div style="margin-top:.4rem">{% for ref in e.chunk_refs %}<span class="badge src">{{ ref }}</span>{% endfor %}</div></div></div>
+    {% endfor %}
+  </section>
+
+  {% if b.get('gaps') %}
+  <section class="card warm">
+    <h2 style="color:var(--accent-900)">{{ t('gaps') }}</h2>
+    <div class="gaps">{% for g in b.get('gaps', []) %}<div><b>{{ reqs[g.requirement_id].text if g.requirement_id in reqs else g.requirement_id }}</b><p class="small" style="margin:.35rem 0 0">{{ g.advice }}</p></div>{% endfor %}</div>
+  </section>
+  {% endif %}
+</div>
+
+<aside>
+  <section class="card soft">
+    <h2>{{ t('prepare') }}</h2>
+    <ul class="checklist">{% for p in b.get('prepare', []) %}<li><label><input type="checkbox"> {{ p }}</label></li>{% endfor %}</ul>
+  </section>
+  <section class="card raised">
+    <div class="chips"><span>{{ run.settings.get('length', 30) }} min</span><span>{{ t(run.settings.get('answer_mode', 'typed')) }}</span><span>{{ t(run.settings.get('difficulty', 'realistic')) }}</span></div>
+    <p class="small muted">{{ t('pause_anytime') }}</p>
+    <a class="btn lg" style="width:100%" href="/runs/{{ run.id }}/interview">{{ t('start_interview') }} →</a>
+  </section>
+</aside>
 </div>
 {% endblock %}

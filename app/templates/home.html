@@ -1,17 +1,32 @@
 {% extends "base.html" %}
+{% from "_macros.html" import status_pill %}
 {% block content %}
-{% if not local_ok %}<div class="alert">{{ t('local_offline') }}</div>{% endif %}
-<p><a class="btn" href="/runs/new">{{ t('new_run') }}</a></p>
-<div class="card">
-<h1>{{ t('my_runs') }}</h1>
-{% if runs %}
-<table>
-  <tr><th>{{ t('date') }}</th><th>{{ t('status') }}</th><th></th></tr>
-  {% for r in runs %}
-  <tr><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td><span class="status status-{{ r.status }}">{{ t('st_' ~ r.status) }}</span>{% if r.error %} <span class="muted small">({{ r.error }})</span>{% endif %}</td>
-      <td><a href="/runs/{{ r.id }}">{{ t('open') }}</a></td></tr>
-  {% endfor %}
-</table>
-{% else %}<p class="muted">—</p>{% endif %}
+{% if not local_ok %}<div class="alert" role="status">{{ t('local_offline') }}</div>{% endif %}
+<div class="pagehead">
+  <div><h1>{{ t('my_runs') }}</h1><p class="lead">{{ t('runs_lead') }}</p></div>
+  <a class="btn lg" href="/runs/new" {% if not local_ok %}aria-disabled="true" tabindex="-1"{% endif %}>+ {{ t('new_run') }}</a>
 </div>
+{% if runs %}
+<table class="runs">
+  <thead><tr><th>{{ t('date') }}</th><th><span class="sr-only">{{ t('run_untitled') }}</span></th><th>{{ t('status') }}</th><th><span class="sr-only">{{ t('open') }}</span></th></tr></thead>
+  <tbody>
+  {% for r in runs %}
+  {% set action = {'ready': 'action_start', 'interviewing': 'action_continue', 'paused': 'action_continue', 'done': 'action_review'}.get(r.status, 'open') %}
+  <tr>
+    <td class="small muted" style="font-weight:600">{{ r.created_at.strftime('%d-%m-%Y %H:%M') }}</td>
+    <td>{% set ctx = r.context or {} %}<b>{{ ctx.get('title') or t('run_untitled') }}</b><br><span class="small muted">{% if ctx.get('organisation') %}{{ ctx.get('organisation') }} · {% endif %}{{ r.settings.get('length', 30) }} min · {{ t(r.settings.get('answer_mode', 'typed')) }}{% if r.error %} · {{ r.error }}{% endif %}</span></td>
+    <td>{{ status_pill(r.status, t) }}</td>
+    <td><a class="btn {{ 'outline' if action in ('action_start', 'action_continue') else 'ghost' }}" href="/runs/{{ r.id }}">{{ t(action) }}</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty">
+  <div class="blobs" aria-hidden="true"><i style="left:0;top:10px;width:130px;height:130px;background:var(--accent-200)"></i><i style="left:92px;top:48px;width:92px;height:92px;background:var(--sage-300)"></i><i style="left:170px;top:0;width:40px;height:40px;background:var(--accent)"></i></div>
+  <h2 style="font:400 2rem/1.1 var(--font-display)">{{ t('empty_title') }}</h2>
+  <p class="lead">{{ t('empty_body') }}</p>
+  <p class="small muted">{{ t('privacy_note') }}</p>
+</div>
+{% endif %}
 {% endblock %}

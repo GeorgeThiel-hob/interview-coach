@@ -1,5 +1,6 @@
 {% extends "base.html" %}
+{% block main_class %}reading{% endblock %}
 {% block content %}
 <h1>{{ t('tips') }}</h1>
-{% for tip in tips.values() %}<div class="card" id="{{ tip.id }}"><h2>{{ tip.title }}</h2><p style="white-space:pre-wrap">{{ tip.body }}</p></div>{% endfor %}
+{% for tip in tips.values() %}<section class="card" id="{{ tip.id }}" style="scroll-margin-top:var(--s6)"><h2>{{ tip.title }}</h2><p style="white-space:pre-wrap;margin:0">{{ tip.body }}</p></section>{% endfor %}
 {% endblock %}
