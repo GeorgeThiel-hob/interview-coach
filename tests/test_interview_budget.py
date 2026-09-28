@@ -54,3 +54,12 @@ def test_no_exchanges_yet_uses_the_configured_minimum() -> None:
     assert follow_up_fits(
         elapsed_s=0.0, exchanges_done=0, topics_left=3, budget_s=15 * MIN, min_exchange_s=2 * MIN
     )
+
+
+def test_foreign_script_in_a_question_is_detected() -> None:
+    from app.interview.engine import foreign_script
+
+    # seen in a real run: Qwen slipped a Chinese word into a Dutch question
+    assert foreign_script("Het aandeel fouten daalde;具体 welke maatregel was doorslaggevend?")
+    assert foreign_script("これは質問ですか?") and foreign_script("질문입니다")
+    assert not foreign_script("Wat was het resultaat? Café, naïef, coöperatie: € 5.000 — prima.")
