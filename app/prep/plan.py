@@ -69,6 +69,12 @@ class BriefingOut(BaseModel):
     prepare: list[str]
 
 
+def prepare_items(b: BriefingOut) -> list[str]:
+    """Three things to prepare; when the model left the list empty, use the gap advice."""
+    items = [p for p in b.prepare if p.strip()] or [g.advice for g in b.gaps if g.advice.strip()]
+    return items[:3]
+
+
 def _requirements(engine: Engine, run_id: str) -> list[Requirement]:
     with Session(engine) as s:
         return list(s.exec(select(Requirement).where(Requirement.run_id == run_id)).all())
@@ -259,7 +265,7 @@ async def make_briefing(gateway: Gateway, engine: Engine, run_id: str) -> Briefi
                 for e in out.parsed.strongest_evidence
                 if e.requirement_id in valid_reqs
             ],
-            "prepare": out.parsed.prepare[:3],
+            "prepare": prepare_items(out.parsed),
         }
     )
     with Session(engine) as s:

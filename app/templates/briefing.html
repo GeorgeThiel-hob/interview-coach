@@ -31,10 +31,12 @@
 </div>
 
 <aside>
+  {% if b.get('prepare') %}
   <section class="card soft">
     <h2>{{ t('prepare') }}</h2>
     <ul class="checklist">{% for p in b.get('prepare', []) %}<li><label><input type="checkbox"> {{ p }}</label></li>{% endfor %}</ul>
   </section>
+  {% endif %}
   <section class="card raised">
     <div class="chips"><span>{{ run.settings.get('length', 30) }} min</span><span>{{ t(run.settings.get('answer_mode', 'typed')) }}</span><span>{{ t(run.settings.get('difficulty', 'realistic')) }}</span></div>
     <p class="small muted">{{ t('pause_anytime') }}</p>
