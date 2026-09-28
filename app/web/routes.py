@@ -67,6 +67,9 @@ def lang_of(request: Request) -> str:
 
 def render(request: Request, name: str, status_code: int = 200, **ctx: Any) -> HTMLResponse:
     lang = lang_of(request)
+    run = ctx.get("run")
+    if isinstance(run, Run) and run.settings.get("language") in ("nl", "en"):
+        lang = str(run.settings["language"])  # pages of a run speak the interview language
     return TEMPLATES.TemplateResponse(
         request,
         name,
