@@ -1,6 +1,6 @@
 # Next steps
 
-State after v1.0 (2026-09-28). The project overview is in [HANDOFF.md](HANDOFF.md).
+State after v1.0 (2026-09-28). Overview: [README](../README.md); build rules: [CLAUDE.md](../CLAUDE.md).
 
 ## Done for v1.0
 - [x] Real providers: `make live` passes (Ollama, Claude, Jev); full runs in Dutch and English.
@@ -41,6 +41,14 @@ State after v1.0 (2026-09-28). The project overview is in [HANDOFF.md](HANDOFF.m
       the evidence map (`evidence_for_req`, thresholds `evidence.strong/partial`).
 - [ ] Speaking targets (120–160 words per minute, 60–120 s per answer) in `app/review/metrics.py`.
 - [ ] D7: compare `bge-m3` with a second embedding model in the evaluation.
+
+## Known risks
+- `launchctl setenv OLLAMA_HOST` does not survive a reboot of the model machine: run it again, or
+  add a LaunchAgent.
+- Language drift of the local model is caught for interview questions only, not yet for other
+  local outputs (requirement extraction).
+- Thresholds in `config/thresholds.yaml` are starting values from the spec, not tuned.
+- Deploy only when no run is in progress (background evaluations run in the app process).
 
 ## Later (M7)
 - [ ] Coach role with explicit report sharing; intake personas tuned with an account manager.

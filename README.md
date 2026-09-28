@@ -103,7 +103,7 @@ WeasyPrint (PDF) · Ollama (Qwen 3.6, bge-m3) · TypeSafe Jev · Anthropic Claud
 ## Project documents
 
 [Architecture](docs/architecture.md) · [Privacy and data handling](docs/privacy.md) ·
-[Decisions](docs/decisions.md) · [Specification](docs/scope.md) · [Design notes](docs/design-handoff.md) ·
+[Decisions](docs/decisions.md) · [Specification](docs/scope.md) ·
 [Demo](demo/README.md) · [Evaluation](eval/README.md) · [Next steps](docs/next-steps.md)
 
 ## Development
