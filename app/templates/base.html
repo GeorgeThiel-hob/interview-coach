@@ -195,6 +195,9 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 @media (min-width: 960px) { .review { grid-template-columns: 300px minmax(0, 1fr); } .review > aside { position: sticky; top: var(--s6); align-self: start; } }
 .toc, .toc-sub { grid-template-columns: minmax(0, 1fr); } .review > aside { min-width: 0; }
 .demo-intro { margin-bottom: var(--s8); } .demo-intro .lead { max-width: 44rem; }
+.hood { margin: var(--s6) 0; scroll-margin-top: var(--s4); } .hood h3 { margin: var(--s4) 0 var(--s2); }
+.hood-table { overflow-x: auto; } .hood-table table { min-width: 640px; } .hood-table td { font-size: var(--fs-sm); }
+.hood-table .badge { margin: 0; } .hood-choices { margin: 0; padding-left: 1.1rem; font-size: var(--fs-sm); } .hood-choices li { margin-bottom: .35rem; }
 /* demo: two ways in (try it / look around), steps with screenshots, the framed example, try it */
 .demo-choose { font-weight: 600; max-width: 44rem; margin: var(--s6) 0 var(--s3); }
 .demo-paths { display: grid; gap: var(--s3); margin: 0 0 var(--s6); } @media (min-width: 640px) { .demo-paths { grid-template-columns: 1fr 1fr; } }

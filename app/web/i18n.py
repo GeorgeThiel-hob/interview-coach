@@ -422,6 +422,77 @@ T: dict[str, dict[str, str]] = {
         "nl": "Scores per antwoord (STAR, concreetheid, resultaat), dekking van de eisen en feedback met bronverwijzingen.",
         "en": "Scores per answer (STAR, specificity, results), requirement coverage and feedback that cites its sources.",
     },
+    # "Under the hood" on /demo; every claim matches config/models.yaml, app/llm/gateway.py,
+    # app/interview/engine.py and prompts/
+    "hood_title": {"nl": "Onder de motorkap", "en": "Under the hood"},
+    "hood_lead": {
+        "nl": "Vijf modellen, elk met een eigen taak, georkestreerd in code. Ruwe tekst gaat alleen naar het lokale model; externe diensten krijgen alleen gepseudonimiseerde tekst.",
+        "en": "Five models, each with its own job, orchestrated in code. Raw text only goes to the local model; external services only get pseudonymised text.",
+    },
+    "hood_col_model": {"nl": "Model", "en": "Model"},
+    "hood_col_where": {"nl": "Draait", "en": "Runs"},
+    "hood_col_what": {"nl": "Taak", "en": "Job"},
+    "hood_col_why": {"nl": "Waarom dit model", "en": "Why this model"},
+    "hood_local": {"nl": "lokaal", "en": "local"},
+    "hood_external": {"nl": "extern", "en": "external"},
+    "hood_qwen_what": {
+        "nl": "Pseudonimiseert ruwe tekst, haalt de eisen uit de vacature en schrijft elke interviewvraag, in de rol van de interviewer.",
+        "en": "Pseudonymises raw text, pulls the requirements out of the vacancy and writes every interview question, in the interviewer's role.",
+    },
+    "hood_qwen_why": {
+        "nl": "Ziet ruwe tekst, dus moet op eigen hardware blijven; open-source, gratis en snel genoeg voor elke vraag.",
+        "en": "Sees raw text, so it must stay on own hardware; open source, free and fast enough for every question.",
+    },
+    "hood_bge_what": {
+        "nl": "Zoekt per eis het bewijs in het cv (retrieval).",
+        "en": "Finds the evidence in the CV for each requirement (retrieval).",
+    },
+    "hood_bge_why": {
+        "nl": "Meertalig (Nederlands en Engels), open-source, draait lokaal.",
+        "en": "Multilingual (Dutch and English), open source, runs locally.",
+    },
+    "hood_jev_what": {
+        "nl": "Beoordeelt elk antwoord (STAR, concreetheid, dekking van eisen, kwaliteit, volgende stap) en controleert elke gegenereerde vraag voordat die getoond wordt.",
+        "en": "Judges every answer (STAR, specificity, requirement coverage, quality, next move) and checks every generated question before it is shown.",
+    },
+    "hood_jev_why": {
+        "nl": "Getypeerde oordelen mét een waarschijnlijkheid; snel en goedkoop (≈€0,002 per ronde).",
+        "en": "Typed judgments with a probability; fast and cheap (≈€0.002 per round).",
+    },
+    "hood_sonnet_what": {
+        "nl": "Schrijft het gespreksplan (scenario en interviewers), de briefing en de feedback met bronnen, en geeft een tweede mening als Jev twijfelt.",
+        "en": "Writes the interview plan (scenario and interviewers), the briefing and the feedback with sources, and gives a second opinion when Jev is unsure.",
+    },
+    "hood_sonnet_why": {
+        "nl": "Zorgvuldige, langere teksten; ongeveer 99% van de kosten.",
+        "en": "Careful, longer texts; about 99% of the cost.",
+    },
+    "hood_haiku_what": {
+        "nl": "Schrijft de vraag als de pogingen van het lokale model twee keer door de controle vallen.",
+        "en": "Writes the question when the local model's attempts fail the checks twice.",
+    },
+    "hood_haiku_why": {"nl": "Snelle, goedkope terugvaloptie.", "en": "Fast, cheap fallback."},
+    "hood_choices": {"nl": "Ontwerpkeuzes", "en": "Design choices"},
+    "hood_choice_1": {
+        "nl": "Privacy afgedwongen in code: externe diensten weigeren ongefilterde tekst, en de prompts behandelen documenten als gegevens, niet als instructies (tegen prompt injection).",
+        "en": "Privacy enforced in code: external services refuse unfiltered text, and the prompts treat documents as data, not as instructions (against prompt injection).",
+    },
+    "hood_choice_2": {
+        "nl": "Het goedkoopste model dat de taak goed doet: gemeten ≈€0,20 per ronde van 15 minuten.",
+        "en": "The cheapest model that does the job well: measured at ≈€0.20 per 15-minute round.",
+    },
+    "hood_choice_3": {
+        "nl": "Controles in plaats van blind vertrouwen: elke vraag wordt gecontroleerd, twijfelachtige oordelen krijgen een tweede mening en feedback verwijst naar cv of antwoord.",
+        "en": "Checks instead of blind trust: every question is checked, uncertain judgments get a second opinion, and feedback cites the CV or the answer.",
+    },
+    "hood_choice_4": {
+        "nl": "Gemeten, niet aangenomen: elke modelaanroep wordt gelogd (rol, model, welk model antwoordde, tokens, kosten, snelheid), met budgetlimieten per ronde en per dag.",
+        "en": "Measured, not assumed: every model call is logged (role, model, which model answered, tokens, cost, latency), with budget caps per round and per day.",
+    },
+    "hood_honest": {
+        "nl": "Bewust een vaste, door code gestuurde flow in plaats van autonome agents: voorspelbaar, testbaar en de ruwe tekst blijft lokaal. De drempels zijn startwaarden; een evaluatieset om ze af te stemmen staat gepland.",
+        "en": "Deliberately a fixed, code-driven flow rather than autonomous agents: predictable, testable, and raw text stays local. Thresholds are starting values; an evaluation set to tune them is planned.",
+    },
     "demo_privacy_title": {"nl": "Privacy by design.", "en": "Privacy by design."},
     "demo_privacy": {
         "nl": "Namen en contactgegevens worden vervangen door labels op een lokaal taalmodel (Ollama, via een privé Tailscale-netwerk) voordat er tekst naar een externe AI-dienst gaat. Zonder lokaal model start er geen nieuwe ronde.",
