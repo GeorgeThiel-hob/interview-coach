@@ -5,10 +5,12 @@ from __future__ import annotations
 import re
 import time
 from collections.abc import Iterator
+from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import Engine
 from sqlmodel import Session
 
 from app.db.models import Run
@@ -225,6 +227,65 @@ def test_public_demo_needs_no_login_and_offers_no_run_actions(
         assert f'lang="{lang}"' in page.text
     pdf = client.get("/demo/report.pdf?lang=en")
     assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF-")
+
+
+def test_demo_reads_as_an_example_not_as_the_app(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    client.cookies.clear()
+    for lang, eyebrow, tab in (
+        ("nl", "Rondleiding", "Voorbeeldresultaat"),
+        ("en", "Walkthrough", "Example result"),
+    ):
+        page = client.get(f"/demo?lang={lang}").text
+        assert eyebrow in page and tab in page and 'class="example-frame"' in page
+        assert "geen account nodig" not in page and "no account needed" not in page
+        for n in (1, 2):  # the walkthrough screenshots exist for both languages
+            src = f"/static/demo/{lang}-step{n}.png"
+            assert src in page
+            assert client.get(src).status_code == 200
+        # no shared code configured: invitation only, no sign-up link
+        assert 'id="try"' in page and "/register?code=" not in page
+
+
+def test_demo_try_it_button_follows_the_laptop(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.cookies.clear()
+    settings = client.app.state.settings  # type: ignore[attr-defined]
+    settings.demo_signup_code = "team-2026"
+    settings.demo_contact_email = "me@example.org"
+    page = client.get("/demo?lang=en").text
+    assert "/register?code=team-2026" in page and "online right now" in page
+    st.local.online = False  # laptop asleep: no button, and the code is not shown
+    page = client.get("/demo?lang=en").text
+    assert "team-2026" not in page and "offline right now" in page
+    assert "mailto:me@example.org" in page
+    st.local.online = True
+    settings.demo_signup_max = 0  # no places left
+    page = client.get("/demo?lang=en").text
+    assert "team-2026" not in page and "by invitation" in page
+
+
+def test_shared_signup_code_has_a_cap_and_an_end_date(engine: Engine) -> None:
+    from app.web.auth import SHARED_SIGNUP, SharedSignup, register
+
+    pw = "a-long-password"
+    shared = SharedSignup("team-2026", max_users=2)
+    for i in range(2):
+        user = register(engine, " team-2026 ", f"p{i}@example.org", pw, shared)
+        assert user.role == "candidate" and user.invited_by == SHARED_SIGNUP
+    with pytest.raises(ValueError, match="no longer valid"):
+        register(engine, "team-2026", "p3@example.org", pw, shared)
+    with pytest.raises(ValueError, match="already exists"):
+        register(engine, "team-2026", "p0@example.org", pw, SharedSignup("team-2026", 9))
+    past = SharedSignup("team-2026", 9, until=date.today() - timedelta(days=1))
+    assert not past.is_open(engine)
+    with pytest.raises(ValueError, match="no longer valid"):
+        register(engine, "team-2026", "p4@example.org", pw, past)
+    # an unset shared code never matches; other codes still go through the invites table
+    with pytest.raises(ValueError, match="invite code is not valid"):
+        register(engine, "", "p5@example.org", pw, SharedSignup("", 9))
+    with pytest.raises(ValueError, match="invite code is not valid"):
+        register(engine, "team-2027", "p6@example.org", pw, shared)
 
 
 def test_download_is_named_after_the_vacancy() -> None:

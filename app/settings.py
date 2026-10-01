@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date
 from functools import lru_cache
 from pathlib import Path
 
@@ -33,6 +34,13 @@ class Settings(BaseSettings):
     health_token: str = ""
     # Public /demo page: link to the source code (empty = no link)
     demo_repo_url: str = ""
+    # Public /demo page, "try it yourself": one shared sign-up code (unset = button off), at most
+    # demo_signup_max accounts, until demo_signup_until (YYYY-MM-DD; unset = no end date).
+    demo_signup_code: str = ""
+    demo_signup_max: int = 25
+    demo_signup_until: date | None = None
+    # Shown on /demo when the button is off or the laptop is offline (unset = no mail link)
+    demo_contact_email: str = ""
 
 
 @lru_cache

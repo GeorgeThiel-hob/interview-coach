@@ -3,10 +3,17 @@
   <div class="eyebrow">{{ t('demo_eyebrow') }}</div>
   <h1>{{ t('demo_title') }}</h1>
   <p class="lead">{{ t('demo_lead') }}</p>
+  <div class="demo-scope">
+    <div><h3>{{ t('demo_see_title') }}</h3><ul><li>{{ t('demo_see_1') }}</li><li>{{ t('demo_see_2') }}</li></ul></div>
+    <div class="not"><h3>{{ t('demo_cant_title') }}</h3><ul><li>{{ t('demo_cant_1') }}</li><li>{{ t('demo_cant_2') }} <a href="#try">{{ t('demo_try_link') }}</a></li></ul></div>
+  </div>
   <ol class="demo-steps">
-    <li><b>{{ t('demo_step1_title') }}</b><span>{{ t('demo_step1') }}</span></li>
-    <li><b>{{ t('demo_step2_title') }}</b><span>{{ t('demo_step2') }}</span></li>
-    <li><b>{{ t('demo_step3_title') }}</b><span>{{ t('demo_step3') }}</span></li>
+    {% for n in (1, 2) %}
+    <li><div><b>{{ t('demo_step%d_title' % n) }}</b><span>{{ t('demo_step%d' % n) }}</span></div>
+      <figure class="shot"><img src="/static/demo/{{ lang }}-step{{ n }}.png" width="1200" height="800" loading="lazy" alt="{{ t('demo_shot%d_alt' % n) }}">
+        <span class="tag">{{ t('demo_screenshot') }}</span><figcaption>{{ t('demo_shot%d_caption' % n) }}</figcaption></figure></li>
+    {% endfor %}
+    <li><div><b>{{ t('demo_step3_title') }}</b><span>{{ t('demo_step3') }}</span><a class="down" href="#summary">{{ t('demo_step3_down') }}</a></div></li>
   </ol>
   <div class="alert" role="note"><div><b>{{ t('demo_privacy_title') }}</b> {{ t('demo_privacy') }}</div></div>
   <p class="small muted">{{ t('demo_disclaimer') }}</p>

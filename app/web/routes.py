@@ -42,6 +42,7 @@ from app.review.metrics import speaking_stats
 from app.review.tips import all_tips
 from app.review.usage import usage
 from app.web.auth import (
+    SharedSignup,
     authenticate,
     check_csrf,
     create_invite,
@@ -192,7 +193,9 @@ async def register_submit(
     request: Request, code: str = Form(...), email: str = Form(...), password: str = Form(...)
 ) -> Response:
     try:
-        user = register(request.app.state.engine, code, email, password)
+        user = register(
+            request.app.state.engine, code, email, password, shared=_shared_signup(request)
+        )
     except ValueError as e:
         return render(request, "register.html", 400, error=str(e), code=code)
     request.session.clear()
@@ -512,6 +515,32 @@ def _demo_lang(request: Request) -> str:
     return lang if lang in ("nl", "en") else "nl"
 
 
+def _shared_signup(request: Request) -> SharedSignup:
+    s = request.app.state.settings
+    return SharedSignup(s.demo_signup_code, s.demo_signup_max, s.demo_signup_until)
+
+
+async def _try_it(request: Request) -> dict[str, Any]:
+    """State of the "try it yourself" block: open (button), offline (laptop off) or closed."""
+    settings = request.app.state.settings
+    shared = _shared_signup(request)
+    out: dict[str, Any] = {
+        "state": "closed",
+        "code": "",
+        "email": settings.demo_contact_email,
+        "retention_days": settings.retention_days,
+    }
+    if not shared.is_open(request.app.state.engine):
+        return out
+    try:  # a sleeping laptop must not stall the page: Ollama's ping alone may wait 3 s
+        online = await asyncio.wait_for(request.app.state.gateway.local_available(), 2.5)
+    except TimeoutError:
+        online = False
+    out["state"] = "open" if online else "offline"
+    out["code"] = shared.code if online else ""
+    return out
+
+
 @router.get("/demo", response_class=HTMLResponse)
 async def demo_page(request: Request) -> HTMLResponse:
     d = _demo(_demo_lang(request))
@@ -526,6 +555,7 @@ async def demo_page(request: Request) -> HTMLResponse:
         b=d["briefing"],
         reqs=d["requirements"],
         repo_url=request.app.state.settings.demo_repo_url,
+        try_it=await _try_it(request),
         tips=all_tips(report.language),
         chart=json.dumps(_chart_data(report)),
     )

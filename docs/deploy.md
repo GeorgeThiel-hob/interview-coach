@@ -202,6 +202,18 @@ Log in at `https://<your-domain>/login`; admins create more invites at `/admin`.
 To show a link to your source code on it, add `DEMO_REPO_URL=https://github.com/<owner>/<repo>`
 to `.env` and recreate the container: `docker compose -f deploy/docker-compose.yml up -d --force-recreate`.
 
+To let visitors sign up from the demo page with one shared code, add (and recreate the container):
+
+```bash
+DEMO_SIGNUP_CODE=<a long random string>   # unset = no button, "access is by invitation"
+DEMO_SIGNUP_MAX=25                        # accounts the code can create
+DEMO_SIGNUP_UNTIL=2026-11-30              # last day the code works (optional)
+DEMO_CONTACT_EMAIL=you@example.org        # shown when the button is off or the laptop is offline
+```
+
+The code is visible in the button's link, so treat it as public: the cap and end date are the
+protection. The button only shows while the local model answers.
+
 ## 9. Backups
 
 `deploy/backup.sh` makes a consistent SQLite copy inside the container, encrypts it with gpg

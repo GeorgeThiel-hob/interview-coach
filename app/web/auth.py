@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import hmac
 import secrets
-from datetime import UTC, datetime, timedelta
+from dataclasses import dataclass
+from datetime import UTC, date, datetime, timedelta
 
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError
@@ -62,10 +63,45 @@ def create_invite(engine: Engine, created_by: str, role: str = "candidate", days
     return code
 
 
-def register(engine: Engine, code: str, email: str, password: str) -> User:
+SHARED_SIGNUP = "shared-signup"  # User.invited_by of accounts made with the shared code
+
+
+@dataclass(frozen=True)
+class SharedSignup:
+    """One public code (the /demo "try it yourself" button) that up to max_users people can use.
+
+    Lives in settings, not in the invites table: a new column there would need a migration.
+    """
+
+    code: str
+    max_users: int
+    until: date | None = None
+
+    def matches(self, code: str) -> bool:
+        return bool(self.code) and hmac.compare_digest(code.strip(), self.code)
+
+    def is_open(self, engine: Engine) -> bool:
+        """The code is set, not past its end date, and has places left."""
+        if not self.code or (self.until and datetime.now(UTC).date() > self.until):
+            return False
+        with Session(engine) as s:
+            return _shared_count(s) < self.max_users
+
+
+def _shared_count(s: Session) -> int:
+    return len(s.exec(select(User.id).where(User.invited_by == SHARED_SIGNUP)).all())
+
+
+def register(
+    engine: Engine, code: str, email: str, password: str, shared: SharedSignup | None = None
+) -> User:
     email = email.strip().lower()
     if len(password) < 10:
         raise ValueError("Use a password of at least 10 characters.")
+    if shared and shared.matches(code):
+        if not shared.is_open(engine):
+            raise ValueError("This code is no longer valid. Ask for a personal invite.")
+        return _create_candidate(engine, email, password, invited_by=SHARED_SIGNUP)
     with Session(engine) as s:
         invite = s.get(Invite, code.strip())
         expires = (
@@ -86,6 +122,22 @@ def register(engine: Engine, code: str, email: str, password: str) -> User:
         s.add(user)
         invite.used_by = user.id
         s.add(invite)
+        s.commit()
+        s.refresh(user)
+        return user
+
+
+def _create_candidate(engine: Engine, email: str, password: str, invited_by: str) -> User:
+    with Session(engine) as s:
+        if s.exec(select(User).where(User.email == email)).first():
+            raise ValueError("An account with this email already exists.")
+        user = User(
+            email=email,
+            password_hash=hash_password(password),
+            role="candidate",
+            invited_by=invited_by,
+        )
+        s.add(user)
         s.commit()
         s.refresh(user)
         return user

@@ -286,7 +286,82 @@ T: dict[str, dict[str, str]] = {
     "kind_eis": {"nl": "eis", "en": "required"},
     "kind_wens": {"nl": "wens", "en": "nice to have"},
     # public demo page
-    "demo_eyebrow": {"nl": "Demo · geen account nodig", "en": "Demo · no account needed"},
+    "demo_eyebrow": {"nl": "Rondleiding · voorbeeldronde", "en": "Walkthrough · example run"},
+    "demo_see_title": {"nl": "Wat je hier ziet", "en": "What you see here"},
+    "demo_see_1": {
+        "nl": "Een afgeronde oefenronde van een fictieve kandidaat, van voorbereiding tot terugblik.",
+        "en": "A finished practice round by a fictional candidate, from preparation to review.",
+    },
+    "demo_see_2": {
+        "nl": "Schermafbeeldingen van de stappen die je in de app zelf doorloopt.",
+        "en": "Screenshots of the steps you go through in the app itself.",
+    },
+    "demo_cant_title": {"nl": "Wat je hier niet kunt", "en": "What you can't do here"},
+    "demo_cant_1": {
+        "nl": "Deze pagina is alleen om te bekijken: je uploadt hier niets en voert geen gesprek.",
+        "en": "This page is view-only: you don't upload anything or do an interview here.",
+    },
+    "demo_cant_2": {
+        "nl": "Zelf oefenen gaat met een account.",
+        "en": "Practising yourself takes an account.",
+    },
+    "demo_try_link": {"nl": "Zo probeer je het zelf ↓", "en": "How to try it yourself ↓"},
+    "demo_screenshot": {"nl": "Schermafbeelding", "en": "Screenshot"},
+    "demo_shot1_alt": {
+        "nl": "Het formulier voor een nieuwe ronde: vacature en cv uploaden, type gesprek, taal, duur en moeilijkheid kiezen.",
+        "en": "The new-round form: upload the vacancy and CV, choose interview type, language, length and difficulty.",
+    },
+    "demo_shot1_caption": {
+        "nl": "Je begint met de vacature en je cv. De voorbereiding duurt ongeveer 3 minuten.",
+        "en": "You start with the vacancy and your CV. Preparation takes about 3 minutes.",
+    },
+    "demo_shot2_alt": {
+        "nl": "Het gespreksscherm: de interviewer stelt een vervolgvraag op het vorige antwoord van de kandidaat.",
+        "en": "The interview screen: the interviewer asks a follow-up on the candidate's previous answer.",
+    },
+    "demo_shot2_caption": {
+        "nl": "Een vervolgvraag uit deze ronde: de interviewer haakt in op wat de kandidaat net zei.",
+        "en": "A follow-up from this round: the interviewer picks up on what the candidate just said.",
+    },
+    "demo_step3_down": {
+        "nl": "Het resultaat van deze ronde staat hieronder ↓",
+        "en": "The result of this round is below ↓",
+    },
+    "demo_example_tab": {
+        "nl": "Voorbeeldresultaat · fictieve kandidaat",
+        "en": "Example result · fictional candidate",
+    },
+    "demo_pdf": {"nl": "Voorbeeldrapport (PDF)", "en": "Example report (PDF)"},
+    "demo_try_title": {"nl": "Zelf proberen", "en": "Try it yourself"},
+    "demo_try_intro": {
+        "nl": "Wil je het met een echte vacature en je eigen cv proberen? Dit kun je verwachten:",
+        "en": "Want to try it with a real vacancy and your own CV? Here is what to expect:",
+    },
+    "demo_try_expect_1": {
+        "nl": "Je maakt een account aan met e-mail en wachtwoord.",
+        "en": "You create an account with an email address and a password.",
+    },
+    "demo_try_expect_2": {
+        "nl": "Je uploadt een vacature en je cv; na ongeveer 3 minuten voorbereiding volgt een gesprek van 15 tot 45 minuten.",
+        "en": "You upload a vacancy and your CV; after about 3 minutes of preparation comes a 15 to 45 minute interview.",
+    },
+    "demo_try_expect_3": {
+        "nl": "Namen en contactgegevens gaan eerst door het lokale model; rondes worden na {days} dagen verwijderd.",
+        "en": "Names and contact details go through the local model first; rounds are deleted after {days} days.",
+    },
+    "demo_try_button": {"nl": "Account aanmaken en beginnen", "en": "Create an account and start"},
+    "demo_try_open_hint": {
+        "nl": "Het lokale model is nu online.",
+        "en": "The local model is online right now.",
+    },
+    "demo_try_offline": {
+        "nl": "Het lokale model draait op mijn laptop en is nu offline, dus er kan geen nieuwe ronde starten. Stuur me een bericht, dan zet ik het voor je aan.",
+        "en": "The local model runs on my laptop and is offline right now, so no new round can start. Send me a message and I'll switch it on for you.",
+    },
+    "demo_try_closed": {
+        "nl": "Toegang gaat op uitnodiging. Stuur me een bericht voor een account.",
+        "en": "Access is by invitation. Send me a message for an account.",
+    },
     "demo_title": {
         "nl": "Oefen sollicitatiegesprekken met een AI-coach die je privacy bewaakt",
         "en": "Practise job interviews with an AI coach that guards your privacy",
