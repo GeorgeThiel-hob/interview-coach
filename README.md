@@ -121,6 +121,11 @@ Every model call goes through `app/llm/gateway.py`; model IDs, prompts and thres
 
 ## Status
 
+**v1.1** (2026-10-01): the public `/demo` page explains itself (walkthrough with screenshots,
+labelled example result) and offers a "try it yourself" sign-up with one capped, dated shared
+code; accounts use a username instead of an e-mail address; Claude roles run on Sonnet 5.5
+(one 15-minute run measured at €0.21).
+
 **v1.0**: prepare, interview, review, PDF report, follow-up runs, web UI (NL/EN, light and dark),
 public demo and self-hosting are complete and tested on real runs. Open: spoken answers need
 more server resources than the reference setup has, the evaluation set still has to be written

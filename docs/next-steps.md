@@ -1,6 +1,19 @@
 # Next steps
 
-State after v1.0 (2026-09-28). Overview: [README](../README.md); build rules: [CLAUDE.md](../CLAUDE.md).
+State after v1.1 (2026-10-01). Overview: [README](../README.md); build rules: [CLAUDE.md](../CLAUDE.md).
+
+## Done for v1.1
+- [x] `/demo` says what it is: two ways in at the top (try it yourself / look around first),
+      screenshots of the new-round form and a real follow-up question (`scripts/demo_screens.py`),
+      the review in a labelled "example result" frame.
+- [x] "Try it yourself": one shared sign-up code (`DEMO_SIGNUP_CODE`, capped by
+      `DEMO_SIGNUP_MAX`, dated by `DEMO_SIGNUP_UNTIL`); the button shows only while the local
+      model answers. Decision D3 amended (docs/decisions.md).
+- [x] Accounts use a username (3–40 characters), no e-mail address needed; existing e-mail
+      logins keep working.
+- [x] Claude roles on `claude-sonnet-5-5`; verified on a real run (all calls served by
+      Sonnet 5.5, €0.21 for 15 minutes).
+- [x] Non-ASCII codes on `/register` give a 400 instead of a 500.
 
 ## Done for v1.0
 - [x] Real providers: `make live` passes (Ollama, Claude, Jev); full runs in Dutch and English.
@@ -31,6 +44,11 @@ State after v1.0 (2026-09-28). Overview: [README](../README.md); build rules: [C
       policy): docs/privacy.md.
 
 ## Engineering
+- [ ] **Haiku**: `claude-haiku-4-5` (roles `interviewer_escalation`, `fallback_fast` in
+      `config/models.yaml`) may be retired from 2026-10-15; switch both roles to the next Haiku
+      when it is released, and add its price under `pricing_usd_per_mtok`.
+- [ ] "Try it yourself" ignores the daily budget: when `budgets.daily_eur` is used up, show
+      "busy today" instead of the button.
 - [ ] Test the no-Claude configuration end to end (every generating role on Ollama) with the
       evaluation set; document the quality difference.
 - [ ] `make bench`: Qwen 3.6 35B-A3B vs 3.8 27B (and MLX / oMLX) on the reference machine; add the
