@@ -1,0 +1,20 @@
+{# What pseudonymisation covers, matched to app/ingest/pseudonymise.py and prompts/pseudonymise.md.
+   Keep the two in step: if detection changes, change privacy_replaced / privacy_kept too.
+   full=false: short version with the rest behind "more"; full=true: everything visible. #}
+{% set days = request.app.state.settings.retention_days %}
+<div class="privacy-notice" role="note">
+  <h3>{{ t('privacy_title') }}</h3>
+  <p>{{ t('privacy_replaced') }}</p>
+  <p><b>{{ t('privacy_share_title') }}</b> {{ t('privacy_share') }}</p>
+  {% if full %}
+  <p>{{ t('privacy_kept') }}</p>
+  <p>{{ t('privacy_pseudo') }}</p>
+  <p class="small muted">{{ t('privacy_after').format(days=days) }}</p>
+  {% else %}
+  <details><summary>{{ t('privacy_more') }}</summary>
+    <p>{{ t('privacy_kept') }}</p>
+    <p>{{ t('privacy_pseudo') }}</p>
+    <p class="small muted">{{ t('privacy_after').format(days=days) }}</p>
+  </details>
+  {% endif %}
+</div>

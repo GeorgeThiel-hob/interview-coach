@@ -7,6 +7,31 @@ T: dict[str, dict[str, str]] = {
     "login": {"nl": "Inloggen", "en": "Log in"},
     "logout": {"nl": "Uitloggen", "en": "Log out"},
     "register": {"nl": "Account aanmaken", "en": "Create account"},
+    # privacy notice (register + new round); must match app/ingest/pseudonymise.py and
+    # prompts/pseudonymise.md
+    "privacy_title": {"nl": "Wat er met je gegevens gebeurt", "en": "What happens to your data"},
+    "privacy_replaced": {
+        "nl": "Voordat tekst naar een externe AI-dienst gaat (Anthropic voor de teksten, TypeSafe in de VS voor de beoordeling), vervangt een eigen computer namen van personen, e-mailadressen, telefoonnummers, adressen en postcodes, profiellinks, IBAN- en BSN-nummers en als zodanig vermelde geboortedata door labels zoals [PERSON_1].",
+        "en": "Before any text goes to an external AI service (Anthropic for the writing, TypeSafe in the US for the scoring), a computer of our own replaces names of people, email addresses, phone numbers, addresses and postcodes, profile links, IBAN and BSN numbers, and dates of birth that are labelled as such with labels like [PERSON_1].",
+    },
+    "privacy_share_title": {"nl": "Deel alleen wat nodig is:", "en": "Share only what's needed:"},
+    "privacy_share": {
+        "nl": "een gewoon cv en een vacature. Geen gegevens over anderen, geen gezondheids-, identiteits- of financiële gegevens, geen vertrouwelijke informatie van een werkgever. Twijfel je? Gebruik een aangepast of fictief cv.",
+        "en": "an ordinary CV and a vacancy. No data about other people, no health, identity or financial data, no confidential employer information. Unsure? Use an edited or fictional CV.",
+    },
+    "privacy_more": {"nl": "Meer uitleg", "en": "More detail"},
+    "privacy_kept": {
+        "nl": "Wat blijft staan: werkgevers, klanten, opleidingen, functietitels, vaardigheden, jaartallen en de vacaturetekst; die zijn nodig voor een goed gesprek.",
+        "en": "Kept: employers, clients, education, job titles, skills, years and the vacancy text; a good interview needs them.",
+    },
+    "privacy_pseudo": {
+        "nl": "Dit is pseudonimiseren, geen anonimiseren: de herkenning is automatisch en kan iets missen, en je loopbaan zelf kan je herkenbaar maken.",
+        "en": "This is pseudonymisation, not anonymisation: detection is automatic and can miss things, and your career itself can make you recognisable.",
+    },
+    "privacy_after": {
+        "nl": "Rondes worden na {days} dagen verwijderd; je kunt ze eerder zelf verwijderen. De externe diensten trainen geen modellen op je tekst.",
+        "en": "Rounds are deleted after {days} days; you can delete them earlier yourself. The external services don't train models on your text.",
+    },
     "username": {"nl": "Gebruikersnaam", "en": "Username"},
     "username_hint": {
         "nl": "Een naam of woord naar keuze (3 tot 40 tekens). Je e-mailadres is niet nodig.",
