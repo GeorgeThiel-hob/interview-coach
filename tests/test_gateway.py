@@ -48,7 +48,7 @@ async def test_every_call_is_logged_with_cost_and_no_content(
         ("plan", "anthropic", "ok"),
         ("judge", "typesafe", "ok"),
     ]
-    # plan: 10 in / 5 out on claude-sonnet-5 at $2 / $10 per MTok, converted to EUR
+    # plan: 10 in / 5 out on claude-sonnet-5-5 at $2 / $10 per MTok, converted to EUR
     expected = (10 * 2.0 + 5 * 10.0) / 1_000_000 * config.usd_to_eur
     assert logged[0].cost_eur == pytest.approx(expected)
     columns = set(ModelCall.model_fields)

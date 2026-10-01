@@ -31,7 +31,7 @@ flowchart LR
 | pseudonymise | local Qwen | yes (local_only: must stay local) |
 | extract, interviewer, embed | local Qwen / bge-m3 | pseudonymised |
 | judge | Jev 1.13.0 | pseudonymised |
-| plan, briefing, feedback, escalation | Claude Sonnet 5 | pseudonymised |
+| plan, briefing, feedback, escalation | Claude Sonnet 5.5 | pseudonymised |
 | interviewer_escalation, fallback_fast | Claude Haiku 4.5 | pseudonymised |
 
 ## The privacy boundary is a type

@@ -10,7 +10,7 @@ logging and the privacy check. Which provider handles which **role** is configur
 | Local LLM | **Qwen 3.6 35B-A3B** via [Ollama](https://ollama.com) | on your own machine | sees raw text (names, contact details) to pseudonymise it, so it must never leave your hardware; also cheap enough to ask every interview question |
 | Embeddings | **bge-m3** via Ollama | on your own machine | multilingual (Dutch and English) retrieval of CV evidence per requirement |
 | Judge | **Jev 1.13.0** via the [TypeSafe](https://typesafe.ai) API | external | typed yes/no, choice and score answers **with a probability**, fast (~0.3 s) and cheap (~€0.002 per run) |
-| Writer | **Claude Sonnet 5** (and Haiku 4.5) via the [Anthropic](https://docs.anthropic.com) API | external | the long, careful texts: interview plan, briefing, feedback with sources, practice plan, and a second opinion when Jev is unsure |
+| Writer | **Claude Sonnet 5.5** (and Haiku 4.5) via the [Anthropic](https://docs.anthropic.com) API | external | the long, careful texts: interview plan, briefing, feedback with sources, practice plan, and a second opinion when Jev is unsure |
 
 External models only ever receive **pseudonymised** text; see [privacy.md](privacy.md) and the
 `SafeText` type in [architecture.md](architecture.md).
@@ -24,8 +24,8 @@ External models only ever receive **pseudonymised** text; see [privacy.md](priva
 | `embed` | bge-m3 | no | embeddings for matching CV fragments to requirements |
 | `interviewer` | Qwen | no | writes the next interview question |
 | `judge` | Jev | no | all typed judgments (next section) |
-| `plan`, `briefing`, `feedback` | Claude Sonnet 5 | no | interview plan, briefing, feedback per answer and the practice plan |
-| `escalation`, `extract_escalation` | Claude Sonnet 5 | no | a second opinion when Jev is unsure, or when extraction fails |
+| `plan`, `briefing`, `feedback` | Claude Sonnet 5.5 | no | interview plan, briefing, feedback per answer and the practice plan |
+| `escalation`, `extract_escalation` | Claude Sonnet 5.5 | no | a second opinion when Jev is unsure, or when extraction fails |
 | `interviewer_escalation`, `fallback_fast` | Claude Haiku 4.5 | no | writes the question when the local model's attempts fail the guardrails twice |
 
 `local_only` roles are checked when the config loads: pointing `pseudonymise` at an external
