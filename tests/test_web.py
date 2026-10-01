@@ -370,7 +370,7 @@ def test_privacy_notice_on_register_and_new_round(web: tuple[TestClient, Stack])
     ):
         page = client.get(f"/register?lang={lang}").text
         assert title in page and more in page and pseudo in page  # pseudo sits in <details>
-        assert "[PERSON_1]" in page and "TypeSafe" in page
+        assert "[PERSON_1]" in page and "TypeSafe" in page and "Qwen" in page
     login_new_user(client, st, "notice-user")
     page = client.get("/runs/new?lang=en").text
     assert "What happens to your data" in page and "<details>" not in page  # full version
