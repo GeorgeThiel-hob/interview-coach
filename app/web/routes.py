@@ -164,14 +164,14 @@ async def login_page(request: Request) -> HTMLResponse:
 
 
 @router.post("/login")
-async def login(request: Request, email: str = Form(...), password: str = Form(...)) -> Response:
-    key = f"{request.client.host if request.client else '?'}|{email.strip().lower()}"
+async def login(request: Request, username: str = Form(...), password: str = Form(...)) -> Response:
+    key = f"{request.client.host if request.client else '?'}|{' '.join(username.split()).lower()}"
     if not login_allowed(key):
         return render(request, "login.html", 429, error="Too many attempts. Wait 10 minutes.")
-    user = authenticate(request.app.state.engine, email, password)
+    user = authenticate(request.app.state.engine, username, password)
     if user is None:
         record_failed_login(key)
-        return render(request, "login.html", 400, error="Wrong email or password.")
+        return render(request, "login.html", 400, error="Wrong username or password.")
     request.session.clear()
     request.session["uid"] = user.id
     return RedirectResponse("/", status_code=303)
@@ -190,11 +190,14 @@ async def register_page(request: Request, code: str = "") -> HTMLResponse:
 
 @router.post("/register")
 async def register_submit(
-    request: Request, code: str = Form(...), email: str = Form(...), password: str = Form(...)
+    request: Request,
+    code: str = Form(...),
+    username: str = Form(...),
+    password: str = Form(...),
 ) -> Response:
     try:
         user = register(
-            request.app.state.engine, code, email, password, shared=_shared_signup(request)
+            request.app.state.engine, code, username, password, shared=_shared_signup(request)
         )
     except ValueError as e:
         return render(request, "register.html", 400, error=str(e), code=code)

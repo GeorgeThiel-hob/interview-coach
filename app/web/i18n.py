@@ -7,7 +7,11 @@ T: dict[str, dict[str, str]] = {
     "login": {"nl": "Inloggen", "en": "Log in"},
     "logout": {"nl": "Uitloggen", "en": "Log out"},
     "register": {"nl": "Account aanmaken", "en": "Create account"},
-    "email": {"nl": "E-mail", "en": "Email"},
+    "username": {"nl": "Gebruikersnaam", "en": "Username"},
+    "username_hint": {
+        "nl": "Een naam of woord naar keuze (3 tot 40 tekens). Je e-mailadres is niet nodig.",
+        "en": "Any name or word (3 to 40 characters). Your email address is not needed.",
+    },
     "password": {"nl": "Wachtwoord", "en": "Password"},
     "invite_code": {"nl": "Uitnodigingscode", "en": "Invite code"},
     "my_runs": {"nl": "Mijn oefenrondes", "en": "My practice runs"},
@@ -338,8 +342,8 @@ T: dict[str, dict[str, str]] = {
         "en": "Want to try it with a real vacancy and your own CV? Here is what to expect:",
     },
     "demo_try_expect_1": {
-        "nl": "Je maakt een account aan met e-mail en wachtwoord.",
-        "en": "You create an account with an email address and a password.",
+        "nl": "Je maakt een account aan met een gebruikersnaam en wachtwoord; een e-mailadres is niet nodig.",
+        "en": "You create an account with a username and a password; no email address needed.",
     },
     "demo_try_expect_2": {
         "nl": "Je uploadt een vacature en je cv; na ongeveer 3 minuten voorbereiding volgt een gesprek van 15 tot 45 minuten.",
