@@ -255,10 +255,16 @@ def test_demo_try_it_button_follows_the_laptop(web: tuple[TestClient, Stack]) ->
     settings.demo_contact_email = "me@example.org"
     page = client.get("/demo?lang=en").text
     assert "/register?code=team-2026" in page and "online right now" in page
+    # the button sits both at the top (next to "look around first") and in the bottom block
+    assert page.count("/register?code=team-2026") == 2
+    assert (
+        page.index('class="demo-paths"') < page.index('id="walkthrough"') < page.index('id="try"')
+    )
+    assert 'href="#walkthrough"' in page
     st.local.online = False  # laptop asleep: no button, and the code is not shown
     page = client.get("/demo?lang=en").text
-    assert "team-2026" not in page and "offline right now" in page
-    assert "mailto:me@example.org" in page
+    assert "team-2026" not in page and "offline right now" in page.lower()
+    assert page.count("mailto:me@example.org") == 2
     st.local.online = True
     settings.demo_signup_max = 0  # no places left
     page = client.get("/demo?lang=en").text

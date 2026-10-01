@@ -191,10 +191,13 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 @media (min-width: 960px) { .review { grid-template-columns: 300px minmax(0, 1fr); } .review > aside { position: sticky; top: var(--s6); align-self: start; } }
 .toc, .toc-sub { grid-template-columns: minmax(0, 1fr); } .review > aside { min-width: 0; }
 .demo-intro { margin-bottom: var(--s8); } .demo-intro .lead { max-width: 44rem; }
-/* demo walkthrough: what you see / can't do, steps with screenshots, the framed example, try it */
-.demo-scope { display: grid; gap: var(--s3); margin: var(--s6) 0; } @media (min-width: 640px) { .demo-scope { grid-template-columns: 1fr 1fr; } }
-.demo-scope > div { border-radius: var(--r-lg); padding: var(--s4); background: var(--sage-100); } .demo-scope > div.not { background: var(--card); }
-.demo-scope h3 { font-size: 1rem; margin: 0 0 .4rem; } .demo-scope ul { margin: 0; padding-left: 1.1rem; font-size: var(--fs-sm); }
+/* demo: two ways in (try it / look around), steps with screenshots, the framed example, try it */
+.demo-choose { font-weight: 600; max-width: 44rem; margin: var(--s6) 0 var(--s3); }
+.demo-paths { display: grid; gap: var(--s3); margin: 0 0 var(--s6); } @media (min-width: 640px) { .demo-paths { grid-template-columns: 1fr 1fr; } }
+.demo-paths > div { border-radius: var(--r-lg); padding: var(--s4) var(--s4) var(--s4); display: grid; gap: .5rem; align-content: start; }
+.demo-paths > .try { background: var(--accent-100); } .demo-paths > .look { background: var(--card); }
+.demo-paths h3 { margin: 0; } .demo-paths p { margin: 0; } .demo-paths .actions { margin: .3rem 0 .1rem; }
+.demo-steps { scroll-margin-top: var(--s4); }
 .demo-steps { list-style: none; padding: 0; display: grid; gap: var(--s4); counter-reset: st; margin: var(--s6) 0; }
 .demo-steps li { background: var(--card); border-radius: var(--r-xl); padding: var(--s4) var(--s6); display: grid; gap: var(--s4); counter-increment: st; align-items: center; }
 @media (min-width: 760px) { .demo-steps li:has(figure) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); } }

@@ -3,11 +3,27 @@
   <div class="eyebrow">{{ t('demo_eyebrow') }}</div>
   <h1>{{ t('demo_title') }}</h1>
   <p class="lead">{{ t('demo_lead') }}</p>
-  <div class="demo-scope">
-    <div><h3>{{ t('demo_see_title') }}</h3><ul><li>{{ t('demo_see_1') }}</li><li>{{ t('demo_see_2') }}</li></ul></div>
-    <div class="not"><h3>{{ t('demo_cant_title') }}</h3><ul><li>{{ t('demo_cant_1') }}</li><li>{{ t('demo_cant_2') }} <a href="#try">{{ t('demo_try_link') }}</a></li></ul></div>
+  <p class="demo-choose">{{ t('demo_choose') }}</p>
+  <div class="demo-paths">
+    <div class="try">
+      <h3>{{ t('demo_try_title') }}</h3>
+      <p class="small">{{ t('demo_path_try') }}</p>
+      {% if try_it.state == 'open' %}
+      <div class="actions"><a class="btn" href="/register?code={{ try_it.code|urlencode }}&amp;lang={{ lang }}">{{ t('demo_try_button') }}</a></div>
+      <p class="small muted">{{ t('demo_try_open_hint') }}</p>
+      {% else %}
+      <p class="small"><b>{{ t('demo_path_' ~ try_it.state) }}</b>{% if try_it.email %} <a href="mailto:{{ try_it.email }}?subject=Interview%20Coach">{{ try_it.email }}</a>{% endif %}</p>
+      {% endif %}
+      <a class="small" href="#try">{{ t('demo_path_more') }}</a>
+    </div>
+    <div class="look">
+      <h3>{{ t('demo_look_title') }}</h3>
+      <p class="small">{{ t('demo_path_look') }}</p>
+      <div class="actions"><a class="btn outline" href="#walkthrough">{{ t('demo_look_button') }}</a></div>
+      <p class="small muted">{{ t('demo_path_view_only') }}</p>
+    </div>
   </div>
-  <ol class="demo-steps">
+  <ol class="demo-steps" id="walkthrough">
     {% for n in (1, 2) %}
     <li><div><b>{{ t('demo_step%d_title' % n) }}</b><span>{{ t('demo_step%d' % n) }}</span></div>
       <figure class="shot"><img src="/static/demo/{{ lang }}-step{{ n }}.png" width="1200" height="800" loading="lazy" alt="{{ t('demo_shot%d_alt' % n) }}">

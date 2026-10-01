@@ -291,25 +291,33 @@ T: dict[str, dict[str, str]] = {
     "kind_wens": {"nl": "wens", "en": "nice to have"},
     # public demo page
     "demo_eyebrow": {"nl": "Rondleiding · voorbeeldronde", "en": "Walkthrough · example run"},
-    "demo_see_title": {"nl": "Wat je hier ziet", "en": "What you see here"},
-    "demo_see_1": {
-        "nl": "Een afgeronde oefenronde van een fictieve kandidaat, van voorbereiding tot terugblik.",
-        "en": "A finished practice round by a fictional candidate, from preparation to review.",
+    "demo_choose": {
+        "nl": "Deze pagina laat een complete oefenronde zien van een fictieve kandidaat. Je kunt de app ook zelf proberen; kies hoe je begint:",
+        "en": "This page shows a complete practice round by a fictional candidate. You can also try the app yourself; choose how to start:",
     },
-    "demo_see_2": {
-        "nl": "Schermafbeeldingen van de stappen die je in de app zelf doorloopt.",
-        "en": "Screenshots of the steps you go through in the app itself.",
+    "demo_path_try": {
+        "nl": "Gebruikersnaam en wachtwoord, geen e-mail. Je uploadt een vacature en je cv en voert een gesprek van 15 tot 45 minuten.",
+        "en": "A username and password, no email. You upload a vacancy and your CV and do a 15 to 45 minute interview.",
     },
-    "demo_cant_title": {"nl": "Wat je hier niet kunt", "en": "What you can't do here"},
-    "demo_cant_1": {
-        "nl": "Deze pagina is alleen om te bekijken: je uploadt hier niets en voert geen gesprek.",
-        "en": "This page is view-only: you don't upload anything or do an interview here.",
+    "demo_path_offline": {
+        "nl": "Nu even offline: het lokale model draait op mijn laptop. Probeer het later nog eens of stuur me een bericht.",
+        "en": "Offline right now: the local model runs on my laptop. Try again later or send me a message.",
     },
-    "demo_cant_2": {
-        "nl": "Zelf oefenen gaat met een account.",
-        "en": "Practising yourself takes an account.",
+    "demo_path_closed": {
+        "nl": "Toegang gaat op uitnodiging; stuur me een bericht voor een account.",
+        "en": "Access is by invitation; send me a message for an account.",
     },
-    "demo_try_link": {"nl": "Zo probeer je het zelf ↓", "en": "How to try it yourself ↓"},
+    "demo_path_more": {"nl": "Wat je kunt verwachten ↓", "en": "What to expect ↓"},
+    "demo_look_title": {"nl": "Eerst rondkijken", "en": "Look around first"},
+    "demo_path_look": {
+        "nl": "De drie stappen van een ronde, met schermafbeeldingen, en daarna het echte resultaat van deze ronde.",
+        "en": "The three steps of a round, with screenshots, followed by the real result of this round.",
+    },
+    "demo_look_button": {"nl": "Bekijk hoe het werkt ↓", "en": "See how it works ↓"},
+    "demo_path_view_only": {
+        "nl": "Op deze pagina zelf vul je niets in; ze is alleen om te bekijken.",
+        "en": "You don't fill anything in on this page itself; it is only for viewing.",
+    },
     "demo_screenshot": {"nl": "Schermafbeelding", "en": "Screenshot"},
     "demo_shot1_alt": {
         "nl": "Het formulier voor een nieuwe ronde: vacature en cv uploaden, type gesprek, taal, duur en moeilijkheid kiezen.",
