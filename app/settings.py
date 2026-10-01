@@ -26,8 +26,6 @@ class Settings(BaseSettings):
     retention_days: int = 30  # [D8]
     keep_audio: bool = False
     keep_raw_uploads: bool = False
-    # Employer/client names are kept by default: they matter for the interview (spec 5.1)
-    keep_organisation_names: bool = True
     runs_per_user_per_day: int = 5
     whisper_model: str = "small"  # faster-whisper size; [DECISION] small or medium
     # /healthz?deep=1 (external API reachability) requires this token in X-Health-Token

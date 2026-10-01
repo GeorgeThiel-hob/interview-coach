@@ -10,6 +10,7 @@
       <p id="user-hint" class="small muted" style="margin:.4rem 0 0">{{ t('username_hint') }}</p>
       <label for="password">{{ t('password') }}</label><input id="password" type="password" name="password" minlength="10" required autocomplete="new-password" aria-describedby="pw-hint">
       <p id="pw-hint" class="small muted" style="margin:.4rem 0 0">{{ t('password_hint') }}</p>
+      {% with full=false %}{% include "partials/privacy_notice.html" %}{% endwith %}
       <div class="actions" style="margin-top:var(--s6)"><button class="lg" style="width:100%">{{ t('register') }}</button></div>
     </form>
   </div>

@@ -8,16 +8,30 @@ complete the checklist at the end first.
 | Data | Where it goes | Form |
 |---|---|---|
 | Uploaded documents, typed/spoken answers | your own model machine (Ollama over Tailscale) | raw, for pseudonymisation only |
-| Pseudonymised documents, answers, questions | Jev (TypeSafe), Claude (Anthropic) | names, contact details, addresses, IBAN/BSN, birth dates replaced by tokens |
+| Pseudonymised documents, answers, questions | Jev (TypeSafe, hosted in the US), Claude (Anthropic) | personal identifiers replaced by tokens (below) |
 | Audio (spoken answers, optional) | nowhere | transcribed on the server, deleted right after |
 
-Enforced in code: external providers only accept `SafeText` (see docs/architecture.md), and
-`tests/test_privacy.py` fails if raw text could reach them. Employer and client names are kept
-because they matter for the interview.
+What is replaced (`app/ingest/pseudonymise.py`, `prompts/pseudonymise.md`):
 
-Known limits of pseudonymisation: detection is regex plus a local model; unusual identifiers
-(e.g. a rare project code name that identifies a person) can slip through. Users are told not to
-upload sensitive data beyond a normal CV.
+| Pass | Replaces |
+|---|---|
+| Regex, every text | e-mail addresses, LinkedIn/GitHub/X profile links, phone numbers (9+ digits), IBAN (checksum), Dutch postcodes, BSN (11-test), dates of birth **only when labelled** ("geboren", "date of birth", "born") |
+| Local model | names of people (also first names alone; surnames map to the same token), home addresses (and the town when part of one), other direct identifiers (handles, licence plates, ID numbers) |
+
+Kept on purpose (the local model is told not to list them): organisations, employers, clients,
+schools, universities, products, job titles, skills, technologies, cities where an organisation is
+based. Not covered: unlabelled dates and years, age, nationality, gender, and identifying detail in
+free text.
+
+Enforced in code: external providers only accept `SafeText` (`app/llm/gateway.py`, see
+docs/architecture.md), and `tests/test_privacy.py` fails if raw text could reach them. Documents,
+interview answers and practice answers are all pseudonymised; if the local model fails twice the
+run stops instead of sending unfiltered text.
+
+Known limits: this is pseudonymisation, not anonymisation. Detection can miss an unusual
+identifier, and a career profile (employer, role, years, school) can still identify a person.
+The register and new-round pages say so (`app/templates/partials/privacy_notice.html`); keep that
+text in step with the table above.
 
 ## Storage and retention
 
@@ -41,8 +55,19 @@ pseudonymisation (employers, roles, projects, technologies, the target vacancy) 
 public in the owner's applications and public profiles, and their own name is theirs to share.
 The checklist below still applies before anyone else uses the app.
 
-- [ ] TypeSafe data retention and training terms for API traffic (direct API): ...
-- [ ] Anthropic API data retention for this account/organisation: ...
-- [ ] Employer AI policy (if colleagues will use it): allowed tools, what may be processed, approval needed: ...
-- [ ] Decide: is your own machine as the inference node acceptable for other people's data?
-- [ ] Record the outcome and date here.
+Checked 2026-10-01, when the shared `/demo` sign-up code opened the app to visitors:
+
+- [x] **TypeSafe**: privacy policy: "We will not train or fine tune any artificial intelligence or
+      machine learning models on your prompts or other Input"; "The Services are hosted in the
+      United States". **No retention period for API content is stated** (only "as long as
+      reasonably necessary"), no DPA and no sub-processor list; the API docs say nothing about
+      data. Open: ask TypeSafe for the API retention period and a DPA.
+- [x] **Anthropic**: API key from the Anthropic Console, so the Commercial Terms apply:
+      "Anthropic may not train models on Customer Content from Services"; API inputs/outputs
+      deleted within 30 days (flagged content up to 2 years); a Data Processing Addendum is
+      incorporated by reference.
+- [ ] Employer AI policy: not applicable while no colleagues use it.
+- [ ] Decide: is the owner's laptop, which sees raw uploads to pseudonymise them, acceptable for
+      other people's data? (Owner to confirm.)
+- [x] Visitors are told what is and is not replaced, that it is pseudonymisation and not
+      anonymisation, and to share only an ordinary CV and a vacancy (register and new-round pages).

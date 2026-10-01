@@ -160,6 +160,10 @@ ol.steps li.done::before { content: "✓"; background: var(--sage-600); border-c
 ol.steps li.active { background: var(--card); color: var(--fg); font-weight: 700; }
 ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-color: var(--accent-strong); animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* privacy notice (register, new round) */
+.privacy-notice { background: var(--sage-100); color: var(--sage-900); border-radius: 22px; padding: var(--s3) var(--s4); margin: var(--s4) 0; font-size: var(--fs-sm); }
+.privacy-notice h3 { font-size: .95rem; margin: 0 0 .35rem; color: inherit; } .privacy-notice p { margin: 0 0 .45rem; } .privacy-notice p:last-child { margin-bottom: 0; }
+.privacy-notice summary { cursor: pointer; font-weight: 600; margin-bottom: .35rem; } .privacy-notice .muted { color: var(--sage-800); }
 @media (prefers-reduced-motion: reduce) { ol.steps li.active::before { animation: none; border-color: var(--accent-strong); } }
 
 /* interview */

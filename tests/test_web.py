@@ -359,3 +359,19 @@ def test_accounts_need_a_username_not_an_email(web: tuple[TestClient, Stack]) ->
     for path in ("/login", "/register"):
         page = client.get(path).text
         assert 'type="email"' not in page and 'name="username"' in page
+
+
+def test_privacy_notice_on_register_and_new_round(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.cookies.clear()
+    for lang, title, more, pseudo in (
+        ("nl", "Wat er met je gegevens gebeurt", "Meer uitleg", "geen anonimiseren"),
+        ("en", "What happens to your data", "More detail", "not anonymisation"),
+    ):
+        page = client.get(f"/register?lang={lang}").text
+        assert title in page and more in page and pseudo in page  # pseudo sits in <details>
+        assert "[PERSON_1]" in page and "TypeSafe" in page
+    login_new_user(client, st, "notice-user")
+    page = client.get("/runs/new?lang=en").text
+    assert "What happens to your data" in page and "<details>" not in page  # full version
+    assert "not anonymisation" in page and "deleted after 30 days" in page

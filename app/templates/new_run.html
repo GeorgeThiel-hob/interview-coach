@@ -8,6 +8,7 @@
 
   <section class="card">
     <div class="stephead"><span class="num hot">1</span><h2>{{ t('documents') }}</h2></div>
+    {% with full=true %}{% include "partials/privacy_notice.html" %}{% endwith %}
     <div class="grid2">
       <div x-data="{ paste: false }">
         <div class="field-label"><span>{{ t('vacancy') }} <span style="color:var(--accent-press)">*</span></span>
