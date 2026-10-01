@@ -375,3 +375,20 @@ def test_privacy_notice_on_register_and_new_round(web: tuple[TestClient, Stack])
     page = client.get("/runs/new?lang=en").text
     assert "What happens to your data" in page and "<details>" not in page  # full version
     assert "not anonymisation" in page and "deleted after 30 days" in page
+
+
+def test_demo_explains_what_each_model_does(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    client.cookies.clear()
+    for lang, title, honest in (
+        ("nl", "Onder de motorkap", "autonome agents"),
+        ("en", "Under the hood", "autonomous agents"),
+    ):
+        page = client.get(f"/demo?lang={lang}").text
+        assert 'id="under-the-hood"' in page and 'href="#under-the-hood"' in page
+        assert title in page and honest in page
+        for model in ("Qwen 3.6 35B-A3B", "bge-m3", "Jev 1.13.0", "Claude Sonnet 5.5", "Haiku 4.5"):
+            assert model in page, model
+        assert "hood_" not in page  # no untranslated keys
+        # the section sits in the intro, before the framed example result
+        assert page.index('id="under-the-hood"') < page.index('class="example-frame"')

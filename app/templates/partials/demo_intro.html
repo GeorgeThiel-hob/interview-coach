@@ -32,6 +32,22 @@
     <li><div><b>{{ t('demo_step3_title') }}</b><span>{{ t('demo_step3') }}</span><a class="down" href="#summary">{{ t('demo_step3_down') }}</a></div></li>
   </ol>
   <div class="alert" role="note"><div><b>{{ t('demo_privacy_title') }}</b> {{ t('demo_privacy') }}</div></div>
+  {# Under the hood: each claim here is checked against config/models.yaml, app/llm/gateway.py,
+     app/interview/engine.py and prompts/; keep them in step. #}
+  <section id="under-the-hood" class="hood card">
+    <h2>{{ t('hood_title') }}</h2>
+    <p>{{ t('hood_lead') }}</p>
+    <div class="hood-table"><table>
+      <tr><th>{{ t('hood_col_model') }}</th><th>{{ t('hood_col_where') }}</th><th>{{ t('hood_col_what') }}</th><th>{{ t('hood_col_why') }}</th></tr>
+      {% for key, model, local in [('qwen', 'Qwen 3.6 35B-A3B', true), ('bge', 'bge-m3', true), ('jev', 'Jev 1.13.0 (TypeSafe)', false), ('sonnet', 'Claude Sonnet 5.5', false), ('haiku', 'Claude Haiku 4.5', false)] %}
+      <tr><td><b>{{ model }}</b></td><td><span class="badge {{ 'yes' if local else '' }}">{{ t('hood_local') if local else t('hood_external') }}</span></td>
+          <td>{{ t('hood_' ~ key ~ '_what') }}</td><td class="small">{{ t('hood_' ~ key ~ '_why') }}</td></tr>
+      {% endfor %}
+    </table></div>
+    <h3>{{ t('hood_choices') }}</h3>
+    <ul class="hood-choices">{% for n in range(1, 5) %}<li>{{ t('hood_choice_%d' % n) }}</li>{% endfor %}</ul>
+    <p class="small muted">{{ t('hood_honest') }}</p>
+  </section>
   <p class="small muted">{{ t('demo_disclaimer') }}</p>
   <p class="small muted">{{ t('demo_stack') }}{% if repo_url %} · <a href="{{ repo_url }}" rel="noopener">{{ t('demo_source') }}</a>{% endif %}</p>
 </section>
