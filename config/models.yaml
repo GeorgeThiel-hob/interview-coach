@@ -47,25 +47,25 @@ roles:
     timeout_s: 30
   extract_escalation:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
     timeout_s: 120
     max_tokens: 8000
     options: {effort: low}
   plan:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
     timeout_s: 180
     max_tokens: 16000
     options: {effort: medium}
   feedback:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
     timeout_s: 180
     max_tokens: 16000
     options: {effort: medium}
   briefing:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
     timeout_s: 180
     max_tokens: 8000
     options: {effort: medium}
@@ -77,7 +77,7 @@ roles:
     max_tokens: 1000
   escalation:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
     timeout_s: 120
     max_tokens: 4000
     options: {effort: low}
@@ -87,10 +87,11 @@ roles:
     timeout_s: 60
     max_tokens: 2000
 
-# Price per million tokens, in USD, as published by each provider (checked 2026-09-27).
+# Price per million tokens, in USD, as published by each provider (checked 2026-10-01).
 # Anthropic: model table in the Claude API docs. Jev: docs.typesafe.ai (Models page).
 pricing_usd_per_mtok:
-  claude-sonnet-5: {input: 2.00, output: 10.00}
+  claude-sonnet-5-5: {input: 2.00, output: 10.00}
+  claude-sonnet-5: {input: 2.00, output: 10.00}     # kept to price calls logged before the 5.5 switch
   claude-haiku-4-5: {input: 1.00, output: 5.00}
   jev-1.13.0: {input: 0.042, output: 0.0}
 

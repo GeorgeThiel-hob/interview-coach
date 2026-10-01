@@ -1,10 +1,13 @@
-"""Invite-only accounts: argon2 password hashes, signed session cookies, CSRF tokens."""
+"""Accounts by invite code (personal, single use) or the capped shared /demo code: argon2
+password hashes, signed session cookies, CSRF tokens."""
 
 from __future__ import annotations
 
 import hmac
+import re
 import secrets
-from datetime import UTC, datetime, timedelta
+from dataclasses import dataclass
+from datetime import UTC, date, datetime, timedelta
 
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError
@@ -21,7 +24,7 @@ LOGIN_WINDOW_S = 600
 
 
 def login_allowed(key: str) -> bool:
-    """At most LOGIN_LIMIT failed attempts per key (ip+email) per window, in memory."""
+    """At most LOGIN_LIMIT failed attempts per key (ip+username) per window, in memory."""
     import time
 
     now = time.time()
@@ -62,10 +65,62 @@ def create_invite(engine: Engine, created_by: str, role: str = "candidate", days
     return code
 
 
-def register(engine: Engine, code: str, email: str, password: str) -> User:
-    email = email.strip().lower()
+SHARED_SIGNUP = "shared-signup"  # User.invited_by of accounts made with the shared code
+
+
+@dataclass(frozen=True)
+class SharedSignup:
+    """One public code (the /demo "try it yourself" button) that up to max_users people can use.
+
+    Lives in settings, not in the invites table: a new column there would need a migration.
+    """
+
+    code: str
+    max_users: int
+    until: date | None = None
+
+    def matches(self, code: str) -> bool:
+        # bytes, not str: compare_digest raises TypeError on non-ASCII str (a pasted
+        # zero-width space would otherwise turn every /register attempt into a 500)
+        want = self.code.strip().encode()
+        return bool(want) and hmac.compare_digest(code.strip().encode(), want)
+
+    def is_open(self, engine: Engine) -> bool:
+        """The code is set, not past its end date, and has places left."""
+        if not self.code.strip() or (self.until and datetime.now(UTC).date() > self.until):
+            return False
+        with Session(engine) as s:
+            return _shared_count(s) < self.max_users
+
+
+def _shared_count(s: Session) -> int:
+    return len(s.exec(select(User.id).where(User.invited_by == SHARED_SIGNUP)).all())
+
+
+_USERNAME = re.compile(r"[\w .@-]{3,40}")
+
+
+def normalize_username(name: str) -> str:
+    """The login name: any name or word, 3-40 characters, case-insensitive. No e-mail needed;
+    an old e-mail login still fits. Stored in users.email (the column predates the rename)."""
+    name = " ".join(name.split()).lower()
+    if not _USERNAME.fullmatch(name):
+        raise ValueError(
+            "Choose a username of 3 to 40 characters: letters, digits, spaces, . _ - or @."
+        )
+    return name
+
+
+def register(
+    engine: Engine, code: str, username: str, password: str, shared: SharedSignup | None = None
+) -> User:
+    username = normalize_username(username)
     if len(password) < 10:
         raise ValueError("Use a password of at least 10 characters.")
+    if shared and shared.matches(code):
+        if not shared.is_open(engine):
+            raise ValueError("This code is no longer valid. Ask for a personal invite.")
+        return _create_candidate(engine, username, password, invited_by=SHARED_SIGNUP)
     with Session(engine) as s:
         invite = s.get(Invite, code.strip())
         expires = (
@@ -75,10 +130,10 @@ def register(engine: Engine, code: str, email: str, password: str) -> User:
         )
         if invite is None or invite.used_by or (expires and expires < datetime.now(UTC)):
             raise ValueError("This invite code is not valid.")
-        if s.exec(select(User).where(User.email == email)).first():
-            raise ValueError("An account with this email already exists.")
+        if s.exec(select(User).where(User.email == username)).first():
+            raise ValueError(USERNAME_TAKEN)
         user = User(
-            email=email,
+            email=username,
             password_hash=hash_password(password),
             role=invite.role,
             invited_by=invite.created_by,
@@ -91,18 +146,42 @@ def register(engine: Engine, code: str, email: str, password: str) -> User:
         return user
 
 
-def create_user(engine: Engine, email: str, password: str, role: str = "admin") -> User:
+USERNAME_TAKEN = "This username is taken. Choose another one."
+
+
+def _create_candidate(engine: Engine, username: str, password: str, invited_by: str) -> User:
     with Session(engine) as s:
-        user = User(email=email.strip().lower(), password_hash=hash_password(password), role=role)
+        if s.exec(select(User).where(User.email == username)).first():
+            raise ValueError(USERNAME_TAKEN)
+        user = User(
+            email=username,
+            password_hash=hash_password(password),
+            role="candidate",
+            invited_by=invited_by,
+        )
         s.add(user)
         s.commit()
         s.refresh(user)
         return user
 
 
-def authenticate(engine: Engine, email: str, password: str) -> User | None:
+def create_user(engine: Engine, username: str, password: str, role: str = "admin") -> User:
     with Session(engine) as s:
-        user = s.exec(select(User).where(User.email == email.strip().lower())).first()
+        user = User(
+            email=" ".join(username.split()).lower(),
+            password_hash=hash_password(password),
+            role=role,
+        )
+        s.add(user)
+        s.commit()
+        s.refresh(user)
+        return user
+
+
+def authenticate(engine: Engine, username: str, password: str) -> User | None:
+    name = " ".join(username.split()).lower()
+    with Session(engine) as s:
+        user = s.exec(select(User).where(User.email == name)).first()
     if user is None:
         verify_password(_DUMMY, password)  # same timing as a real check
         return None

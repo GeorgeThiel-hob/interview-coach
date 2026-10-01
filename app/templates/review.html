@@ -25,7 +25,8 @@
     </div>
     <div class="actions">
       {% if demo %}
-      <a class="btn" href="/demo/report.pdf?lang={{ lang }}">{{ t('download_pdf') }}</a>
+      <a class="btn" href="/demo/report.pdf?lang={{ lang }}">{{ t('demo_pdf') }}</a>
+      <a class="btn outline" href="#try">{{ t('demo_try_title') }}</a>
       {% else %}
       <a class="btn" href="/runs/{{ run.id }}/report.pdf">{{ t('download_pdf') }}</a>
       <a class="btn outline" href="/runs/{{ run.id }}/report.json">{{ t('download_json') }}</a>
@@ -45,6 +46,7 @@
       <a href="#{{ a.turn_id }}"><span class="muted">{{ loop.index }}</span><span>{{ a.question }}</span>{% if qj and qj.value is number %}<span class="muted">{{ qj.value|round|int }}</span>{% endif %}</a>
       {% endfor %}
     </div>
+    {% if demo %}<a href="#try">{{ t('demo_try_title') }}</a>{% endif %}
   </nav>
   {% if not demo %}
   <form method="post" action="/runs/{{ run.id }}/delete" onsubmit="return confirm({{ t('delete_confirm')|tojson|forceescape }})" style="padding:.5rem .3rem">
@@ -54,7 +56,8 @@
 </aside>
 
 <div>
-  {% if demo %}{% include "partials/demo_intro.html" %}{% endif %}
+  {% if demo %}{% include "partials/demo_intro.html" %}
+  <div class="example-frame"><div class="example-tab">{{ t('demo_example_tab') }}</div>{% endif %}
   <section id="summary">
     <div class="eyebrow">{{ t('review') }}</div>
     <h1>{% if low and low[1] < 0.6 %}{{ t('review_headline_weak').format(part=t('star_part_' ~ low[0])) }}{% else %}{{ t('review_headline_good') }}{% endif %}</h1>
@@ -153,6 +156,8 @@
     </details>
     {% endfor %}
   </section>
+  {% if demo %}</div>
+  {% include "partials/demo_try.html" %}{% endif %}
 </div>
 </div>
 {% endblock %}

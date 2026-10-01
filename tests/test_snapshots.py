@@ -91,7 +91,7 @@ def test_snapshot_all_pages(web: tuple[TestClient, Stack]) -> None:
     token = csrf(client, "/login")
     r = client.post(
         "/login",
-        data={"csrf": token, "email": "admin-jan@example.nl", "password": "x" * 12},
+        data={"csrf": token, "username": "admin-jan@example.nl", "password": "x" * 12},
         follow_redirects=False,
     )
     assert r.status_code == 303, r.text

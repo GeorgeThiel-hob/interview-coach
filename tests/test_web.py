@@ -5,10 +5,12 @@ from __future__ import annotations
 import re
 import time
 from collections.abc import Iterator
+from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import Engine
 from sqlmodel import Session
 
 from app.db.models import Run
@@ -53,7 +55,7 @@ def login_new_user(client: TestClient, st: Stack, email: str) -> None:
     token = csrf(client, f"/register?code={code}")
     r = client.post(
         "/register",
-        data={"csrf": token, "code": code, "email": email, "password": "a-long-password"},
+        data={"csrf": token, "code": code, "username": email, "password": "a-long-password"},
         follow_redirects=False,
     )
     assert r.status_code == 303, r.text
@@ -95,7 +97,7 @@ def new_run(client: TestClient) -> str:
 def test_requires_login_and_csrf(web: tuple[TestClient, Stack]) -> None:
     client, _ = web
     assert client.get("/", follow_redirects=False).headers["location"] == "/login"
-    r = client.post("/login", data={"email": "a@b.c", "password": "x"})
+    r = client.post("/login", data={"username": "a@b.c", "password": "x"})
     assert r.status_code == 403  # no CSRF token
 
 
@@ -154,7 +156,7 @@ def test_full_web_flow(web: tuple[TestClient, Stack]) -> None:
     admin = create_user(st.engine, "boss@example.nl", "b" * 12, role="admin")
     client.cookies.clear()
     tok = csrf(client)
-    client.post("/login", data={"csrf": tok, "email": admin.email, "password": "b" * 12})
+    client.post("/login", data={"csrf": tok, "username": admin.email, "password": "b" * 12})
     assert client.get(f"/runs/{run_id}/review").status_code == 404
     admin_page = client.get("/admin")
     assert admin_page.status_code == 200 and "Petra" not in admin_page.text
@@ -192,7 +194,7 @@ def test_login_rate_limit(web: tuple[TestClient, Stack]) -> None:
     token = csrf(client)
     codes = [
         client.post(
-            "/login", data={"csrf": token, "email": "x@y.z", "password": "nope"}
+            "/login", data={"csrf": token, "username": "x@y.z", "password": "nope"}
         ).status_code
         for _ in range(6)
     ]
@@ -227,6 +229,97 @@ def test_public_demo_needs_no_login_and_offers_no_run_actions(
     assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF-")
 
 
+def test_demo_reads_as_an_example_not_as_the_app(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    client.cookies.clear()
+    for lang, eyebrow, tab in (
+        ("nl", "Rondleiding", "Voorbeeldresultaat"),
+        ("en", "Walkthrough", "Example result"),
+    ):
+        page = client.get(f"/demo?lang={lang}").text
+        assert eyebrow in page and tab in page and 'class="example-frame"' in page
+        assert "geen account nodig" not in page and "no account needed" not in page
+        for n in (1, 2):  # the walkthrough screenshots exist for both languages
+            src = f"/static/demo/{lang}-step{n}.png"
+            assert src in page
+            assert client.get(src).status_code == 200
+        # no shared code configured: invitation only, no sign-up link
+        assert 'id="try"' in page and "/register?code=" not in page
+
+
+def test_demo_try_it_button_follows_the_laptop(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.cookies.clear()
+    settings = client.app.state.settings  # type: ignore[attr-defined]
+    settings.demo_signup_code = "team-2026"
+    settings.demo_contact_email = "me@example.org"
+    page = client.get("/demo?lang=en").text
+    assert "/register?code=team-2026" in page and "online right now" in page
+    # the button sits both at the top (next to "look around first") and in the bottom block
+    assert page.count("/register?code=team-2026") == 2
+    assert (
+        page.index('class="demo-paths"') < page.index('id="walkthrough"') < page.index('id="try"')
+    )
+    assert 'href="#walkthrough"' in page
+    st.local.online = False  # laptop asleep: no button, and the code is not shown
+    page = client.get("/demo?lang=en").text
+    assert "team-2026" not in page and "offline right now" in page.lower()
+    assert page.count("mailto:me@example.org") == 2
+    st.local.online = True
+    settings.demo_signup_max = 0  # no places left
+    page = client.get("/demo?lang=en").text
+    assert "team-2026" not in page and "by invitation" in page
+
+
+def test_shared_signup_code_has_a_cap_and_an_end_date(engine: Engine) -> None:
+    from app.web.auth import SHARED_SIGNUP, SharedSignup, register
+
+    pw = "a-long-password"
+    shared = SharedSignup("team-2026", max_users=2)
+    for i in range(2):
+        user = register(engine, " team-2026 ", f"p{i}@example.org", pw, shared)
+        assert user.role == "candidate" and user.invited_by == SHARED_SIGNUP
+    with pytest.raises(ValueError, match="no longer valid"):
+        register(engine, "team-2026", "p3@example.org", pw, shared)
+    with pytest.raises(ValueError, match="taken"):
+        register(engine, "team-2026", "p0@example.org", pw, SharedSignup("team-2026", 9))
+    past = SharedSignup("team-2026", 9, until=date.today() - timedelta(days=1))
+    assert not past.is_open(engine)
+    with pytest.raises(ValueError, match="no longer valid"):
+        register(engine, "team-2026", "p4@example.org", pw, past)
+    # an unset shared code never matches; other codes still go through the invites table
+    with pytest.raises(ValueError, match="invite code is not valid"):
+        register(engine, "", "p5@example.org", pw, SharedSignup("", 9))
+    with pytest.raises(ValueError, match="invite code is not valid"):
+        register(engine, "team-2027", "p6@example.org", pw, shared)
+
+
+def test_register_with_odd_characters_is_a_clean_400(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    client.app.state.settings.demo_signup_code = "team-2026"  # type: ignore[attr-defined]
+    client.cookies.clear()
+    for code in ("team-2026​", "tëam-2026", "“team-2026”"):  # zero-width space, quotes
+        token = csrf(client, "/register")
+        r = client.post(
+            "/register",
+            data={"csrf": token, "code": code, "username": "x@example.org", "password": "a" * 12},
+        )
+        assert r.status_code == 400, (code, r.status_code)
+
+
+def test_demo_renders_when_the_local_check_fails(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.app.state.settings.demo_signup_code = "team-2026"  # type: ignore[attr-defined]
+
+    async def broken() -> bool:
+        raise RuntimeError("bad OLLAMA_BASE_URL")
+
+    st.local.ping = broken  # type: ignore[method-assign]
+    page = client.get("/demo?lang=en")
+    assert page.status_code == 200 and "offline right now" in page.text
+    assert "team-2026" not in page.text
+
+
 def test_download_is_named_after_the_vacancy() -> None:
     from app.web.routes import download_header
 
@@ -239,3 +332,30 @@ def test_download_is_named_after_the_vacancy() -> None:
     assert "filename*=UTF-8''Data%20AI%20Specialist%20R%C3%A9.json" in h
     assert 'filename="Interview Coach.pdf"' in download_header("", "pdf")
     assert download_header("x", "pdf", inline=True).startswith("inline;")
+
+
+def test_accounts_need_a_username_not_an_email(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.app.state.settings.demo_signup_code = "team-2026"  # type: ignore[attr-defined]
+    client.cookies.clear()
+
+    def post(path: str, **data: str) -> int:
+        token = csrf(client, path)
+        r = client.post(path, data={"csrf": token, **data}, follow_redirects=False)
+        return r.status_code
+
+    pw = "a-long-password"
+    assert post("/register", code="team-2026", username="  Sanne  Visser ", password=pw) == 303
+    client.cookies.clear()
+    assert post("/login", username="sanne visser", password=pw) == 303  # case, spaces
+    client.cookies.clear()
+    assert post("/register", code="team-2026", username="SANNE VISSER", password=pw) == 400
+    for bad in ("ab", "x" * 41, "<script>", "name;drop"):
+        assert post("/register", code="team-2026", username=bad, password=pw) == 400, bad
+    # an e-mail still fits, so existing logins keep working
+    admin = create_user(st.engine, "Admin@Example.org", "b" * 12)
+    assert admin.email == "admin@example.org"
+    assert post("/login", username="admin@example.org", password="b" * 12) == 303
+    for path in ("/login", "/register"):
+        page = client.get(path).text
+        assert 'type="email"' not in page and 'name="username"' in page

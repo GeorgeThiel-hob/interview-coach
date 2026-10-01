@@ -1,0 +1,12 @@
+{# "Try it yourself" on /demo. try_it.state: open (laptop on, places left) | offline | closed #}
+<section id="try" class="card warm try-it">
+  <h2>{{ t('demo_try_title') }}</h2>
+  <p>{{ t('demo_try_intro') }}</p>
+  <ul class="small"><li>{{ t('demo_try_expect_1') }}</li><li>{{ t('demo_try_expect_2') }}</li><li>{{ t('demo_try_expect_3').format(days=try_it.retention_days) }}</li></ul>
+  {% if try_it.state == 'open' %}
+  <div class="actions"><a class="btn lg" href="/register?code={{ try_it.code|urlencode }}&amp;lang={{ lang }}">{{ t('demo_try_button') }}</a>
+    <span class="small muted">{{ t('demo_try_open_hint') }}</span></div>
+  {% else %}
+  <div class="alert info" role="status"><div>{{ t('demo_try_' ~ try_it.state) }}{% if try_it.email %} <a href="mailto:{{ try_it.email }}?subject=Interview%20Coach">{{ try_it.email }}</a>{% endif %}</div></div>
+  {% endif %}
+</section>

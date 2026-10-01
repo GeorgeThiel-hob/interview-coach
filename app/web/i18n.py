@@ -7,7 +7,11 @@ T: dict[str, dict[str, str]] = {
     "login": {"nl": "Inloggen", "en": "Log in"},
     "logout": {"nl": "Uitloggen", "en": "Log out"},
     "register": {"nl": "Account aanmaken", "en": "Create account"},
-    "email": {"nl": "E-mail", "en": "Email"},
+    "username": {"nl": "Gebruikersnaam", "en": "Username"},
+    "username_hint": {
+        "nl": "Een naam of woord naar keuze (3 tot 40 tekens). Je e-mailadres is niet nodig.",
+        "en": "Any name or word (3 to 40 characters). Your email address is not needed.",
+    },
     "password": {"nl": "Wachtwoord", "en": "Password"},
     "invite_code": {"nl": "Uitnodigingscode", "en": "Invite code"},
     "my_runs": {"nl": "Mijn oefenrondes", "en": "My practice runs"},
@@ -286,7 +290,90 @@ T: dict[str, dict[str, str]] = {
     "kind_eis": {"nl": "eis", "en": "required"},
     "kind_wens": {"nl": "wens", "en": "nice to have"},
     # public demo page
-    "demo_eyebrow": {"nl": "Demo · geen account nodig", "en": "Demo · no account needed"},
+    "demo_eyebrow": {"nl": "Rondleiding · voorbeeldronde", "en": "Walkthrough · example run"},
+    "demo_choose": {
+        "nl": "Deze pagina laat een complete oefenronde zien van een fictieve kandidaat. Je kunt de app ook zelf proberen; kies hoe je begint:",
+        "en": "This page shows a complete practice round by a fictional candidate. You can also try the app yourself; choose how to start:",
+    },
+    "demo_path_try": {
+        "nl": "Gebruikersnaam en wachtwoord, geen e-mail. Je uploadt een vacature en je cv en voert een gesprek van 15 tot 45 minuten.",
+        "en": "A username and password, no email. You upload a vacancy and your CV and do a 15 to 45 minute interview.",
+    },
+    "demo_path_offline": {
+        "nl": "Nu even offline: het lokale model draait op mijn laptop. Probeer het later nog eens of stuur me een bericht.",
+        "en": "Offline right now: the local model runs on my laptop. Try again later or send me a message.",
+    },
+    "demo_path_closed": {
+        "nl": "Toegang gaat op uitnodiging; stuur me een bericht voor een account.",
+        "en": "Access is by invitation; send me a message for an account.",
+    },
+    "demo_path_more": {"nl": "Wat je kunt verwachten ↓", "en": "What to expect ↓"},
+    "demo_look_title": {"nl": "Eerst rondkijken", "en": "Look around first"},
+    "demo_path_look": {
+        "nl": "De drie stappen van een ronde, met schermafbeeldingen, en daarna het echte resultaat van deze ronde.",
+        "en": "The three steps of a round, with screenshots, followed by the real result of this round.",
+    },
+    "demo_look_button": {"nl": "Bekijk hoe het werkt ↓", "en": "See how it works ↓"},
+    "demo_path_view_only": {
+        "nl": "Op deze pagina zelf vul je niets in; ze is alleen om te bekijken.",
+        "en": "You don't fill anything in on this page itself; it is only for viewing.",
+    },
+    "demo_screenshot": {"nl": "Schermafbeelding", "en": "Screenshot"},
+    "demo_shot1_alt": {
+        "nl": "Het formulier voor een nieuwe ronde: vacature en cv uploaden, type gesprek, taal, duur en moeilijkheid kiezen.",
+        "en": "The new-round form: upload the vacancy and CV, choose interview type, language, length and difficulty.",
+    },
+    "demo_shot1_caption": {
+        "nl": "Je begint met de vacature en je cv. De voorbereiding duurt ongeveer 3 minuten.",
+        "en": "You start with the vacancy and your CV. Preparation takes about 3 minutes.",
+    },
+    "demo_shot2_alt": {
+        "nl": "Het gespreksscherm: de interviewer stelt een vervolgvraag op het vorige antwoord van de kandidaat.",
+        "en": "The interview screen: the interviewer asks a follow-up on the candidate's previous answer.",
+    },
+    "demo_shot2_caption": {
+        "nl": "Een vervolgvraag uit deze ronde: de interviewer haakt in op wat de kandidaat net zei.",
+        "en": "A follow-up from this round: the interviewer picks up on what the candidate just said.",
+    },
+    "demo_step3_down": {
+        "nl": "Het resultaat van deze ronde staat hieronder ↓",
+        "en": "The result of this round is below ↓",
+    },
+    "demo_example_tab": {
+        "nl": "Voorbeeldresultaat · fictieve kandidaat",
+        "en": "Example result · fictional candidate",
+    },
+    "demo_pdf": {"nl": "Voorbeeldrapport (PDF)", "en": "Example report (PDF)"},
+    "demo_try_title": {"nl": "Zelf proberen", "en": "Try it yourself"},
+    "demo_try_intro": {
+        "nl": "Wil je het met een echte vacature en je eigen cv proberen? Dit kun je verwachten:",
+        "en": "Want to try it with a real vacancy and your own CV? Here is what to expect:",
+    },
+    "demo_try_expect_1": {
+        "nl": "Je maakt een account aan met een gebruikersnaam en wachtwoord; een e-mailadres is niet nodig.",
+        "en": "You create an account with a username and a password; no email address needed.",
+    },
+    "demo_try_expect_2": {
+        "nl": "Je uploadt een vacature en je cv; na ongeveer 3 minuten voorbereiding volgt een gesprek van 15 tot 45 minuten.",
+        "en": "You upload a vacancy and your CV; after about 3 minutes of preparation comes a 15 to 45 minute interview.",
+    },
+    "demo_try_expect_3": {
+        "nl": "Namen en contactgegevens gaan eerst door het lokale model; rondes worden na {days} dagen verwijderd.",
+        "en": "Names and contact details go through the local model first; rounds are deleted after {days} days.",
+    },
+    "demo_try_button": {"nl": "Account aanmaken en beginnen", "en": "Create an account and start"},
+    "demo_try_open_hint": {
+        "nl": "Het lokale model is nu online.",
+        "en": "The local model is online right now.",
+    },
+    "demo_try_offline": {
+        "nl": "Het lokale model draait op mijn laptop en is nu offline, dus er kan geen nieuwe ronde starten. Stuur me een bericht, dan zet ik het voor je aan.",
+        "en": "The local model runs on my laptop and is offline right now, so no new round can start. Send me a message and I'll switch it on for you.",
+    },
+    "demo_try_closed": {
+        "nl": "Toegang gaat op uitnodiging. Stuur me een bericht voor een account.",
+        "en": "Access is by invitation. Send me a message for an account.",
+    },
     "demo_title": {
         "nl": "Oefen sollicitatiegesprekken met een AI-coach die je privacy bewaakt",
         "en": "Practise job interviews with an AI coach that guards your privacy",

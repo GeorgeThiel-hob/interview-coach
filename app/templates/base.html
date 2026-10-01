@@ -191,10 +191,28 @@ ol.steps li.active::before { border: 3px solid var(--accent-200); border-top-col
 @media (min-width: 960px) { .review { grid-template-columns: 300px minmax(0, 1fr); } .review > aside { position: sticky; top: var(--s6); align-self: start; } }
 .toc, .toc-sub { grid-template-columns: minmax(0, 1fr); } .review > aside { min-width: 0; }
 .demo-intro { margin-bottom: var(--s8); } .demo-intro .lead { max-width: 44rem; }
-.demo-steps { list-style: none; padding: 0; display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); counter-reset: st; margin: var(--s6) 0; }
-.demo-steps li { background: var(--card); border-radius: var(--r-lg); padding: var(--s4); display: grid; gap: .3rem; counter-increment: st; }
-.demo-steps li::before { content: counter(st); font: 400 1.4rem/1 var(--font-display); color: var(--accent); }
+/* demo: two ways in (try it / look around), steps with screenshots, the framed example, try it */
+.demo-choose { font-weight: 600; max-width: 44rem; margin: var(--s6) 0 var(--s3); }
+.demo-paths { display: grid; gap: var(--s3); margin: 0 0 var(--s6); } @media (min-width: 640px) { .demo-paths { grid-template-columns: 1fr 1fr; } }
+.demo-paths > div { border-radius: var(--r-lg); padding: var(--s4) var(--s4) var(--s4); display: grid; gap: .5rem; align-content: start; }
+.demo-paths > .try { background: var(--accent-100); } .demo-paths > .look { background: var(--card); }
+.demo-paths h3 { margin: 0; } .demo-paths p { margin: 0; } .demo-paths .actions { margin: .3rem 0 .1rem; }
+.demo-steps { scroll-margin-top: var(--s4); }
+.demo-steps { list-style: none; padding: 0; display: grid; gap: var(--s4); counter-reset: st; margin: var(--s6) 0; }
+.demo-steps li { background: var(--card); border-radius: var(--r-xl); padding: var(--s4) var(--s6); display: grid; gap: var(--s4); counter-increment: st; align-items: center; }
+@media (min-width: 760px) { .demo-steps li:has(figure) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); } }
+.demo-steps li > div { display: grid; gap: .35rem; }
+.demo-steps li > div::before { content: counter(st); font: 400 1.6rem/1 var(--font-display); color: var(--accent); }
 .demo-steps span { font-size: var(--fs-sm); color: var(--muted); }
+.demo-steps .down { font-weight: 700; color: var(--accent-press); text-decoration: none; }
+.shot { margin: 0; position: relative; pointer-events: none; user-select: none; }
+.shot img { display: block; width: 100%; height: auto; border-radius: var(--r-md); border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+.shot .tag { position: absolute; top: .6rem; right: .6rem; font: 700 .7rem/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; padding: .35rem .6rem; border-radius: var(--pill); background: var(--fg); color: var(--bg); }
+.shot figcaption { font-size: var(--fs-xs); color: var(--muted); margin-top: .5rem; }
+.example-frame { border: 2px solid var(--sage-300); border-radius: var(--r-xl); padding: var(--s6) var(--s4) var(--s4); position: relative; margin-top: var(--s6); }
+@media (min-width: 560px) { .example-frame { padding-inline: var(--s6); } }
+.example-tab { position: absolute; top: 0; left: var(--s6); transform: translateY(-50%); background: var(--sage-700); color: var(--card); font: 700 var(--fs-xs)/1 var(--font-body); letter-spacing: .06em; text-transform: uppercase; padding: .5rem .85rem; border-radius: var(--pill); }
+.try-it { margin-top: var(--s8); } .try-it ul { margin: var(--s3) 0 var(--s4); padding-left: 1.1rem; }
 #briefing details > summary { cursor: pointer; list-style: none; } #briefing h3 { margin: var(--s6) 0 var(--s3); }
 .toc { display: grid; gap: 2px; } .toc a { padding: .6rem .8rem; border-radius: var(--pill); text-decoration: none; color: var(--fg); font-weight: 600; }
 .toc a:hover, .toc a[aria-current=true] { background: var(--accent-100); color: var(--accent-800); }

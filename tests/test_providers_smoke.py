@@ -69,7 +69,7 @@ async def test_anthropic_generate_parses_structured_output(config: Any) -> None:
                 "id": "msg_test",
                 "type": "message",
                 "role": "assistant",
-                "model": "claude-sonnet-5",
+                "model": "claude-sonnet-5-5",
                 "content": [{"type": "text", "text": '{"title": "Gap", "weight": 3}'}],
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
@@ -85,7 +85,7 @@ async def test_anthropic_generate_parses_structured_output(config: Any) -> None:
     ]
     result = await provider.generate(config.role("plan"), messages, Topic)
     assert result.parsed == Topic(title="Gap", weight=3)
-    assert result.model == "claude-sonnet-5"
+    assert result.model == "claude-sonnet-5-5"
     assert captured["system"] == "You plan interviews."
     assert captured["messages"] == [{"role": "user", "content": "[PERSON_1] worked at ACME."}]
     assert captured["output_config"]["effort"] == "medium"
