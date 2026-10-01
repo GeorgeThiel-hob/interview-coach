@@ -11,8 +11,8 @@ T: dict[str, dict[str, str]] = {
     # prompts/pseudonymise.md
     "privacy_title": {"nl": "Wat er met je gegevens gebeurt", "en": "What happens to your data"},
     "privacy_replaced": {
-        "nl": "Voordat tekst naar een externe AI-dienst gaat (Anthropic voor de teksten, TypeSafe in de VS voor de beoordeling), vervangt een eigen computer namen van personen, e-mailadressen, telefoonnummers, adressen en postcodes, profiellinks, IBAN- en BSN-nummers en als zodanig vermelde geboortedata door labels zoals [PERSON_1].",
-        "en": "Before any text goes to an external AI service (Anthropic for the writing, TypeSafe in the US for the scoring), a computer of our own replaces names of people, email addresses, phone numbers, addresses and postcodes, profile links, IBAN and BSN numbers, and dates of birth that are labelled as such with labels like [PERSON_1].",
+        "nl": "Voordat tekst naar een externe AI-dienst gaat (Anthropic voor de teksten, TypeSafe in de VS voor de beoordeling), vervangen vaste patronen en een lokaal taalmodel (Qwen, dat op mijn eigen computer draait en niet bij een externe dienst) namen van personen, e-mailadressen, telefoonnummers, adressen en postcodes, profiellinks, IBAN- en BSN-nummers en als zodanig vermelde geboortedata door labels zoals [PERSON_1].",
+        "en": "Before any text goes to an external AI service (Anthropic for the writing, TypeSafe in the US for the scoring), fixed patterns and a local language model (Qwen, running on my own computer rather than at an external service) replace names of people, email addresses, phone numbers, addresses and postcodes, profile links, IBAN and BSN numbers, and dates of birth that are labelled as such with labels like [PERSON_1].",
     },
     "privacy_share_title": {"nl": "Deel alleen wat nodig is:", "en": "Share only what's needed:"},
     "privacy_share": {
