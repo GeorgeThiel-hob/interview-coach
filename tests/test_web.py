@@ -288,6 +288,32 @@ def test_shared_signup_code_has_a_cap_and_an_end_date(engine: Engine) -> None:
         register(engine, "team-2027", "p6@example.org", pw, shared)
 
 
+def test_register_with_odd_characters_is_a_clean_400(web: tuple[TestClient, Stack]) -> None:
+    client, _ = web
+    client.app.state.settings.demo_signup_code = "team-2026"  # type: ignore[attr-defined]
+    client.cookies.clear()
+    for code in ("team-2026​", "tëam-2026", "“team-2026”"):  # zero-width space, quotes
+        token = csrf(client, "/register")
+        r = client.post(
+            "/register",
+            data={"csrf": token, "code": code, "email": "x@example.org", "password": "a" * 12},
+        )
+        assert r.status_code == 400, (code, r.status_code)
+
+
+def test_demo_renders_when_the_local_check_fails(web: tuple[TestClient, Stack]) -> None:
+    client, st = web
+    client.app.state.settings.demo_signup_code = "team-2026"  # type: ignore[attr-defined]
+
+    async def broken() -> bool:
+        raise RuntimeError("bad OLLAMA_BASE_URL")
+
+    st.local.ping = broken  # type: ignore[method-assign]
+    page = client.get("/demo?lang=en")
+    assert page.status_code == 200 and "offline right now" in page.text
+    assert "team-2026" not in page.text
+
+
 def test_download_is_named_after_the_vacancy() -> None:
     from app.web.routes import download_header
 

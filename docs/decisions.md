@@ -2,6 +2,19 @@
 
 Open decisions come from spec section 14. Newest first.
 
+## 2026-10-01 (public demo)
+
+- **D3 amended: one shared sign-up code on `/demo`, next to the personal invites.** So people
+  who find the demo page can try the app without first asking for an invite. Capped
+  (`DEMO_SIGNUP_MAX`, default 25 accounts), optionally dated (`DEMO_SIGNUP_UNTIL`), off unless
+  `DEMO_SIGNUP_CODE` is set; the button shows only while the local model answers. The code is
+  public by design: the cap, end date, per-user run limit and budget caps are the protection.
+  Rejected: fully open guest runs without an account (no cap on strangers' uploads or cost),
+  and request-by-mail only (an interviewer would have to wait for a reply). The cap lives in
+  settings, not in an `invites.max_uses` column, because the database is created with
+  `create_all` only and has no migrations.
+- **Claude roles → `claude-sonnet-5-5`** (from `claude-sonnet-5`), same price per token.
+
 ## 2026-09-27 (build)
 
 - **D3 auth → invite codes + password (argon2).** Default from the spec; no e-mail sending needed.

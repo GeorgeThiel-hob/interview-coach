@@ -534,10 +534,10 @@ async def _try_it(request: Request) -> dict[str, Any]:
         return out
     try:  # a sleeping laptop must not stall the page: Ollama's ping alone may wait 3 s
         online = await asyncio.wait_for(request.app.state.gateway.local_available(), 2.5)
-    except TimeoutError:
+    except Exception:  # timeout, or a broken OLLAMA_BASE_URL: the public page must still render
         online = False
     out["state"] = "open" if online else "offline"
-    out["code"] = shared.code if online else ""
+    out["code"] = shared.code.strip() if online else ""
     return out
 
 

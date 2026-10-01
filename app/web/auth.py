@@ -1,4 +1,5 @@
-"""Invite-only accounts: argon2 password hashes, signed session cookies, CSRF tokens."""
+"""Accounts by invite code (personal, single use) or the capped shared /demo code: argon2
+password hashes, signed session cookies, CSRF tokens."""
 
 from __future__ import annotations
 
@@ -78,11 +79,14 @@ class SharedSignup:
     until: date | None = None
 
     def matches(self, code: str) -> bool:
-        return bool(self.code) and hmac.compare_digest(code.strip(), self.code)
+        # bytes, not str: compare_digest raises TypeError on non-ASCII str (a pasted
+        # zero-width space would otherwise turn every /register attempt into a 500)
+        want = self.code.strip().encode()
+        return bool(want) and hmac.compare_digest(code.strip().encode(), want)
 
     def is_open(self, engine: Engine) -> bool:
         """The code is set, not past its end date, and has places left."""
-        if not self.code or (self.until and datetime.now(UTC).date() > self.until):
+        if not self.code.strip() or (self.until and datetime.now(UTC).date() > self.until):
             return False
         with Session(engine) as s:
             return _shared_count(s) < self.max_users
